@@ -9,11 +9,11 @@ namespace DO;
 /// Indicates the dependency between tasks, i.e. which task can only be executed after the completion 
 /// of a previous task.
 /// </summary>
-/// <param name="IDNumber"></param>
+/// <param name="IdNum"></param>
 /// <param name="IdPendingTask"></param>ID number of pending task
 /// <param name="IdPreviousTask"></param>Previous assignment ID number
 public record Dependence
-( int IDNumber, //key (run)
+( int IdNum, //key (run)
   int? IdPendingTask =null,
   int? IdPreviousTask= null
 

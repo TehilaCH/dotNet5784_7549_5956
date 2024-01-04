@@ -21,9 +21,10 @@ namespace DO;
 public record Task
 (
    int TaskId, // key (run)
-   string Nickname,
-   string Description,
-   bool Milestone= false,
+   int EngineerIdToTask,
+   string? Nickname=null,
+   string? Description = null,
+   bool Milestone = false,
    DateTime? CreatTaskDate = null,
    DateTime? PlannedDateStartWork = null,
    DateTime? StartDateTask = null,
@@ -32,17 +33,18 @@ public record Task
    DateTime? EndDate = null,
    string? Product = null,
    string? commentary = null,
-   int? EngineerIdToTask = null,
-   TaskDifficultyLevel? TaskLave =null
+   DO.EngineerLevel? TaskLave = null
 
 
- );
+ )
+{
+    public Task() : this(0,0) { } //empty ctor 
+    public int IdTask { get; set; }
+    public object CreateTaskDate { get; set; }
 
-/*{
-    public Task() : this(0) { } //empty ctor 
-   
 }
-*/
+
+
 
 
 
