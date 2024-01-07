@@ -288,7 +288,12 @@ internal class Program
         Console.WriteLine("5:readAll");
 
     }
-    static Engineer initialEngineer(int id)// create and initialization Engineer
+    /// <summary>
+    ///  create and initialization Engineer
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    static Engineer initialEngineer(int id)
     {
         Console.Write("Name: ");
         string name = Console.ReadLine();
@@ -300,7 +305,11 @@ internal class Program
         Engineer engineer = new Engineer() { IdNum = id, Name = name, Email = email, CostPerHour = cost, EngineerLevel= level };
         return engineer;
     }
-    static Dependence initialDependenc()//create and initialization Dependence
+    /// <summary>
+    /// create and initialization Dependence
+    /// </summary>
+    /// <returns></returns>
+    static Dependence initialDependenc()
     {
         Console.WriteLine("Enter Dependence details:");
         Console.Write("Id Pending Task: ");
@@ -310,7 +319,11 @@ internal class Program
         Dependence dependence1 = new Dependence(){IdPendingTask = idPendingT, IdPreviousTask = idPreviousT};
         return dependence1;
     }
-   static DO.Task initialTask()//create and initialization Task
+    /// <summary>
+    /// create and initialization Task
+    /// </summary>
+    /// <returns></returns>
+    static DO.Task initialTask()
     {
         Console.Write("Nickname:");
         string name = Console.ReadLine();
@@ -394,23 +407,7 @@ internal class Program
             commentary = commentary,
             TaskLave= TaskLave
         };
-       /* DO.Task task1 = new DO.Task()
-        {
-            IdTask = id3,
-            EngineerIdToTask= EngineerId,
-            Nickname = name,
-            Description = description,
-            Milestone = Milestone1,
-            CreatTaskDate = CreatTask,
-            PlannedDateStartWork = PlannedWork,
-            StartDateTask = StartTask,
-            TimeRequired = TimeRequired,
-            Deadline = Deadline,
-            EndDate = EndDate,
-            Product = Product,
-            commentary = commentary,
-            TaskLave = TaskLave
-        };*/
+      
         return task1;
     }
 }

@@ -20,6 +20,6 @@ public record Dependence
 
 )
 {  
-    public Dependence() : this(0) { }
+    public Dependence() : this(0) { }//empty cotr
    
 }

@@ -8,8 +8,12 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 
 public class TaskImplementation : ITask
-{
-    public int Create(Task item)//creat item and throws an exception if it exists
+{/// <summary>
+/// The function creates a new entity if it does not exist and throws an exception if it exists​
+/// </summary>
+/// <param name="item"></param>
+/// <returns></returns>
+    public int Create(Task item)
     {
         int newTaskId = DataSource.Config.NextTaskId;
         Task temp=item with { TaskId=newTaskId };
@@ -35,8 +39,12 @@ public class TaskImplementation : ITask
         throw new Exception($"Task with ID={id} already exists");
        
     }
-
-    public Task? Read(int id)//Returns the object if it exists otherwise returns null
+    /// <summary>
+    /// Returns the object if it exists otherwise returns null
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public Task? Read(int id)
     {
 
         foreach (var task in DataSource.Tasks)
@@ -48,8 +56,11 @@ public class TaskImplementation : ITask
         }
         return null;
     }
-
-    public List<Task> ReadAll()//Making a copy of the existing list of all objects of type T Returning the copy
+    /// <summary>
+    /// /Making a copy of the existing list of all objects of type T Returning the copy
+    /// </summary>
+    /// <returns></returns>
+    public List<Task> ReadAll()
     {
 
         List<Task> copyTasks = new List<Task>();
@@ -79,9 +90,14 @@ public class TaskImplementation : ITask
 
         return copyTasks;
     }
-
-    public void Update(Task item)//Updating an entity if it exists we will delete it and add the new one
-    // and if it doesn't exist we will throw an exception​
+    /// <summary>
+    /// Updating an entity if it exists we will delete it and add the new one
+    /// and if it doesn't exist we will throw an exception​
+    /// </summary>
+    /// <param name="item"></param>
+    /// <exception cref="Exception"></exception>
+    public void Update(Task item)
+    
     {
         foreach (var task in DataSource.Tasks)
         {

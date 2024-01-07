@@ -3,7 +3,9 @@ namespace Dal;
 using DalApi;
 using DO;
 using System.Collections.Generic;
-
+/// <summary>
+/// The function creates a new entity if it does not exist and throws an exception if it exists​
+/// </summary>
 public class DependenceImplementation : IDependence
 {
     public int Create(Dependence item)//create Dependence
@@ -29,8 +31,12 @@ public class DependenceImplementation : IDependence
         throw new Exception($"Dependence with ID={id} already exists");
         
     }
-
-    public Dependence? Read(int id)//search Dependence and return if ut found else return null
+    /// <summary>
+    /// search Dependence and return if ut found else return null
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public Dependence? Read(int id)
     {
         foreach (var dependence in DataSource.Dependences)
         {
@@ -42,8 +48,11 @@ public class DependenceImplementation : IDependence
         return null;
         
     }
-
-    public List<Dependence> ReadAll()//creates a copy of a list Dependences and return it
+    /// <summary>
+    /// creates a copy of a list Dependences and return it
+    /// </summary>
+    /// <returns></returns>
+    public List<Dependence> ReadAll()
     {
         List<Dependence> CopyDependences = new List<Dependence>();
         foreach (var dependence in DataSource.Dependences)
@@ -60,8 +69,13 @@ public class DependenceImplementation : IDependence
        
 
     }
-
-    public void Update(Dependence item)//Update Dependence if exists
+    /// <summary>
+    /// Updating an entity if it exists we will delete it and add the new one
+    /// and if it doesn't exist we will throw an exception​
+    /// </summary>
+    /// <param name="item"></param>
+    /// <exception cref="Exception"></exception>
+    public void Update(Dependence item)
     {
         foreach (var task in DataSource.Dependences)
         {

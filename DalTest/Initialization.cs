@@ -13,8 +13,10 @@ public static class Initialization
     private static IEngineer? s_dalIEngineer;
     private static ITask? s_dalITask;
     private static readonly Random s_rand = new(); // A field for generating random numbers
-
-    private static void creatDependences()//create Dependences random
+    /// <summary>
+    /// create Dependences random
+    /// </summary>
+    private static void creatDependences()
     {
         Random random = new Random();
 
@@ -34,7 +36,10 @@ public static class Initialization
 
         }
     }
-    private static void creatEngineers()//Creating 5 engineers and putting them on the list
+    /// <summary>
+    /// Creating 5 engineers and putting them on the list
+    /// </summary>
+    private static void creatEngineers()
     {
         
         string[] engineerNames =
@@ -66,7 +71,10 @@ public static class Initialization
         }
 
     }
-    private static void creatTasks() //creat tasks
+    /// <summary>
+    /// //creat 20 tasks
+    /// </summary>
+    private static void creatTasks() 
     {
         for (int i = 0; i < 20; i++)   //20 tasks
         {
@@ -80,8 +88,7 @@ public static class Initialization
             int range2 = (DateTime.Today - startWork).Days;
             DateTime endTask = startWork.AddDays(s_rand.Next(range2));
             int range3 = (DateTime.Today - endTask).Days;
-           // DateTime deadline = endTask.AddDays(s_rand.Next(range3));
-            
+          
             string nickname = $"Task{i}";
 
 

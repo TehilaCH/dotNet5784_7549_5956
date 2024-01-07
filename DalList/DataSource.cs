@@ -3,7 +3,7 @@ namespace Dal;
 
 static internal class DataSource
 {
-    internal static class Config  //מחלקה פנימית 
+    internal static class Config  
     {
 
         internal const int startTaskId = 1000;
