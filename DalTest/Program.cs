@@ -376,8 +376,6 @@ internal class Program
         string name = Console.ReadLine();
         Console.Write("Description:");
         string description = Console.ReadLine();
-        Console.Write("Milestone:");
-        bool Milestone1 = bool.Parse(Console.ReadLine());
         Console.Write("Creat Task Date:");
         DateTime CreatTask = DateTime.Parse(Console.ReadLine());
         Console.Write("Planned Date Start Work:");
@@ -398,7 +396,7 @@ internal class Program
         int EngineerId =int.Parse( Console.ReadLine());
         EngineerLevel TaskLave = (EngineerLevel)s_rand.Next(0, 5);
         DO.Task task1 = new DO.Task() { TaskId = id3, EngineerIdToTask= EngineerId, Nickname= name,
-            Description= description,Milestone= Milestone1,CreatTaskDate= CreatTask,
+            Description= description,Milestone= false,CreatTaskDate= CreatTask,
             PlannedDateStartWork= PlannedWork,
             StartDateTask= StartTask,
             TimeRequired= TimeRequired, Deadline= Deadline,
