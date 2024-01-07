@@ -370,7 +370,7 @@ internal class Program
    
     static DO.Task updatTask ()//updat Task
     {
-        Console.Write("ID to updat: ");
+        Console.Write("ID to updat: "); 
         int id3 = int.Parse(Console.ReadLine());
         Console.Write("Nickname:");
         string name = Console.ReadLine();
