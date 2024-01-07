@@ -8,15 +8,24 @@ public class DependenceImplementation : IDependence
 {
     public int Create(Dependence item)
     {
-        int nextDependenceId = DataSource.Config.NextDependenceId;
+        /*int nextDependenceId = DataSource.Config.NextDependenceId;
         Dependence newDependence = new Dependence
         {
-            IdNum = nextDependenceId
+            IdNum = nextDependenceId,
+            //הספתי את שני השורות הבאות כשהייתי במיין 
+            IdPendingTask=item.IdPendingTask,
+            IdPreviousTask=item.IdPreviousTask,
         };
 
         DataSource.Dependences.Add(newDependence); // הוספת הישות לרשימה
-        return nextDependenceId;
-        
+        return nextDependenceId;*/
+
+
+        int newTaskId = DataSource.Config.NextTaskId;
+        item.IdNum = newTaskId; //Update field of the automatic identification number to the next value
+        DataSource.Dependences.Add(item); // Create the entity
+        return newTaskId;
+
     }
 
     public void Delete(int id)
