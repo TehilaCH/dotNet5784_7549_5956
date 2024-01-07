@@ -2,20 +2,22 @@
 namespace Dal;
 using DalApi;
 using DO;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 public class TaskImplementation : ITask
 {
-    public int Create(Task item)
+    public int Create(Task item)//creat item and throws an exception if it exists
     {
         int newTaskId = DataSource.Config.NextTaskId;
-        item.IdTask = newTaskId; //Update field of the automatic identification number to the next value
-        DataSource.Tasks.Add(item); // Create the entity
+        Task temp=item with { TaskId=newTaskId };
+        DataSource.Tasks.Add(temp); 
         return newTaskId;
-
     }
     /// <summary>
-    /// 
+    /// Deleting an entity if it exists otherwise an exception is thrown
     /// </summary>
     /// <param name="id"></param>
     /// <exception cref="Exception"></exception>
@@ -24,7 +26,7 @@ public class TaskImplementation : ITask
 
         foreach (var task in DataSource.Tasks)
         {
-            if (task.IdTask == id)
+            if (task.TaskId == id)
             {
                 DataSource.Tasks.Remove(task);
                 return;
@@ -34,7 +36,7 @@ public class TaskImplementation : ITask
        
     }
 
-    public Task? Read(int id)
+    public Task? Read(int id)//Returns the object if it exists otherwise returns null
     {
 
         foreach (var task in DataSource.Tasks)
@@ -45,10 +47,9 @@ public class TaskImplementation : ITask
             }
         }
         return null;
-       
     }
 
-    public List<Task> ReadAll()
+    public List<Task> ReadAll()//Making a copy of the existing list of all objects of type T Returning the copy
     {
 
         List<Task> copyTasks = new List<Task>();
@@ -61,7 +62,7 @@ public class TaskImplementation : ITask
                 Nickname = task.Nickname,
                 Milestone = task.Milestone,
                 Description = task.Description,
-                CreateTaskDate = task.CreateTaskDate,
+                CreatTaskDate = task.CreatTaskDate,
                 PlannedDateStartWork = task.PlannedDateStartWork,
                 StartDateTask = task.StartDateTask,
                 TimeRequired = task.TimeRequired,
@@ -77,15 +78,14 @@ public class TaskImplementation : ITask
         }
 
         return copyTasks;
-
-
     }
 
-    public void Update(Task item)
+    public void Update(Task item)//Updating an entity if it exists we will delete it and add the new one
+    // and if it doesn't exist we will throw an exception​
     {
         foreach (var task in DataSource.Tasks)
         {
-            if (task.IdTask == item.IdTask)
+            if (task.TaskId == item.TaskId)
             {
                 DataSource.Tasks.Remove(task);
                 DataSource.Tasks.Add(item);
@@ -93,7 +93,7 @@ public class TaskImplementation : ITask
             }
         }
 
-        throw new Exception($"Task with ID={item.IdTask} already exists");
+        throw new Exception($"Task with ID={item.TaskId} already exists");
         
     }
 }

@@ -6,29 +6,17 @@ using System.Collections.Generic;
 
 public class DependenceImplementation : IDependence
 {
-    public int Create(Dependence item)
+    public int Create(Dependence item)//create Dependence
     {
-        /*int nextDependenceId = DataSource.Config.NextDependenceId;
-        Dependence newDependence = new Dependence
-        {
-            IdNum = nextDependenceId,
-            //הספתי את שני השורות הבאות כשהייתי במיין 
-            IdPendingTask=item.IdPendingTask,
-            IdPreviousTask=item.IdPreviousTask,
-        };
 
-        DataSource.Dependences.Add(newDependence); // הוספת הישות לרשימה
-        return nextDependenceId;*/
-
-
-        int newTaskId = DataSource.Config.NextTaskId;
-        item.IdNum = newTaskId; //Update field of the automatic identification number to the next value
-        DataSource.Dependences.Add(item); // Create the entity
-        return newTaskId;
+        int DependenceId = DataSource.Config.NextDependenceId;//creates automatic ID
+        Dependence copt= item with { IdNum = DependenceId };
+        DataSource.Dependences.Add(copt); //add Dependence to the Dependence list
+        return DependenceId;
 
     }
 
-    public void Delete(int id)
+    public void Delete(int id)//Delete Dependences with id that receives
     {
         foreach (var dependence in DataSource.Dependences)
         {
@@ -42,7 +30,7 @@ public class DependenceImplementation : IDependence
         
     }
 
-    public Dependence? Read(int id)
+    public Dependence? Read(int id)//search Dependence and return if ut found else return null
     {
         foreach (var dependence in DataSource.Dependences)
         {
@@ -55,7 +43,7 @@ public class DependenceImplementation : IDependence
         
     }
 
-    public List<Dependence> ReadAll()
+    public List<Dependence> ReadAll()//creates a copy of a list Dependences and return it
     {
         List<Dependence> CopyDependences = new List<Dependence>();
         foreach (var dependence in DataSource.Dependences)
@@ -73,7 +61,7 @@ public class DependenceImplementation : IDependence
 
     }
 
-    public void Update(Dependence item)
+    public void Update(Dependence item)//Update Dependence if exists
     {
         foreach (var task in DataSource.Dependences)
         {

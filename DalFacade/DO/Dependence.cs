@@ -21,5 +21,5 @@ public record Dependence
 )
 {  
     public Dependence() : this(0) { }
-    public int IdNum { get; set; }
+   
 }

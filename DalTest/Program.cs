@@ -3,15 +3,17 @@ using DalApi;
 using DO;
 using System;
 using System.Data.Common;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 namespace DalTest;
+
 
 internal class Program
 {
     private static IEngineer? s_dalIEngineer = new EngineerImplementation(); //stage 1
     private static IDependence? s_dalIDependence = new DependenceImplementation(); //stage 1
     private static ITask? s_dalITask = new TaskImplementation(); //stage 1
-
+    private static readonly Random s_rand= new();
     static void Main(string[] args)
     {
         mainMenu();
@@ -28,26 +30,76 @@ internal class Program
                     {
                         case "0":
                             break;
+                            //create Engineer
                         case "1":
-                            Engineer engineer1 = initialEngineer();
-                            int idE = s_dalIEngineer.Create(engineer1);
-                            Console.WriteLine($"ID ={idE}");
+                            Console.WriteLine("Enter engineer details:");
+                            Console.Write("Id: ");
+                            int id1 = int.Parse(Console.ReadLine());
+                            Engineer engineer1 = initialEngineer(id1);
+                            try
+                            {
+                                int idE = s_dalIEngineer.Create(engineer1);
+                                Console.WriteLine($"ID ={idE}");
+                            }
+                            catch (Exception ex)//Exception if there is such an id
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
+                            
                             break;
+                        //read-return Engineer if found 
                         case "2":
                             Console.Write("Enter id: ");
                             int idR = int.Parse(Console.ReadLine());
                             Engineer? engineerRead = s_dalIEngineer.Read(idR);
+                            if(engineerRead==null)
+                                Console.WriteLine($"{idR} not found");
                             Console.WriteLine(engineerRead);
                             break;
+                            //update Engineer 
                         case "3":
-                            Engineer engineer3 = initialEngineer();
-                            s_dalIEngineer.Update(engineer3);
-                            Console.WriteLine(engineer3);
+                            Console.Write("Enter Id: ");
+                            int id3 = int.Parse(Console.ReadLine());
+                            Engineer temp = s_dalIEngineer.Read(id3);
+                            if (temp == null)
+                            {
+                                Console.WriteLine("not found this id to update");
+                                break;
+                            }
+                            Console.WriteLine("Enter Details to be updated: ");
+                            Engineer engineer3 = initialEngineer(id3);
+                            try
+                            {
+                                s_dalIEngineer.Update(engineer3);
+                                Console.WriteLine(engineer3);
+                            }
+                            catch (Exception ex)//Exception if not found
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
+
                             break;
+                        //Delete Engineer if exists
                         case "4":
-                            Console.WriteLine("Enter id: ");
+                            Console.Write("Enter id: ");
                             int idD = int.Parse(Console.ReadLine());
-                            s_dalIEngineer.Delete(idD);
+                            try 
+                            { 
+                                s_dalIEngineer.Delete(idD);
+                            }
+                            catch (Exception ex)//Exception if not exists
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
+                            break;
+                        case "5":
+                            List<Engineer> CopyEngineers = new List<Engineer>();
+                            CopyEngineers =s_dalIEngineer.ReadAll();
+                           foreach(var engineer in CopyEngineers)
+                           {
+                                Console.WriteLine(engineer);
+
+                           }
                             break;
 
                         default:
@@ -64,39 +116,73 @@ internal class Program
                     {
                         case "0":
                             break;
+                        //create Dependence
                         case "1":
                             Dependence dependence1 = initialDependenc();
-                            int idD = s_dalIDependence.Create(dependence1);
-                            Console.WriteLine($"ID ={idD}");
+                            try 
+                            {
+                                int idD = s_dalIDependence.Create(dependence1);
+                                Console.WriteLine($"ID ={idD}");
+                            }
+                            catch (Exception ex)//Exception if exists
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
                             break;
+                        //read-search Dependence and return if exsist else return null
                         case "2":
-                            Console.WriteLine("Enter id: ");
+                            Console.Write("Enter id: ");
                             int id2 = int.Parse(Console.ReadLine());
                             Dependence? dependence2 = s_dalIDependence.Read(id2);
+                            if(dependence2==null)
+                                Console.WriteLine($"{id2} not found");
                             Console.WriteLine(dependence2);
                             break;
+                            //updates a dependency if exsist
                         case "3":
-                            Console.WriteLine("Enter Dependence details:\n");
-                            Console.WriteLine("Id: ");
-                            int id = int.Parse(Console.ReadLine());
-                            if (id == null)
+                            Console.WriteLine("Enter Dependence details:");
+                            Console.Write("Id: ");
+                            int id= int.Parse(Console.ReadLine());
+                            Dependence temp =s_dalIDependence.Read(id);
+                            if (temp == null)//will not update if entered 0
                             {
+                                Console.WriteLine("not found this id to update");
                                 break;
                             }
-                            Console.WriteLine("\n");
-                            Console.WriteLine("Id Pending Task: ");
-                            int idPendingT = int.Parse(Console.ReadLine());
-                            Console.WriteLine("\n");
-                            Console.WriteLine("Id Previous Task: ");
+                            Console.Write("Id Pending Task: ");
+                            int IdPendingTask = int.Parse(Console.ReadLine());
+                            Console.Write("Id Previous Task: ");
                             int idPreviousT = int.Parse(Console.ReadLine());
-                            Console.WriteLine("\n");
-                            Dependence dependence3 = new Dependence() { IdNum = id, IdPendingTask = idPendingT, IdPreviousTask = idPreviousT };
-                            s_dalIDependence.Update(dependence3);
+                            Dependence dependence3 = new Dependence() { IdNum = id, IdPendingTask = IdPendingTask, IdPreviousTask = idPreviousT };
+                            try
+                            { 
+                                s_dalIDependence.Update(dependence3);
+                                Console.WriteLine(dependence3);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"{ex.Message}");//Exception if not exsist
+                            }
                             break;
+                        //Delete Dependence if exsist
                         case "4":
-                            Console.WriteLine("Id: ");
+                            Console.Write("Id: ");
                             int id4 = int.Parse(Console.ReadLine());
-                            s_dalIDependence.Delete(id4);
+                            try
+                            { s_dalIDependence.Delete(id4); }
+                            catch (Exception ex)//Exception if not exsist
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
+                            break;
+                        case "5":
+                            List<Dependence> CopyDependences = new List<Dependence>();
+                            CopyDependences = s_dalIDependence.ReadAll();
+                            foreach (var dependence in CopyDependences)
+                            {
+                                Console.WriteLine(dependence);
+
+                            }
                             break;
                         default:
                             Console.WriteLine("Invalid selection");
@@ -111,27 +197,59 @@ internal class Program
                     {
                         case "0":
                             break;
+                        //Create Task
                         case "1":
                             DO.Task task1=initialTask();
-                            int idT=s_dalITask.Create(task1);
-                            Console.WriteLine($"ID={idT}");
+                            try
+                            {
+                                int idT = s_dalITask.Create(task1);
+                                Console.WriteLine($"ID={idT}");
+                            }
+                            catch (Exception ex)//Exception if already exists
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
                             break;
+                            //read-search Task and return if exsist else return null
                         case"2":
-                            Console.WriteLine("ID: ");
-                            int id2=int.Parse(Console.ReadLine());
-                           DO.Task? task2= s_dalITask.Read(id2);
+                            Console.Write("Enter id: ");
+                            int id=int.Parse(Console.ReadLine());
+                            DO.Task? task2= s_dalITask.Read(id);
+                            //if (task2 == null)
+                              //  Console.WriteLine($"{id2} not found");
                             Console.WriteLine(task2);
                             break;
-                        case"3":
-                            Console.WriteLine("ID: ");
-                            int id3 = int.Parse(Console.ReadLine());//בקשר לת.ז צריך לטפל
-                            DO.Task task3=initialTask();
-                            s_dalITask.Update(task3);
+                        //Update Task exsist
+                        case "3":
+                            DO.Task task3= updatTask() ;
+                            try 
+                            {
+                                s_dalITask.Update(task3);
+                                Console.WriteLine(task3);
+                            }   
+                            catch (Exception ex)//Exception if task not exsist
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
                             break;
+                        //Delete task if found
                         case "4":
-                            Console.WriteLine("ID: ");
+                            Console.Write("ID: ");
                             int id4 = int.Parse(Console.ReadLine());
-                            s_dalITask.Delete(id4);
+                            try { s_dalITask.Delete(id4); }
+                            catch (Exception ex)//Exception if task not found
+                            {
+                                Console.WriteLine($"{ex.Message}");
+                            }
+                            break;
+                        case "5":
+                            List<DO.Task> copyTasks = new List<DO.Task>();
+                            copyTasks = s_dalITask.ReadAll();
+                            foreach (var task in copyTasks)
+                            {
+                                Console.WriteLine(task);
+
+                            }
                             break;
                         default:
                             Console.WriteLine("Invalid selection");
@@ -143,16 +261,15 @@ internal class Program
                     Console.WriteLine("Invalid selection");
                     break;
             }
-
-
-            /* try { }
-             catch { }
-             Console.WriteLine("Hello, World!");*/
             mainMenu();
             choice = int.Parse(Console.ReadLine());
         } while (choice!=0 );
     }
-    static void mainMenu()
+
+
+
+    //help functions 
+    static void mainMenu()//main menu
     {
         Console.WriteLine("choos one of the following:");
         Console.WriteLine("0:exit");
@@ -160,7 +277,7 @@ internal class Program
         Console.WriteLine("2:for Check Dependence");
         Console.WriteLine("3:for Check Task");
     }
-    static void menu()
+    static void menu()//sub menu
     {
         Console.WriteLine("choos one of the following:");
         Console.WriteLine("0:exit");
@@ -168,62 +285,119 @@ internal class Program
         Console.WriteLine("2:Read");
         Console.WriteLine("3:Update");
         Console.WriteLine("4:delete");
+        Console.WriteLine("5:readAll");
+
     }
-    static Engineer initialEngineer()
+    static Engineer initialEngineer(int id)// create and initialization Engineer
     {
-        Console.WriteLine("Enter engineer details:");
-        Console.Write("Id: ");
-        int id = int.Parse(Console.ReadLine());
         Console.Write("Name: ");
         string name = Console.ReadLine();
         Console.Write("Email: ");
         string email = Console.ReadLine();
-        //Console.WriteLine("EngineerLevel: ");//רמת מהנדס////לטפל באינם
-        Console.Write("CostPerHour: ");
+        Console.Write("Cost Per Hour: ");
         double cost = double.Parse(Console.ReadLine());
-        Engineer engineer = new Engineer() { IdNum = id, Name = name, Email = email, CostPerHour = cost };
+        EngineerLevel level = (EngineerLevel) s_rand.Next(0,5);
+        Engineer engineer = new Engineer() { IdNum = id, Name = name, Email = email, CostPerHour = cost, EngineerLevel= level };
         return engineer;
     }
-    static Dependence initialDependenc()
+    static Dependence initialDependenc()//create and initialization Dependence
     {
-        Console.WriteLine("Enter Dependence details:\n");
-        Console.WriteLine("Id Pending Task: ");
+        Console.WriteLine("Enter Dependence details:");
+        Console.Write("Id Pending Task: ");
         int idPendingT = int.Parse(Console.ReadLine());
-        Console.WriteLine("\n");
-        Console.WriteLine("Id Previous Task: ");
+        Console.Write("Id Previous Task: ");
         int idPreviousT = int.Parse(Console.ReadLine());
-        Console.WriteLine("\n");
         Dependence dependence1 = new Dependence(){IdPendingTask = idPendingT, IdPreviousTask = idPreviousT};
         return dependence1;
     }
-   static DO.Task initialTask()
+   static DO.Task initialTask()//create and initialization Task
     {
-        Console.WriteLine("Nickname");
+        Console.Write("Nickname:");
         string name = Console.ReadLine();
-        Console.WriteLine("Description");
+        Console.Write("Description:");
         string description = Console.ReadLine();
-        Console.WriteLine("Milestone");
-        bool Milestone1 = bool.Parse(Console.ReadLine());
-        Console.WriteLine("Creat Task Date:");
+       // Console.Write("Milestone:");
+        //bool Milestone1 = bool.Parse(Console.ReadLine());
+        Console.Write("Creat Task Date:");
         DateTime CreatTask = DateTime.Parse(Console.ReadLine());
-        Console.WriteLine("Planned Date Start Work:");
+        Console.Write("Planned Date Start Work:");
         DateTime PlannedWork = DateTime.Parse(Console.ReadLine());
-        Console.WriteLine("Start Date Task:");
+        Console.Write("Start Date Task:");
         DateTime StartTask = DateTime.Parse(Console.ReadLine());
-        Console.WriteLine("Time Required:");
+        Console.Write("Time Required:");
         DateTime TimeRequired = DateTime.Parse(Console.ReadLine());
-        Console.WriteLine("Deadline:");
+        Console.Write("Deadline:");
         DateTime Deadline = DateTime.Parse(Console.ReadLine());
-        Console.WriteLine("End Date:");
+        Console.Write("End Date:");
         DateTime EndDate = DateTime.Parse(Console.ReadLine());
-        Console.WriteLine("Producte:");
+        Console.Write("Producte:");
         string Product = Console.ReadLine();
-        Console.WriteLine("commentary:");
+        Console.Write("commentary:");
         string commentary = Console.ReadLine();
-        Console.WriteLine("TaskLave:");
-        string TaskLave1 = Console.ReadLine();
+        Console.Write("Engineer Id To Task:");
+        int engineerId = int.Parse(Console.ReadLine());
+        EngineerLevel TaskLave = (EngineerLevel)s_rand.Next(0, 5);
         DO.Task task1 = new DO.Task() {
-            // EngineerIdToTask,
+            EngineerIdToTask = engineerId,
+            Nickname = name,
+            Description = description,
+            Milestone = false,
+            CreatTaskDate = CreatTask,
+            PlannedDateStartWork = PlannedWork,
+            StartDateTask = StartTask,
+            TimeRequired = TimeRequired,
+            Deadline = Deadline,
+            EndDate = EndDate,
+            Product = Product,
+            commentary = commentary,
+            TaskLave = TaskLave
+        };
+        return task1;
+    }
+   
+    static DO.Task updatTask ()//updat Task
+    {
+        Console.Write("ID to updat: ");
+        int id3 = int.Parse(Console.ReadLine());
+        Console.Write("Nickname:");
+        string name = Console.ReadLine();
+        Console.Write("Description:");
+        string description = Console.ReadLine();
+        Console.Write("Milestone:");
+        bool Milestone1 = bool.Parse(Console.ReadLine());
+        Console.Write("Creat Task Date:");
+        DateTime CreatTask = DateTime.Parse(Console.ReadLine());
+        Console.Write("Planned Date Start Work:");
+        DateTime PlannedWork = DateTime.Parse(Console.ReadLine());
+        Console.Write("Start Date Task:");
+        DateTime StartTask = DateTime.Parse(Console.ReadLine());
+        Console.Write("Time Required:");
+        DateTime TimeRequired = DateTime.Parse(Console.ReadLine());
+        Console.Write("Deadline:");
+        DateTime Deadline = DateTime.Parse(Console.ReadLine());
+        Console.Write("End Date:");
+        DateTime EndDate = DateTime.Parse(Console.ReadLine());
+        Console.Write("Producte:");
+        string Product = Console.ReadLine();
+        Console.Write("commentary:");
+        string commentary = Console.ReadLine();
+        Console.Write("Engineer Id To Task:");
+        int EngineerId =int.Parse( Console.ReadLine());
+        EngineerLevel TaskLave = (EngineerLevel)s_rand.Next(0, 5);
+        DO.Task task1 = new DO.Task() { TaskId = id3, EngineerIdToTask= EngineerId, Nickname= name,
+            Description= description,Milestone= Milestone1,CreatTaskDate= CreatTask,
+            PlannedDateStartWork= PlannedWork,
+            StartDateTask= StartTask,
+            TimeRequired= TimeRequired, Deadline= Deadline,
+            EndDate= EndDate,
+            Product= Product,
+            commentary = commentary,
+            TaskLave= TaskLave
+        };
+       /* DO.Task task1 = new DO.Task()
+        {
+            IdTask = id3,
+            EngineerIdToTask= EngineerId,
             Nickname = name,
             Description = description,
             Milestone = Milestone1,
@@ -235,10 +409,8 @@ internal class Program
             EndDate = EndDate,
             Product = Product,
             commentary = commentary,
-            TaskLave = null//לטפל באינם
-        };
+            TaskLave = TaskLave
+        };*/
         return task1;
     }
-   
-
 }

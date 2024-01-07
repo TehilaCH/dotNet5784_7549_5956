@@ -38,10 +38,9 @@ public record Task
 
  )
 {
-    public Task() : this(0,0) { } //empty ctor 
-    public int IdTask { get; set; }
-    public object CreateTaskDate { get; set; }
 
+    public Task() : this(0,0) { } //empty ctor 
+    
 }
 
 

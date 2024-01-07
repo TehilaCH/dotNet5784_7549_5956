@@ -8,10 +8,4 @@ public enum EngineerLevel
   Expert 
 }
 
-/*public enum TaskDifficultyLevel
-{
-    Competent,
-    Novice,
-    Expert
 
-}*/
