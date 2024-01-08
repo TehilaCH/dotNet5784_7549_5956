@@ -2,6 +2,8 @@
 namespace DalTest;
 using DalApi;
 using DO;
+using System;
+
 /*using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -53,11 +55,13 @@ public static class Initialization
             do
                 id = s_rand.Next(200000000, 400000000);//id random
             while (s_dalIEngineer!.Read(id)!=null);
+            string fullName = engineerName;
             string name = engineerName.Replace(" ", "");//Reduces spaces in the string
             string email = $"{name}@gmail.com";//create email
             double cost = s_rand.Next(100, 500);//random cost
             EngineerLevel EngineerLevel = (EngineerLevel)s_rand.Next(0, 5);
             Engineer Engineeri = new Engineer(     //initialization feilds
+            Name: fullName,
             IdNum: id,
             Email: email,
             CostPerHour: cost,
@@ -76,38 +80,54 @@ public static class Initialization
     /// </summary>
     private static void creatTasks() 
     {
-        for (int i = 0; i < 20; i++)   //20 tasks
+        string[] nameTask = { "New Software Development:", "Automated Tests: ", "Version Upgrade:", "Building an API:", "Bug Fixing:", "Development of new capabilities:" 
+        ,"Optimization:","Information security:","Easy upgrade ways:","Shared code portfolio management:"
+        ,"Integration of external tools:","Modular development:","Documentation:","Multi-platform code development:"
+        ,"Performance fixes:","Establishing a cloud system:","Safety upgrade of existing versions:","Automatic build and distribution:"
+        ,"Integrate advanced development tools:","Emulation and endurance test:"};
+
+        string[] DescriptionTask = { "Develop a new system for managing tasks in your development team.", "Write scripts for automated tests for specific code.", "Upgrade the current version of the software to a new version and perform quality checks."
+        ,"Open an API to support external services and external usability in your system.","Identify and fix known bugs in the source code.",
+         "Add new capabilities to the software, such as support for additional languages or advanced capabilities."
+        ,"Update and optimize the code to improve performance.","perform security checks and security upgrades."
+        , " Provide easy upgrade and update ways for users.","Add a system for managing versions and code portfolios.",
+        "integrate and use external development tools such as Git, Jenkins or Docker."," make the software modular to accommodate additional capabilities and modify existing modules."
+        ,"create comprehensive documentation for the source code and various functions.","You will develop software that can run on different platforms such as Windows, macOS and Linux."
+        ,"will improve performance and maximize the capabilities of the software."," move the software or part of it into a cloud environment."
+        ,"updating old versions and viewing them in a safe manner.","setting up an automatic system for building and distributing new versions."
+        ,"Improve development processes by using new and advanced tools.","test the software's ability to withstand high load and test its response in stress and extreme situations"};
+
+        int i = 0;
+        foreach (var t in nameTask)
         {
-            DateTime start = new DateTime(2020, 1, 1);
+
+            DateTime start = new DateTime(1995, 1, 1);
             int range = (DateTime.Today - start).Days;
             DateTime creatTask = start.AddDays(s_rand.Next(range));//Task creation date
-             
-            int range1 = (DateTime.Today - creatTask).Days;
-            DateTime planingStart = creatTask.AddDays(s_rand.Next(range1));
-             DateTime startWork = creatTask.AddDays(s_rand.Next(range1));
-            int range2 = (DateTime.Today - startWork).Days;
-            DateTime endTask = startWork.AddDays(s_rand.Next(range2));
-            int range3 = (DateTime.Today - endTask).Days;
-          
-            string nickname = $"Task{i}";
-
-
-            Task taski = new Task() { Nickname= nickname, CreatTaskDate= creatTask, PlannedDateStartWork= planingStart,
-                StartDateTask= startWork,
+            string nickname = t;
+            string description = DescriptionTask[i];
+            Task taski = new Task()
+            {
+                Nickname = nickname,
+                CreatTaskDate = creatTask,
+                Description = description,
+                Milestone = false,
+                PlannedDateStartWork = null,
+                StartDateTask = null,
                 TimeRequired = null,
                 Deadline = null,
-                EndDate= endTask,
+                EndDate = null,
                 Product = null,
                 commentary = null,
-                TaskLave=null
-                
-            };
-       
-            s_dalITask?.Create(taski);
+                TaskLave = null
 
+            };
+
+            s_dalITask?.Create(taski);
+            i++;
 
         }
-      
+
     }
    
     public static void Do(IEngineer? dalEngineer, IDependence? dalDependence, ITask dalTask)
@@ -121,3 +141,22 @@ public static class Initialization
 
     }
 }
+
+
+
+
+
+
+
+ 
+ 
+
+ 
+ 
+
+ 
+
+
+
+ 
+

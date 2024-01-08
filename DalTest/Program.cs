@@ -215,8 +215,8 @@ internal class Program
                             Console.Write("Enter id: ");
                             int id=int.Parse(Console.ReadLine());
                             DO.Task? task2= s_dalITask.Read(id);
-                            //if (task2 == null)
-                              //  Console.WriteLine($"{id2} not found");
+                            if (task2 == null)
+                               Console.WriteLine($"{id} not found");
                             Console.WriteLine(task2);
                             break;
                         //Update Task exsist
