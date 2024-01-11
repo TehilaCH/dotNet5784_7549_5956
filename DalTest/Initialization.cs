@@ -11,9 +11,10 @@ using System.Xml.Linq;*/
 
 public static class Initialization
 {
-    private static IDependence? s_dalIDependence;
-    private static IEngineer? s_dalIEngineer;
-    private static ITask? s_dalITask;
+    
+    private static IDal? s_dal;
+
+
     private static readonly Random s_rand = new(); // A field for generating random numbers
     /// <summary>
     /// create Dependences random
@@ -33,7 +34,7 @@ public static class Initialization
                 IdPreviousTask = idPreviousTask
             };
 
-            s_dalIDependence?.Create(dependence);
+            s_dal?.Dependence.Create(dependence);
 
 
         }
@@ -54,7 +55,7 @@ public static class Initialization
             int id;
             do
                 id = s_rand.Next(200000000, 400000000);//id random
-            while (s_dalIEngineer!.Read(id)!=null);
+            while (s_dal!.Engineer.Read(id)!=null);
             string fullName = engineerName;
             string name = engineerName.Replace(" ", "");//Reduces spaces in the string
             string email = $"{name}@gmail.com";//create email
@@ -70,7 +71,7 @@ public static class Initialization
             );
 
 
-            s_dalIEngineer.Create(Engineeri);
+            s_dal.Engineer.Create(Engineeri);
 
         }
 
@@ -123,18 +124,16 @@ public static class Initialization
 
             };
 
-            s_dalITask?.Create(taski);
+            s_dal?.Task.Create(taski);
             i++;
 
         }
 
     }
    
-    public static void Do(IEngineer? dalEngineer, IDependence? dalDependence, ITask dalTask)
+    public static void Do(IDal dal)
     {
-        s_dalIEngineer = dalEngineer ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalITask= dalTask ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalIDependence= dalDependence ?? throw new NullReferenceException("DAL can not be null!");
+        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
         creatTasks();
         creatEngineers();
         creatDependences();

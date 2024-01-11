@@ -1,18 +1,20 @@
-﻿using Dal;
+﻿namespace DalTest;
+using Dal;
 using DalApi;
 using DO;
 using System;
 using System.Data.Common;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-namespace DalTest;
+
+
 
 
 internal class Program
 {
-    private static IEngineer? s_dalIEngineer = new EngineerImplementation(); //stage 1
-    private static IDependence? s_dalIDependence = new DependenceImplementation(); //stage 1
-    private static ITask? s_dalITask = new TaskImplementation(); //stage 1
+    static readonly IDal s_dal = new DalList();
+
+   
     private static readonly Random s_rand= new();
     static void Main(string[] args)
     {
@@ -20,7 +22,7 @@ internal class Program
         int choice = int.Parse(Console.ReadLine());
         do
         {
-            Initialization.Do(s_dalIEngineer, s_dalIDependence, s_dalITask);
+            Initialization.Do(s_dal);
             switch (choice)
             {
                 case 1:
@@ -38,7 +40,7 @@ internal class Program
                             Engineer engineer1 = initialEngineer(id1);
                             try
                             {
-                                int idE = s_dalIEngineer.Create(engineer1);
+                                int idE = s_dal.Engineer.Create(engineer1);
                                 Console.WriteLine($"ID ={idE}");
                             }
                             catch (Exception ex)//Exception if there is such an id
@@ -51,7 +53,7 @@ internal class Program
                         case "2":
                             Console.Write("Enter id: ");
                             int idR = int.Parse(Console.ReadLine());
-                            Engineer? engineerRead = s_dalIEngineer.Read(idR);
+                            Engineer? engineerRead = s_dal.Engineer.Read(idR);
                             if(engineerRead==null)
                                 Console.WriteLine($"{idR} not found");
                             Console.WriteLine(engineerRead);
@@ -60,7 +62,7 @@ internal class Program
                         case "3":
                             Console.Write("Enter Id: ");
                             int id3 = int.Parse(Console.ReadLine());
-                            Engineer temp = s_dalIEngineer.Read(id3);
+                            Engineer temp = s_dal.Engineer.Read(id3);
                             if (temp == null)
                             {
                                 Console.WriteLine("not found this id to update");
@@ -70,7 +72,7 @@ internal class Program
                             Engineer engineer3 = initialEngineer(id3);
                             try
                             {
-                                s_dalIEngineer.Update(engineer3);
+                                s_dal.Engineer.Update(engineer3);
                                 Console.WriteLine(engineer3);
                             }
                             catch (Exception ex)//Exception if not found
@@ -85,7 +87,7 @@ internal class Program
                             int idD = int.Parse(Console.ReadLine());
                             try 
                             { 
-                                s_dalIEngineer.Delete(idD);
+                                s_dal.Engineer.Delete(idD);
                             }
                             catch (Exception ex)//Exception if not exists
                             {
@@ -94,7 +96,7 @@ internal class Program
                             break;
                         case "5":
                             List<Engineer> CopyEngineers = new List<Engineer>();
-                            CopyEngineers =s_dalIEngineer.ReadAll();
+                            CopyEngineers =s_dal.Engineer.ReadAll();
                            foreach(var engineer in CopyEngineers)
                            {
                                 Console.WriteLine(engineer);
@@ -121,7 +123,7 @@ internal class Program
                             Dependence dependence1 = initialDependenc();
                             try 
                             {
-                                int idD = s_dalIDependence.Create(dependence1);
+                                int idD = s_dal.Dependence.Create(dependence1);
                                 Console.WriteLine($"ID ={idD}");
                             }
                             catch (Exception ex)//Exception if exists
@@ -133,7 +135,7 @@ internal class Program
                         case "2":
                             Console.Write("Enter id: ");
                             int id2 = int.Parse(Console.ReadLine());
-                            Dependence? dependence2 = s_dalIDependence.Read(id2);
+                            Dependence? dependence2 = s_dal.Dependence.Read(id2);
                             if(dependence2==null)
                                 Console.WriteLine($"{id2} not found");
                             Console.WriteLine(dependence2);
@@ -143,7 +145,7 @@ internal class Program
                             Console.WriteLine("Enter Dependence details:");
                             Console.Write("Id: ");
                             int id= int.Parse(Console.ReadLine());
-                            Dependence temp =s_dalIDependence.Read(id);
+                            Dependence temp =s_dal.Dependence.Read(id);
                             if (temp == null)//will not update if entered 0
                             {
                                 Console.WriteLine("not found this id to update");
@@ -156,7 +158,7 @@ internal class Program
                             Dependence dependence3 = new Dependence() { IdNum = id, IdPendingTask = IdPendingTask, IdPreviousTask = idPreviousT };
                             try
                             { 
-                                s_dalIDependence.Update(dependence3);
+                                s_dal.Dependence.Update(dependence3);
                                 Console.WriteLine(dependence3);
                             }
                             catch (Exception ex)
@@ -169,7 +171,7 @@ internal class Program
                             Console.Write("Id: ");
                             int id4 = int.Parse(Console.ReadLine());
                             try
-                            { s_dalIDependence.Delete(id4); }
+                            { s_dal.Dependence.Delete(id4); }
                             catch (Exception ex)//Exception if not exsist
                             {
                                 Console.WriteLine($"{ex.Message}");
@@ -177,7 +179,7 @@ internal class Program
                             break;
                         case "5":
                             List<Dependence> CopyDependences = new List<Dependence>();
-                            CopyDependences = s_dalIDependence.ReadAll();
+                            CopyDependences = s_dal.Dependence.ReadAll();
                             foreach (var dependence in CopyDependences)
                             {
                                 Console.WriteLine(dependence);
@@ -202,7 +204,7 @@ internal class Program
                             DO.Task task1=initialTask();
                             try
                             {
-                                int idT = s_dalITask.Create(task1);
+                                int idT = s_dal.Task.Create(task1);
                                 Console.WriteLine($"ID={idT}");
                             }
                             catch (Exception ex)//Exception if already exists
@@ -214,7 +216,7 @@ internal class Program
                         case"2":
                             Console.Write("Enter id: ");
                             int id=int.Parse(Console.ReadLine());
-                            DO.Task? task2= s_dalITask.Read(id);
+                            DO.Task? task2= s_dal.Task.Read(id);
                             if (task2 == null)
                                Console.WriteLine($"{id} not found");
                             Console.WriteLine(task2);
@@ -224,7 +226,7 @@ internal class Program
                             DO.Task task3= updatTask() ;
                             try 
                             {
-                                s_dalITask.Update(task3);
+                                s_dal.Task.Update(task3);
                                 Console.WriteLine(task3);
                             }   
                             catch (Exception ex)//Exception if task not exsist
@@ -236,7 +238,7 @@ internal class Program
                         case "4":
                             Console.Write("ID: ");
                             int id4 = int.Parse(Console.ReadLine());
-                            try { s_dalITask.Delete(id4); }
+                            try { s_dal.Task.Delete(id4); }
                             catch (Exception ex)//Exception if task not found
                             {
                                 Console.WriteLine($"{ex.Message}");
@@ -244,7 +246,7 @@ internal class Program
                             break;
                         case "5":
                             List<DO.Task> copyTasks = new List<DO.Task>();
-                            copyTasks = s_dalITask.ReadAll();
+                            copyTasks = s_dal.Task.ReadAll();
                             foreach (var task in copyTasks)
                             {
                                 Console.WriteLine(task);
