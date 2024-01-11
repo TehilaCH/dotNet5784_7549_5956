@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /// <summary>
 /// The function creates a new entity if it does not exist and throws an exception if it exists​
 /// </summary>
-public class DependenceImplementation : IDependence
+internal class DependenceImplementation : IDependence
 {
     public int Create(Dependence item)//create Dependence
     {
