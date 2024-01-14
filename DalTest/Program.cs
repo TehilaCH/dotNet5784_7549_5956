@@ -3,13 +3,6 @@ using Dal;
 using DalApi;
 using DO;
 using System;
-using System.Data.Common;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-
-
-
-
 internal class Program
 {
     static readonly IDal s_dal = new DalList();
@@ -94,6 +87,7 @@ internal class Program
                                 Console.WriteLine($"{ex.Message}");
                             }
                             break;
+                        //ReadAll Engineers
                         case "5":
                             IEnumerable<Engineer> CopyEngineers = new List<Engineer>();
                             CopyEngineers =s_dal.Engineer.ReadAll();
@@ -177,6 +171,7 @@ internal class Program
                                 Console.WriteLine($"{ex.Message}");
                             }
                             break;
+                        //ReadAll Dependence
                         case "5":
                             IEnumerable<Dependence> CopyDependences = new List<Dependence>();
                             CopyDependences = s_dal.Dependence.ReadAll();
@@ -244,6 +239,7 @@ internal class Program
                                 Console.WriteLine($"{ex.Message}");
                             }
                             break;
+                        //ReadAll task
                         case "5":
                             IEnumerable<DO.Task> copyTasks = new List<DO.Task>();
                             copyTasks = s_dal.Task.ReadAll();

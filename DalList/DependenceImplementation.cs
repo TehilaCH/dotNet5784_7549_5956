@@ -28,7 +28,7 @@ internal class DependenceImplementation : IDependence
                 return;
             }
         }
-        throw new Exception($"Dependence with ID={id} already exists");
+        throw new DalDoesNotExistException($"Dependence with ID={id} does not exists");
         
     }
     /// <summary>
@@ -45,11 +45,11 @@ internal class DependenceImplementation : IDependence
     }
 
     /// <summary>
-    /// 
+    /// method that returns an object not only by ID but by another parameter.
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
- public Dependence? Read(Func<Dependence, bool> filter)
+    public Dependence? Read(Func<Dependence, bool> filter)
     {
         return DataSource.Dependences.FirstOrDefault(filter);
     }
@@ -88,7 +88,7 @@ internal class DependenceImplementation : IDependence
             }
         }
 
-        throw new Exception($"Dependence with ID={item.IdNum} already exists");
+        throw new DalDoesNotExistException($"Dependence with ID={item.IdNum} does not exists");
         
     }
 }

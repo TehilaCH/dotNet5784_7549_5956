@@ -3,12 +3,6 @@ namespace DalTest;
 using DalApi;
 using DO;
 using System;
-
-/*using System.Reflection.Emit;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
-using System.Xml.Linq;*/
-
 public static class Initialization
 {
     

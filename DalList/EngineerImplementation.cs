@@ -23,7 +23,7 @@ internal class EngineerImplementation : IEngineer
         {
             if (engineer.IdNum == item.IdNum)
             {
-                throw new Exception($"Engineer with ID={item.IdNum} already exists");
+                throw new DalAlreadyExistsException($"Engineer with ID={item.IdNum} already exists");
             }
         }
         DataSource.Engineers.Add(item);
@@ -46,7 +46,7 @@ internal class EngineerImplementation : IEngineer
                 return;
             }
         }
-            throw new Exception($"Engineer with ID={id} already exists");
+            throw new DalDoesNotExistException($"Engineer with ID={id} does not exists");
     }
     /// <summary>
     /// Returns the object if it exists otherwise returns null
@@ -61,7 +61,7 @@ internal class EngineerImplementation : IEngineer
    
     }
     /// <summary>
-    /// 
+    /// method that returns an object not only by ID but by another parameter.
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
@@ -103,6 +103,6 @@ internal class EngineerImplementation : IEngineer
             }
         }
 
-        throw new Exception($"Engineer with ID={item.IdNum} already exists");
+        throw new DalDoesNotExistException($"Engineer with ID={item.IdNum} does not exists");
     }
 }

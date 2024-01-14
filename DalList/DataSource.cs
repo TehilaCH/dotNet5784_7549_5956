@@ -1,8 +1,10 @@
 ﻿
 namespace Dal;
-
 static internal class DataSource
 {
+    /// <summary>
+    /// internal class that creates automatic running numbers for the fields defined as "running ID number"
+    /// </summary>
     internal static class Config  
     {
 
@@ -16,6 +18,11 @@ static internal class DataSource
 
 
     }
+
+    /// <summary>
+    /// Lists containing the entities
+    /// </summary>
+    
     internal static List<DO.Engineer> Engineers { get; } = new();
     internal static List<DO.Task> Tasks { get; } = new();
     internal static List<DO.Dependence> Dependences { get; } = new();

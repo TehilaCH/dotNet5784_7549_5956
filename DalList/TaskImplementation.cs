@@ -36,7 +36,7 @@ internal class TaskImplementation : ITask
                 return;
             }
         }
-        throw new Exception($"Task with ID={id} already exists");
+        throw new DalDoesNotExistException($"Task with ID={id} does not exists");
        
     }
     /// <summary>
@@ -53,7 +53,7 @@ internal class TaskImplementation : ITask
 
     }
     /// <summary>
-    /// 
+    /// method that returns an object not only by ID but by another parameter.
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
@@ -97,7 +97,7 @@ internal class TaskImplementation : ITask
             }
         }
 
-        throw new Exception($"Task with ID={item.TaskId} already exists");
+        throw new DalDoesNotExistException($"Task with ID={item.TaskId} does not exists");
         
     }
 }
