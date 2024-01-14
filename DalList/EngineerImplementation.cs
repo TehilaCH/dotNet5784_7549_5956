@@ -60,33 +60,31 @@ internal class EngineerImplementation : IEngineer
                select engineer).FirstOrDefault();
    
     }
-
-/// <summary>
-/// Making a copy of the existing list of all objects of type T Returning the copy
-/// </summary>
-/// <returns></returns>
-public List<Engineer> ReadAll()
-{
-  List<Engineer> CopyEngineers = DataSource.Engineers
-     .Select(engineer => new Engineer
-     {
-         IdNum = engineer.IdNum,
-         Name = engineer.Name,
-         Email = engineer.Email,
-         EngineerLevel = engineer.EngineerLevel,
-         CostPerHour = engineer.CostPerHour
-     }).ToList();
-        return CopyEngineers;
-}
+    /// <summary>
+    /// Making a copy of the existing list of all objects of type T Returning the copy
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null) //stage 2
+    {
+        if (filter != null)
+        {
+            return from item in DataSource.Engineers
+                   where filter(item)
+                   select item;
+        }
+        return from item in DataSource.Engineers
+               select item;
+    }
 
 
-/// <summary>
-/// Updating an entity if it exists we will delete it and add the new one
-/// and if it doesn't exist we will throw an exception​
-/// </summary>
-/// <param name="item"></param>
-/// <exception cref="Exception"></exception>
-public void Update(Engineer item)
+
+    /// <summary>
+    /// Updating an entity if it exists we will delete it and add the new one
+    /// and if it doesn't exist we will throw an exception​
+    /// </summary>
+    /// <param name="item"></param>
+    /// <exception cref="Exception"></exception>
+    public void Update(Engineer item)
     {
         foreach(var engineer in DataSource .Engineers)
         {

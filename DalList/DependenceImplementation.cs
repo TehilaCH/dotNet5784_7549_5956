@@ -43,23 +43,30 @@ internal class DependenceImplementation : IDependence
                 select dependence).FirstOrDefault();
 
     }
+
     /// <summary>
     /// creates a copy of a list Dependences and return it
     /// </summary>
     /// <returns></returns>
-    public List<Dependence> ReadAll()
-    {
-        List<Dependence> CopyDependences = DataSource.Dependences
-            .Select(dependence => new Dependence
-            {
-                IdNum = dependence.IdNum,
-                IdPendingTask = dependence.IdPendingTask,
-                IdPreviousTask = dependence.IdPreviousTask,
-            }).ToList();
-        return CopyDependences;
-       
 
+    public IEnumerable<Dependence> ReadAll(Func<Dependence, bool>? filter = null) 
+    {
+        if (filter != null)
+        {
+            return from item in DataSource.Dependences
+                   where filter(item)
+                   select item;
+        }
+        return from item in DataSource.Dependences
+               select item;
     }
+
+
+
+
+
+
+
     /// <summary>
     /// Updating an entity if it exists we will delete it and add the new one
     /// and if it doesn't exist we will throw an exception​
