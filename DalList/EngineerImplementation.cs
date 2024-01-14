@@ -61,6 +61,16 @@ internal class EngineerImplementation : IEngineer
    
     }
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public Engineer? Read(Func<Engineer, bool> filter) 
+    { 
+        return DataSource.Engineers.FirstOrDefault(filter);
+    }
+
+    /// <summary>
     /// Making a copy of the existing list of all objects of type T Returning the copy
     /// </summary>
     /// <returns></returns>
