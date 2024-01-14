@@ -61,6 +61,15 @@ internal class EngineerImplementation : IEngineer
    
     }
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public Engineer? Read(Func<Engineer, bool> filter)
+    {
+        return DataSource.Engineers.FirstOrDefault(filter);
+    }
+    /// <summary>
     /// Making a copy of the existing list of all objects of type T Returning the copy
     /// </summary>
     /// <returns></returns>
@@ -75,9 +84,6 @@ internal class EngineerImplementation : IEngineer
         return from item in DataSource.Engineers
                select item;
     }
-
-
-
     /// <summary>
     /// Updating an entity if it exists we will delete it and add the new one
     /// and if it doesn't exist we will throw an exception​
