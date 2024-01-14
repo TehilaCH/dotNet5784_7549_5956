@@ -4,6 +4,8 @@ using DalApi;
 using DO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+
 //using System.Xml.Linq;
 
 internal class EngineerImplementation : IEngineer
@@ -51,47 +53,40 @@ internal class EngineerImplementation : IEngineer
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public Engineer? Read(int id) 
+    public Engineer? Read(int id)
     {
-        foreach (var engineer in DataSource .Engineers)
-        {
-            if(engineer.IdNum==id)
-            {
-                return engineer;    
-            }
-        }
-       return null; 
+        return (from engineer in DataSource.Engineers
+               where engineer.IdNum == id
+               select engineer).FirstOrDefault();
+   
     }
-    /// <summary>
-    /// Making a copy of the existing list of all objects of type T Returning the copy
-    /// </summary>
-    /// <returns></returns>
-    public List<Engineer> ReadAll()
-    {
-        List<Engineer> CopyEngineers = new List<Engineer>();
-        foreach (var engineer in DataSource.Engineers)
-        {
-            CopyEngineers.Add(new Engineer
-            {
-                IdNum = engineer.IdNum,
-                Name = engineer.Name,
-                Email = engineer.Email,
-                EngineerLevel = engineer.EngineerLevel,
-                CostPerHour = engineer.CostPerHour
 
-
-            });
-        }
-
+/// <summary>
+/// Making a copy of the existing list of all objects of type T Returning the copy
+/// </summary>
+/// <returns></returns>
+public List<Engineer> ReadAll()
+{
+  List<Engineer> CopyEngineers = DataSource.Engineers
+     .Select(engineer => new Engineer
+     {
+         IdNum = engineer.IdNum,
+         Name = engineer.Name,
+         Email = engineer.Email,
+         EngineerLevel = engineer.EngineerLevel,
+         CostPerHour = engineer.CostPerHour
+     }).ToList();
         return CopyEngineers;
-    }
-    /// <summary>
-    /// Updating an entity if it exists we will delete it and add the new one
-    /// and if it doesn't exist we will throw an exception​
-    /// </summary>
-    /// <param name="item"></param>
-    /// <exception cref="Exception"></exception>
-    public void Update(Engineer item)
+}
+
+
+/// <summary>
+/// Updating an entity if it exists we will delete it and add the new one
+/// and if it doesn't exist we will throw an exception​
+/// </summary>
+/// <param name="item"></param>
+/// <exception cref="Exception"></exception>
+public void Update(Engineer item)
     {
         foreach(var engineer in DataSource .Engineers)
         {

@@ -38,15 +38,10 @@ internal class DependenceImplementation : IDependence
     /// <returns></returns>
     public Dependence? Read(int id)
     {
-        foreach (var dependence in DataSource.Dependences)
-        {
-            if (dependence.IdNum == id)
-            {
-                return dependence;
-            }
-        }
-        return null;
-        
+        return (from dependence in DataSource.Dependences
+                where dependence.IdNum == id
+                select dependence).FirstOrDefault();
+
     }
     /// <summary>
     /// creates a copy of a list Dependences and return it
@@ -54,17 +49,13 @@ internal class DependenceImplementation : IDependence
     /// <returns></returns>
     public List<Dependence> ReadAll()
     {
-        List<Dependence> CopyDependences = new List<Dependence>();
-        foreach (var dependence in DataSource.Dependences)
-        {
-            CopyDependences.Add(new Dependence
+        List<Dependence> CopyDependences = DataSource.Dependences
+            .Select(dependence => new Dependence
             {
                 IdNum = dependence.IdNum,
-                IdPendingTask= dependence.IdPendingTask,
-                IdPreviousTask= dependence.IdPreviousTask,
-            });
-        }
-
+                IdPendingTask = dependence.IdPendingTask,
+                IdPreviousTask = dependence.IdPreviousTask,
+            }).ToList();
         return CopyDependences;
        
 

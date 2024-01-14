@@ -47,14 +47,10 @@ internal class TaskImplementation : ITask
     public Task? Read(int id)
     {
 
-        foreach (var task in DataSource.Tasks)
-        {
-            if (task.TaskId == id)
-            {
-                return task;
-            }
-        }
-        return null;
+        return (from task in DataSource.Tasks
+                where task.TaskId == id
+                select task).FirstOrDefault();
+
     }
     /// <summary>
     /// /Making a copy of the existing list of all objects of type T Returning the copy
@@ -63,11 +59,8 @@ internal class TaskImplementation : ITask
     public List<Task> ReadAll()
     {
 
-        List<Task> copyTasks = new List<Task>();
-
-        foreach (var task in DataSource.Tasks)
-        {
-            Task copyTask1 = new Task
+        List<Task> copyTasks = DataSource.Tasks
+            .Select(task => new Task
             {
                 TaskId = task.TaskId,
                 Nickname = task.Nickname,
@@ -83,10 +76,7 @@ internal class TaskImplementation : ITask
                 commentary = task.commentary,
                 EngineerIdToTask = task.EngineerIdToTask,
                 TaskLave = task.TaskLave
-            };
-
-            copyTasks.Add(copyTask1);
-        }
+            }).ToList(); 
 
         return copyTasks;
     }
