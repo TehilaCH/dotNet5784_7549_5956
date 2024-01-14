@@ -53,6 +53,16 @@ internal class TaskImplementation : ITask
 
     }
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    public Task? Read(Func<Task, bool> filter)
+    {
+        return DataSource.Tasks.FirstOrDefault(filter);
+    }
+
+    /// <summary>
     /// /Making a copy of the existing list of all objects of type T Returning the copy
     /// </summary>
     /// <returns></returns>

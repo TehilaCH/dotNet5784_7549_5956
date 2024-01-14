@@ -44,6 +44,16 @@ internal class DependenceImplementation : IDependence
 
     }
     /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+ public Dependence? Read(Func<Dependence, bool> filter)
+    {
+        return DataSource.Dependences.FirstOrDefault(filter);
+    }
+
+    /// <summary>
     /// creates a copy of a list Dependences and return it
     /// </summary>
     /// <returns></returns>
