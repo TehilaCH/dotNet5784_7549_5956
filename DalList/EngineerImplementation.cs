@@ -85,9 +85,6 @@ internal class EngineerImplementation : IEngineer
         return from item in DataSource.Engineers
                select item;
     }
-
-
-
     /// <summary>
     /// Updating an entity if it exists we will delete it and add the new one
     /// and if it doesn't exist we will throw an exception​
