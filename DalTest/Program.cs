@@ -95,7 +95,7 @@ internal class Program
                             }
                             break;
                         case "5":
-                            List<Engineer> CopyEngineers = new List<Engineer>();
+                            IEnumerable<Engineer> CopyEngineers = new List<Engineer>();
                             CopyEngineers =s_dal.Engineer.ReadAll();
                            foreach(var engineer in CopyEngineers)
                            {
@@ -178,7 +178,7 @@ internal class Program
                             }
                             break;
                         case "5":
-                            List<Dependence> CopyDependences = new List<Dependence>();
+                            IEnumerable<Dependence> CopyDependences = new List<Dependence>();
                             CopyDependences = s_dal.Dependence.ReadAll();
                             foreach (var dependence in CopyDependences)
                             {
@@ -245,7 +245,7 @@ internal class Program
                             }
                             break;
                         case "5":
-                            List<DO.Task> copyTasks = new List<DO.Task>();
+                            IEnumerable<DO.Task> copyTasks = new List<DO.Task>();
                             copyTasks = s_dal.Task.ReadAll();
                             foreach (var task in copyTasks)
                             {

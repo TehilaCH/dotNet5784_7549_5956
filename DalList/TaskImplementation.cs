@@ -66,30 +66,18 @@ internal class TaskImplementation : ITask
     /// /Making a copy of the existing list of all objects of type T Returning the copy
     /// </summary>
     /// <returns></returns>
-    public List<Task> ReadAll()
+    public IEnumerable<Task> ReadAll(Func<Task, bool>? filter = null) 
     {
-
-        List<Task> copyTasks = DataSource.Tasks
-            .Select(task => new Task
-            {
-                TaskId = task.TaskId,
-                Nickname = task.Nickname,
-                Milestone = task.Milestone,
-                Description = task.Description,
-                CreatTaskDate = task.CreatTaskDate,
-                PlannedDateStartWork = task.PlannedDateStartWork,
-                StartDateTask = task.StartDateTask,
-                TimeRequired = task.TimeRequired,
-                Deadline = task.Deadline,
-                EndDate = task.EndDate,
-                Product = task.Product,
-                commentary = task.commentary,
-                EngineerIdToTask = task.EngineerIdToTask,
-                TaskLave = task.TaskLave
-            }).ToList(); 
-
-        return copyTasks;
+        if (filter != null)
+        {
+            return from item in DataSource.Tasks
+                   where filter(item)
+                   select item;
+        }
+        return from item in DataSource.Tasks
+               select item;
     }
+
     /// <summary>
     /// Updating an entity if it exists we will delete it and add the new one
     /// and if it doesn't exist we will throw an exception​
