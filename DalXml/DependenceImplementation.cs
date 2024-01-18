@@ -6,7 +6,7 @@ using DO;
 using System;
 using System.Collections.Generic;
 
-internal class Implementation : IDependence
+internal class DependenceImplementation : IDependence
 {
     readonly string s_dependences_xml = "dependences";
 
