@@ -3,11 +3,15 @@ using Dal;
 using DalApi;
 using DO;
 using System;
+using System.Threading.Tasks;
+using System.Xml.Linq;
+
 internal class Program
 {
-    static readonly IDal s_dal = new DalList();
+   // static readonly IDal s_dal = new DalList(); //Using with lists
 
-   
+    static readonly IDal s_dal = new DalXml();//Using with files XML
+
     private static readonly Random s_rand= new();
     static void Main(string[] args)
     {
@@ -15,7 +19,6 @@ internal class Program
         int choice = int.Parse(Console.ReadLine());
         do
         {
-            Initialization.Do(s_dal);
             switch (choice)
             {
                 case 1:
@@ -96,6 +99,16 @@ internal class Program
                                 Console.WriteLine(engineer);
 
                            }
+                            break;
+                        //clear all Engineers
+                        case "6":
+                            Console.Write("Would you like to create Initial data? (Y/N)");
+                            string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+                            if (ans == "Y")
+                            {
+                                s_dal.Engineer.clear();
+                                Initialization.Do(s_dal);
+                            }
                             break;
 
                         default:
@@ -181,6 +194,17 @@ internal class Program
 
                             }
                             break;
+                        //clear all the Dependences
+                        case "6":
+                            Console.Write("Would you like to create Initial data? (Y/N)");
+                            string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+                            if (ans == "Y")
+                            {
+                                s_dal.Dependence.clear();
+                                Initialization.Do(s_dal);
+                            }
+                            break;
+
                         default:
                             Console.WriteLine("Invalid selection");
                             break;
@@ -218,7 +242,16 @@ internal class Program
                             break;
                         //Update Task exsist
                         case "3":
-                            DO.Task task3= updatTask() ;
+                            Console.Write("ID to updat: ");
+                            int id3 = int.Parse(Console.ReadLine());
+                            DO.Task temp = s_dal.Task.Read(id3);
+                            if (temp == null)//will not update if entered 0
+                            {
+                                Console.WriteLine("not found this id to update");
+                                break;
+                            }
+
+                            DO.Task task3= updatTask(id3) ;
                             try 
                             {
                                 s_dal.Task.Update(task3);
@@ -249,14 +282,26 @@ internal class Program
 
                             }
                             break;
+                        //clear all the Tasks
+                        case "6":
+                            Console.Write("Would you like to create Initial data? (Y/N)");
+                            string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
+                            if (ans == "Y")
+                            {
+                                s_dal.Task.clear();
+                                Initialization.Do(s_dal);
+                            }
+                            break;
+
                         default:
                             Console.WriteLine("Invalid selection");
                             break;
                     }
                     break;
                 
+                   
                 default:
-                    Console.WriteLine("Invalid selection");
+                    Console.WriteLine("Wrong input");
                     break;
             }
             mainMenu();
@@ -284,7 +329,7 @@ internal class Program
         Console.WriteLine("3:Update");
         Console.WriteLine("4:delete");
         Console.WriteLine("5:readAll");
-
+        Console.WriteLine("6:clear");
     }
     /// <summary>
     ///  create and initialization Engineer
@@ -366,10 +411,8 @@ internal class Program
         return task1;
     }
    
-    static DO.Task updatTask ()//updat Task
+    static DO.Task updatTask (int id3)//updat Task
     {
-        Console.Write("ID to updat: "); 
-        int id3 = int.Parse(Console.ReadLine());
         Console.Write("Nickname:");
         string name = Console.ReadLine();
         Console.Write("Description:");

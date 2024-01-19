@@ -100,6 +100,13 @@ internal class TaskImplementation : ITask
         throw new DalDoesNotExistException($"Task with ID={item.TaskId} does not exists");
         
     }
+    /// <summary>
+    /// clear the list of Tasks
+    /// </summary>
+    public void clear()
+    {
+        DataSource.Tasks.Clear();
+    }
 }
 
    

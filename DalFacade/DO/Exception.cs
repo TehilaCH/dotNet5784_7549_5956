@@ -26,7 +26,9 @@ public class DalDeletionImpossible : Exception
 {
     public DalDeletionImpossible(string? message) : base(message) { }
 }
-
+/// <summary>
+/// name of an exception used with XML files
+/// </summary>
 public class DalXMLFileLoadCreateException : Exception
 {
     public DalXMLFileLoadCreateException(string? message) : base(message) { }

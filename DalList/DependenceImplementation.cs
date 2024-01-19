@@ -17,8 +17,12 @@ internal class DependenceImplementation : IDependence
         return DependenceId;
 
     }
-
-    public void Delete(int id)//Delete Dependences with id that receives
+    /// <summary>
+    /// Delete Dependences with id that receives
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="DalDoesNotExistException"></exception>
+    public void Delete(int id)
     {
         foreach (var dependence in DataSource.Dependences)
         {
@@ -90,5 +94,12 @@ internal class DependenceImplementation : IDependence
 
         throw new DalDoesNotExistException($"Dependence with ID={item.IdNum} does not exists");
         
+    }
+    /// <summary>
+    /// clear the list of Dependences
+    /// </summary>
+    public void clear() 
+    {
+        DataSource.Dependences.Clear();
     }
 }

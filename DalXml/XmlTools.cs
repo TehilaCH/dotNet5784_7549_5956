@@ -4,7 +4,9 @@ using DO;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-
+/// <summary>
+/// help class
+/// </summary>
 static class XMLTools
 {
     const string s_xml_dir = @"..\xml\";
