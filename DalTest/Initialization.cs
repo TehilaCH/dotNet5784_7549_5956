@@ -113,7 +113,7 @@ public static class Initialization
                 Deadline = null,
                 EndDate = null,
                 Product = null,
-                commentary = null,
+                Remarks = null,
                 TaskLave = null
 
             };
@@ -125,9 +125,9 @@ public static class Initialization
 
     }
    
-    public static void Do(IDal dal)
+    public static void Do()
     {
-        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
+         s_dal = Factory.Get; 
         creatTasks();
         creatEngineers();
         creatDependences();

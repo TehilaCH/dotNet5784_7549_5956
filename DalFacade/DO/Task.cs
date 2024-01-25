@@ -17,7 +17,7 @@ namespace DO;
 /// <param name="Deadline"></param>Latest possible completion date - the latest possible date on which the completion of the task will not cause the project to fail, so that the entire sequence of tasks that depend on it will be completed before the deadline of the entire project.
 /// <param name="EndDate"></param>When an engineer reports that he has finished working on the task
 /// <param name="Product"></param>A string describing the results or items provided at the end of the task.
-/// <param name="commentary"></param>
+/// <param name="Remarks"></param>
 public record Task
 (
    int TaskId, // key (run)
@@ -28,11 +28,11 @@ public record Task
    DateTime? CreatTaskDate = null,
    DateTime? PlannedDateStartWork = null,
    DateTime? StartDateTask = null,
-   DateTime? TimeRequired = null,
+   TimeSpan? TimeRequired = null,
    DateTime? Deadline = null,
    DateTime? EndDate = null,
    string? Product = null,
-   string? commentary = null,
+   string? Remarks = null,
    DO.EngineerLevel? TaskLave = null
 
 

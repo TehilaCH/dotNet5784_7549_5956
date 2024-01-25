@@ -8,9 +8,11 @@ using System.Xml.Linq;
 
 internal class Program
 {
-   // static readonly IDal s_dal = new DalList(); //Using with lists
+    // static readonly IDal s_dal = new DalList(); //Using with lists //stage2
 
-    static readonly IDal s_dal = new DalXml();//Using with files XML
+    // static readonly IDal s_dal = new DalXml();//Using with files XML //stage3
+
+    static readonly IDal s_dal = Factory.Get;
 
     private static readonly Random s_rand= new();
     static void Main(string[] args)
@@ -107,7 +109,7 @@ internal class Program
                             if (ans == "Y")
                             {
                                 s_dal.Engineer.clear();
-                                Initialization.Do(s_dal);
+                                Initialization.Do();
                             }
                             break;
 
@@ -201,7 +203,7 @@ internal class Program
                             if (ans == "Y")
                             {
                                 s_dal.Dependence.clear();
-                                Initialization.Do(s_dal);
+                                Initialization.Do();
                             }
                             break;
 
@@ -289,7 +291,7 @@ internal class Program
                             if (ans == "Y")
                             {
                                 s_dal.Task.clear();
-                                Initialization.Do(s_dal);
+                                Initialization.Do();
                             }
                             break;
 
@@ -381,15 +383,15 @@ internal class Program
         Console.Write("Start Date Task:");
         DateTime StartTask = DateTime.Parse(Console.ReadLine());
         Console.Write("Time Required:");
-        DateTime TimeRequired = DateTime.Parse(Console.ReadLine());
+        TimeSpan TimeRequired = TimeSpan.Parse(Console.ReadLine());
         Console.Write("Deadline:");
         DateTime Deadline = DateTime.Parse(Console.ReadLine());
         Console.Write("End Date:");
         DateTime EndDate = DateTime.Parse(Console.ReadLine());
         Console.Write("Producte:");
         string Product = Console.ReadLine();
-        Console.Write("commentary:");
-        string commentary = Console.ReadLine();
+        Console.Write("Remarks:");
+        string Remarks = Console.ReadLine();
         Console.Write("Engineer Id To Task:");
         int engineerId = int.Parse(Console.ReadLine());
         EngineerLevel TaskLave = (EngineerLevel)s_rand.Next(0, 5);
@@ -405,7 +407,7 @@ internal class Program
             Deadline = Deadline,
             EndDate = EndDate,
             Product = Product,
-            commentary = commentary,
+            Remarks = Remarks,
             TaskLave = TaskLave
         };
         return task1;
@@ -424,15 +426,15 @@ internal class Program
         Console.Write("Start Date Task:");
         DateTime StartTask = DateTime.Parse(Console.ReadLine());
         Console.Write("Time Required:");
-        DateTime TimeRequired = DateTime.Parse(Console.ReadLine());
+        TimeSpan TimeRequired = TimeSpan.Parse(Console.ReadLine());
         Console.Write("Deadline:");
         DateTime Deadline = DateTime.Parse(Console.ReadLine());
         Console.Write("End Date:");
         DateTime EndDate = DateTime.Parse(Console.ReadLine());
         Console.Write("Producte:");
         string Product = Console.ReadLine();
-        Console.Write("commentary:");
-        string commentary = Console.ReadLine();
+        Console.Write("Remarks:");
+        string Remarks = Console.ReadLine();
         Console.Write("Engineer Id To Task:");
         int EngineerId =int.Parse( Console.ReadLine());
         EngineerLevel TaskLave = (EngineerLevel)s_rand.Next(0, 5);
@@ -443,7 +445,7 @@ internal class Program
             TimeRequired= TimeRequired, Deadline= Deadline,
             EndDate= EndDate,
             Product= Product,
-            commentary = commentary,
+            Remarks = Remarks,
             TaskLave= TaskLave
         };
       
