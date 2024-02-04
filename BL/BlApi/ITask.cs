@@ -18,5 +18,5 @@ public interface ITask
     public DateTime? CalculationOfDeadline(DO.Task doTask);
     public EngineerInTask? EngineerToTask(DO.Task doTask);
     public List<TaskInList>? ReDependent(DO.Task doTask);
-    public ProjectStatus projectlevel(DO.Task doTask);
+    public ProjectStatus projectlevel(DO.Task doTask);//לבדוק איפה לשים את המתודות ואלו הרשאות 
 }
