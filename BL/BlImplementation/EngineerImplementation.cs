@@ -35,8 +35,8 @@ internal class EngineerImplementation : IEngineer
     public void Delete(int id)//לעשות את הבדיקה השניה כאשר המהנדס באמצע משימה לפי הסטטוס
     {
         var taskForEngineer = _dal.Task.ReadAll()
-           .FirstOrDefault(task => task.EngineerIdToTask == id);
-        if(taskForEngineer == null)
+           .FirstOrDefault(task => task?.EngineerIdToTask == id);
+        if(taskForEngineer != null)
         {
             throw new NotImplementedException();
         }
@@ -54,12 +54,13 @@ internal class EngineerImplementation : IEngineer
     public DO.Engineer Read(int id)
     {
 
-        //DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-        //if (doEngineer == null)
-        //    throw new NotImplementedException($"Engineer with ID={id} does Not exist");
+        DO.Engineer? doEngineer = _dal.Engineer.Read(id);
+        if (doEngineer == null)
+            throw new NotImplementedException($"Engineer with ID={id} does Not exist");
 
-        //var taskForEngineer = _dal.Task.ReadAll()
-        //    .FirstOrDefault(task => task.EngineerIdToTask == doEngineer.IdNum);
+        var taskForEngineer = _dal.Task.ReadAll()
+            .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
+
         //return new BO.Engineer
         //{
         //    Id = id,
@@ -67,11 +68,12 @@ internal class EngineerImplementation : IEngineer
         //    Email = doEngineer.Email,
         //    Cost = doEngineer.CostPerHour,
         //    Level = (BO.EngineerLevel?)doEngineer.EngineerLevel,
+
         //    Task = taskForEngineer != null ? new BO.TaskInEngineer
         //    {
         //        Id = taskForEngineer.TaskId,
         //        NickName = taskForEngineer.Nickname
-        //    } : null
+        //    }
         //};
 
         throw new NotImplementedException($"Engineer with ID={id} does Not exist");
@@ -81,7 +83,7 @@ internal class EngineerImplementation : IEngineer
     public IEnumerable<BO.Engineer> ReadAll()
     {
         return(from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
-               let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task.EngineerIdToTask == doEngineer.IdNum)
+               let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum)
                select new BO.Engineer
                {
                    Id = doEngineer.IdNum,
@@ -110,7 +112,7 @@ internal class EngineerImplementation : IEngineer
            boEngineer.Email,
            (DO.EngineerLevel?)boEngineer.Level,
            boEngineer.Cost);
-        DO.Engineer currentEngineer = _dal.Engineer.Read(boEngineer.Id);
+        DO.Engineer? currentEngineer = _dal.Engineer.Read(boEngineer.Id);
 
         //if (currentEngineer != null)
         //{
