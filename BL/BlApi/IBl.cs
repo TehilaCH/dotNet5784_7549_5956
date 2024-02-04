@@ -9,6 +9,4 @@ public interface IBl
 
     public DateTime? StartProjectDate { get; set; }
     public DateTime? EndProjectDate { get; set; }
-
-    public ProjectStatus projectlevel(DO.Task doTask);
 }
