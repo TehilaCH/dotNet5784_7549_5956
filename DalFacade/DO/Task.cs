@@ -21,7 +21,7 @@ namespace DO;
 public record Task
 (
    int TaskId, // key (run)
-   int EngineerIdToTask,
+   int? EngineerIdToTask,
    string? Nickname=null,
    string? Description = null,
    bool Milestone = false,

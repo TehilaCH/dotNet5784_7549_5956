@@ -16,3 +16,11 @@ public enum Status
     OnTrack,
     Done
 }
+
+
+public enum ProjectStatus
+{
+    planingStage,
+    middleStage,
+    executionStage
+}

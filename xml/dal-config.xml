@@ -4,5 +4,7 @@
 	<dal-packages>
 		<list>DalList</list>
 		<xml>DalXml</xml>
+		<StartProjectDate> 1/1/2000 </StartProjectDate>
+		<EndProjectDate> 1/1/2000 </EndProjectDate>
 	</dal-packages>
 </config>
