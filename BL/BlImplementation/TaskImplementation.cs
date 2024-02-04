@@ -1,9 +1,8 @@
 ﻿namespace BlImplementation;
-using BlApi;
 using BO;
-using System.Security.Cryptography;
 
-internal class TaskImplementation : ITask
+
+internal class TaskImplementation : BlApi.ITask
 {
     private DalApi.IDal _dal = Factory.Get;
 
