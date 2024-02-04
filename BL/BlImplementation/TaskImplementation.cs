@@ -1,4 +1,5 @@
 ﻿namespace BlImplementation;
+using DO;
 using BO;
 
 
@@ -11,7 +12,7 @@ internal class TaskImplementation : BlApi.ITask
         //if(lev==ProjectStatus.middleStage || ProjectStatus.executionStage)
         if (boTask.Id < 1 || boTask.NickName == null || boTask.Engineer!=null)
         {
-            throw new NotImplementedException("The Task data is invalid");
+            throw new BlInvalidValueException("The Task data is invalid");
         }
         DO.Task doTask = new DO.Task
         {
@@ -29,22 +30,16 @@ internal class TaskImplementation : BlApi.ITask
             TaskLave = (DO.EngineerLevel?)boTask.TaskLave
 
         };
-        try
-        {
-            int id = _dal.Task.Create(doTask);
-            if (boTask.Dependencies != null)
-            {
-                var newDependencies = boTask.Dependencies
-                .Select(d => _dal.Dependence.Create(new DO.Dependence { IdPendingTask = boTask.Id, IdPreviousTask = d.Id }));
-            }
 
-            return id;
-        }
-        catch (NotImplementedException ex)//לסדר שהתפוס את החריגה אם יש 
+        int id = _dal.Task.Create(doTask);
+        if (boTask.Dependencies != null)
         {
-            Console.WriteLine(ex);
-            throw new NotImplementedException();
+            var newDependencies = boTask.Dependencies
+            .Select(d => _dal.Dependence.Create(new DO.Dependence { IdPendingTask = boTask.Id, IdPreviousTask = d.Id }));
         }
+
+        return id;
+
     }
 
     public void Delete(int id)
@@ -64,9 +59,10 @@ internal class TaskImplementation : BlApi.ITask
         {   
             _dal.Task.Delete(id);
         }
-        catch (NotImplementedException ex)//לסדר שהתפוס את החריגה אם יש 
+        catch (DalDoesNotExistException ex)//לסדר שהתפוס את החריגה אם יש 
         {
             Console.WriteLine(ex);
+            throw new BlDoesNotExistException($"Task with ID={id} does not exists");
         }
         
     }
@@ -75,7 +71,7 @@ internal class TaskImplementation : BlApi.ITask
     {
         DO.Task? doTask = _dal.Task.Read(id);
         if (doTask == null)
-            throw new NotImplementedException($"Student with ID={id} does Not exist");
+            throw new BlDoesNotExistException($"Student with ID={id} does Not exist");
 
         return new BO.Task()
         {
@@ -130,14 +126,14 @@ internal class TaskImplementation : BlApi.ITask
     {
         DO.Task? doTask = _dal.Task.Read(boTask.Id);
         if (doTask == null)
-            throw new NotImplementedException($"Student with ID={boTask.Id} does Not exist");
+            throw new BlDoesNotExistException($"Student with ID={boTask.Id} does Not exist");
 
        // ProjectStatus level = projectlevel();
         //שלב התכנון
         //if(level== ProjectStatus.planingStage)
             if (boTask.PlannedDateStartWork != null || boTask.Engineer != null || boTask.CreatTaskDate != null
              || boTask.StartDateTask != null || boTask.Deadline != null || boTask.EndDate != null)
-                throw new NotImplementedException();
+                throw new BlInvalidValueException("The Task data is invalid");
             
         //האם צריך לעדכן את רשימת התלויות 
        
@@ -154,7 +150,7 @@ internal class TaskImplementation : BlApi.ITask
                 || doTask.PlannedDateStartWork != boTask.PlannedDateStartWork || doTask.CreatTaskDate != boTask.CreatTaskDate
                 || d != boTask.Dependencies)
             {
-                throw new NotImplementedException();
+                throw new BlInvalidValueException("The Task data is invalid");
             }
 
         }
@@ -179,9 +175,11 @@ internal class TaskImplementation : BlApi.ITask
         {
             _dal.Task.Update(dTask);
         }
-        catch (NotImplementedException ex)//לסדר שהתפוס את החריגה אם יש 
+        catch (DalDoesNotExistException ex)//לסדר שהתפוס את החריגה אם יש 
         {
             Console.WriteLine(ex);
+             throw new BlDoesNotExistException($"Task with ID={boTask.Id} does not exists");
+
         }
 
 
@@ -196,7 +194,7 @@ internal class TaskImplementation : BlApi.ITask
         if (result==null) 
         {
             //if(StartProjectDate == null || date<StartProjectDate)
-            //throw new NotImplementedException();
+            //throw new BlInvalidValueException("Project date does not exist or date for invalid update");
         }
 
         else
@@ -204,13 +202,13 @@ internal class TaskImplementation : BlApi.ITask
             bool flag = result.Any(t => t.PlannedDateStartWork == null);
             if (flag == true)
             {
-                throw new NotImplementedException();
+                throw new BlInvalidValueException("There is no planned start date for the dependent tasks");
             }
             //bool flag2 = result.Any(t => t.Deadline > date);
             bool flag2 = result.Any(t => t.PlannedDateStartWork + t.TimeRequired > date);
             if (flag2 == true)
             {
-                throw new NotImplementedException();
+                throw new BlInvalidValueException("The update date is before the Deadline");
             }
         }
        

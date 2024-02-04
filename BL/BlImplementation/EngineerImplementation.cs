@@ -1,6 +1,8 @@
 ﻿namespace BlImplementation;
 using BO;
+using DO;
 using System.Collections.Generic;
+using System.Data;
 
 internal class EngineerImplementation : BlApi.IEngineer
 {
@@ -10,7 +12,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     {
         if (boEngineer.Id < 1 || boEngineer.Cost < 0 || boEngineer.Name == null || boEngineer.Email == null)
         {
-            throw new NotImplementedException("One or more parameters are incorrect");
+            throw new BlInvalidValueException("One or more parameters are incorrect");
         }
         DO.Engineer doEngineer = new DO.Engineer(
             boEngineer.Id,
@@ -26,9 +28,11 @@ internal class EngineerImplementation : BlApi.IEngineer
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            throw new NotImplementedException($"Student with ID={boEngineer.Id} already exists", ex);
+            Console.WriteLine(ex);
+            throw new BlAlreadyExistsException($"Engineer with ID={boEngineer.Id} already exists");
         }
-        
+
+       
     }
 
     public void Delete(int id)
@@ -39,16 +43,17 @@ internal class EngineerImplementation : BlApi.IEngineer
         { 
             if(taskForEngineer.EndDate!=null ||
                 (taskForEngineer.EndDate==null && taskForEngineer.StartDateTask!=null))
-                   throw new NotImplementedException();
+                   throw new BlInvalidValueException("One or more parameters are incorrect");
         }
 
         try
         {
             _dal.Engineer.Delete(id);
         }
-        catch (NotImplementedException ex)
+        catch (DalDoesNotExistException ex)
         {
             Console.WriteLine(ex);
+            throw new BlDoesNotExistException($"Engineer with ID={id} does not exists");
         }
        
     }
@@ -58,7 +63,7 @@ internal class EngineerImplementation : BlApi.IEngineer
 
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
         if (doEngineer == null)
-            throw new NotImplementedException($"Engineer with ID={id} does Not exist");
+            throw new BlDoesNotExistException($"Engineer with ID={id} does Not exist");
 
         DO.Task? taskForEngineer = _dal.Task.ReadAll()
             .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
@@ -100,16 +105,15 @@ internal class EngineerImplementation : BlApi.IEngineer
 
     public void Update(BO.Engineer boEngineer)
     {
-        if (boEngineer.Cost < 0 || boEngineer.Name == null || boEngineer.Email == null)
+        DO.Engineer? Engineer = _dal.Engineer.Read(boEngineer.Id);
+        bool islevel = LevelOfEngineer(Engineer.EngineerLevel, boEngineer.Level);
+       
+        if (boEngineer.Cost < 0 || boEngineer.Name == null || boEngineer.Email == null || islevel==false)
         {
-            throw new NotImplementedException("One or more parameters are incorrect");
+            throw new BlInvalidValueException("One or more parameters are incorrect");
         }
 
-         DO.Engineer? Engineer = _dal.Engineer.Read(boEngineer.Id);
-      
-        if(!LevelOfEngineer(Engineer.EngineerLevel, boEngineer.Level))
-            throw new NotImplementedException("");
-
+        
         DO.Engineer doEngineer= new DO.Engineer
         {
             IdNum = boEngineer.Id,
@@ -149,9 +153,10 @@ internal class EngineerImplementation : BlApi.IEngineer
                 _dal.Task.Update(updatedTask);
             }
         }
-        catch (Exception ex)
+        catch (DalDoesNotExistException ex)
         {
             Console.WriteLine(ex);
+            throw new BlDoesNotExistException($"Engineer with ID={boEngineer.Id} does not exists");
         }
 
     }
@@ -160,21 +165,21 @@ internal class EngineerImplementation : BlApi.IEngineer
         switch(lev1)
         {
           case DO.EngineerLevel.Advanced:
-                if(lev2== EngineerLevel.Beginner)
+                if(lev2== BO.EngineerLevel.Beginner)
                      return false;
                 else return true;
           case DO.EngineerLevel.AdvancedBeginner: 
-                if ( lev2 == EngineerLevel.Advanced || lev2 == EngineerLevel.Beginner)
+                if ( lev2 == BO.EngineerLevel.Advanced || lev2 == BO.EngineerLevel.Beginner)
                     return false;
                 else return true;
             case DO.EngineerLevel.Intermediate:
-                if (lev2 == EngineerLevel.Beginner || lev2 == EngineerLevel.Advanced 
-                    || lev2 == EngineerLevel.AdvancedBeginner)
+                if (lev2 == BO.EngineerLevel.Beginner || lev2 == BO.EngineerLevel.Advanced 
+                    || lev2 == BO.EngineerLevel.AdvancedBeginner)
                     return false;
                 else return true;
             case DO.EngineerLevel.Expert:
-                if (lev2 == EngineerLevel.Beginner || lev2 == EngineerLevel.Advanced
-                    || lev2 == EngineerLevel.AdvancedBeginner || lev2 == EngineerLevel.Intermediate)
+                if (lev2 == BO.EngineerLevel.Beginner || lev2 == BO.EngineerLevel.Advanced
+                    || lev2 == BO.EngineerLevel.AdvancedBeginner || lev2 == BO.EngineerLevel.Intermediate)
                     return false;
                 else return true;
 
