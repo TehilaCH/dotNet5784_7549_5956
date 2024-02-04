@@ -175,7 +175,7 @@ internal class TaskImplementation : ITask
             Remarks = boTask.Remarks,
             TaskLave = (DO.EngineerLevel?)boTask.TaskLave,
             EngineerIdToTask = boTask.Engineer.Id
-    };
+        };
         try
         {
             _dal.Task.Update(dTask);

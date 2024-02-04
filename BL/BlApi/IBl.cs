@@ -1,6 +1,5 @@
-﻿using BO;
-
-namespace BlApi;
+﻿namespace BlApi;
+using BO;
 
 public interface IBl
 {
@@ -10,5 +9,4 @@ public interface IBl
     public DateTime? StartProjectDate { get; set; }
     public DateTime? EndProjectDate { get; set; }
 
-    public ProjectStatus projectlevel(DO.Task doTask);
 }
