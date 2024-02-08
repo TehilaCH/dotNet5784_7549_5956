@@ -12,11 +12,7 @@ public interface ITask
     public void Delete(int id);
     public BO.Task Read(int id);
     public void UpdateStartDate(int id, DateTime date);
-
-    //**********
-    public Status stat(DO.Task boTask);//לבדוק אם לכתוב כאן
-    public DateTime? CalculationOfDeadline(DO.Task doTask);
-    public EngineerInTask? EngineerToTask(DO.Task doTask);
-    public List<TaskInList>? ReDependent(DO.Task doTask);
-    public ProjectStatus projectlevel(DO.Task doTask);//לבדוק איפה לשים את המתודות ואלו הרשאות 
+    public void ProjectStartDateUpdate(DateTime date);
+    public void ProjectEndDateUpdate(DateTime date);
+   
 }

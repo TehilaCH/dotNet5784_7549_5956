@@ -21,6 +21,5 @@ public enum Status
 public enum ProjectStatus
 {
     planingStage,
-    middleStage,
     executionStage
 }

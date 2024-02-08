@@ -1,10 +1,10 @@
-﻿using DO;
+﻿using BO;
+using DO;
 
 namespace BlApi;
 
 public interface IEngineer
 {
-   
     public int Creat( BO.Engineer boEngineer); 
     public void Update(BO.Engineer boEngineer);
     public void Delete(int id);

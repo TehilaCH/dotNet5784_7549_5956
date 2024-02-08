@@ -12,4 +12,10 @@ sealed internal class DalList : IDal
     public IDependence Dependence =>  new DependenceImplementation();
 
     public ITask Task =>  new TaskImplementation();
+
+    /*********/
+    public DateTime? StartProjectDate { get => Instance.StartProjectDate; set => Instance.StartProjectDate = value; }
+    public DateTime? EndProjectDate { get => Instance.EndProjectDate; set => Instance.EndProjectDate = value; }
+    
+
 }

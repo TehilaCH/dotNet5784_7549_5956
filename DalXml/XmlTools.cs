@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 /// <summary>
 /// help class
 /// </summary>
-static class XMLTools
+public static class XMLTools
 {
     const string s_xml_dir = @"..\xml\";
     static XMLTools()

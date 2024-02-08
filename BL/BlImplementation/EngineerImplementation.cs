@@ -1,9 +1,10 @@
 ﻿namespace BlImplementation;
 using BO;
+using DalApi;
 using DO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+
 
 
 internal class EngineerImplementation : BlApi.IEngineer
@@ -13,8 +14,8 @@ internal class EngineerImplementation : BlApi.IEngineer
     public int Creat(BO.Engineer boEngineer)
     {
    
-        if (boEngineer.Id < 1 || boEngineer.Cost < 0 || boEngineer.Name == null 
-            || IsValidEmail(boEngineer.Email)==false || boEngineer.Task!=null)
+        if (boEngineer.Id < 1  || boEngineer.Cost < 0 || boEngineer.Name == null 
+            || IsValidEmail(boEngineer.Email!)==false || boEngineer.Task!=null)
         {
             throw new BlInvalidValueException("One or more parameters are incorrect");
         }
@@ -32,8 +33,8 @@ internal class EngineerImplementation : BlApi.IEngineer
         }
         catch (DO.DalAlreadyExistsException ex)
         {
-            Console.WriteLine(ex);
-            throw new BlAlreadyExistsException($"Engineer with ID={boEngineer.Id} already exists");
+            throw new BlAlreadyExistsException("Engineer already exists", ex);
+
         }
 
        
@@ -57,7 +58,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         catch (DalDoesNotExistException ex)
         {
             Console.WriteLine(ex);
-            throw new BlDoesNotExistException($"Engineer with ID={id} does not exists");
+            
         }
        
     }
@@ -109,17 +110,37 @@ internal class EngineerImplementation : BlApi.IEngineer
 
     public void Update(BO.Engineer boEngineer)
     {
+        //int levProject = _dal.projectlevel();
+        //if (levProject == 1)
+        //{
+        //    if (boEngineer.Task != null)
+        //        throw new BlInvalidValueException("One or more parameters are incorrect");
+
+        //}
+
+       // ProjectStatus level = Factory.Get.projectlevel();
+
+        //ProjectStatus level = projectlevel();
+
+
+
+        if (_dal.StartProjectDate==null)
+        {
+            if (boEngineer.Task != null)
+                throw new BlInvalidValueException("One or more parameters are incorrect");
+
+        }
         DO.Engineer? Engineer = _dal.Engineer.Read(boEngineer.Id);
         bool islevel = LevelOfEngineer(Engineer.EngineerLevel, boEngineer.Level);
         bool flag= checkEngineerToTask(boEngineer);
-   
-        if (boEngineer.Cost < 0 || boEngineer.Name == null || IsValidEmail(boEngineer.Email) == false
-            || islevel==false ||flag ==false)
+
+        if (boEngineer.Cost < 0 || boEngineer.Name == null || IsValidEmail(boEngineer.Email!) == false
+            || islevel == false || flag == false)
         {
             throw new BlInvalidValueException("One or more parameters are incorrect");
         }
 
-        
+
         DO.Engineer doEngineer= new DO.Engineer
         {
             IdNum = boEngineer.Id,
@@ -131,31 +152,31 @@ internal class EngineerImplementation : BlApi.IEngineer
         try 
         {
             _dal.Engineer.Update(doEngineer);
-            var taskIdToUpdate = boEngineer.Task.Id;
 
-            var updatedTask =
-                (from t in _dal.Task.ReadAll()
-                 where t.TaskId == taskIdToUpdate
-                 select new DO.Task
-                 {
-                     TaskId = t.TaskId,
-                     Nickname = t.Nickname,
-                     Description = t.Description,
-                     CreatTaskDate = t.CreatTaskDate,
-                     PlannedDateStartWork = t.PlannedDateStartWork,
-                     StartDateTask = t.StartDateTask,
-                     TimeRequired = t.TimeRequired,
-                     Deadline = t.Deadline,
-                     EndDate = t.EndDate,
-                     Product = t.Product,
-                     Remarks = t.Remarks,
-                     TaskLave = t.TaskLave,
-                     EngineerIdToTask = doEngineer.IdNum
-                 })
-                .FirstOrDefault();
-
-            if (updatedTask != null)
+            if (boEngineer.Task != null)
             {
+                var taskIdToUpdate = boEngineer.Task.Id;
+
+                var updatedTask =
+                    (from t in _dal.Task.ReadAll()
+                     where t.TaskId == taskIdToUpdate
+                     select new DO.Task
+                     {
+                         TaskId = t.TaskId,
+                         Nickname = t.Nickname,
+                         Description = t.Description,
+                         CreatTaskDate = t.CreatTaskDate,
+                         PlannedDateStartWork = t.PlannedDateStartWork,
+                         StartDateTask = t.StartDateTask,
+                         TimeRequired = t.TimeRequired,
+                         Deadline = t.Deadline,
+                         EndDate = t.EndDate,
+                         Product = t.Product,
+                         Remarks = t.Remarks,
+                         TaskLave = t.TaskLave,
+                         EngineerIdToTask = doEngineer.IdNum
+                     })
+                    .FirstOrDefault();
                 _dal.Task.Update(updatedTask);
             }
         }
@@ -166,6 +187,12 @@ internal class EngineerImplementation : BlApi.IEngineer
         }
 
     }
+
+    private void projectlevel()
+    {
+        throw new NotImplementedException();
+    }
+
     public bool LevelOfEngineer(DO.EngineerLevel? lev1, BO.EngineerLevel? lev2)
     {
         switch(lev1)
@@ -196,6 +223,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     }
     bool IsValidEmail(string email)
     {
+        if (email == null) return false;
         var trimmedEmail = email.Trim();
 
         if (trimmedEmail.EndsWith("."))
@@ -219,9 +247,10 @@ internal class EngineerImplementation : BlApi.IEngineer
         DO.Task? Task1 = _dal.Task.Read((int)boEngineer.Task.Id!);
         if(Task1 == null )
             return false;
-        //ProjectStatus level = projectlevel();
-        //if (level == ProjectStatus.planingStage || ProjectStatus.middleStage)
-             if (Task1.EngineerIdToTask == null && (boEngineer.Task.Id == Task1.TaskId))
+       if( _dal.StartProjectDate !=null)
+            return false;
+
+        if (Task1.EngineerIdToTask == null && (boEngineer.Task.Id == Task1.TaskId))
                 if(Task1.TaskLave != null&& boEngineer.Level!=null)
                 {
                     if (Task1.TaskLave == (DO.EngineerLevel)boEngineer.Level)
@@ -269,39 +298,52 @@ internal class EngineerImplementation : BlApi.IEngineer
 
         
     }
+
     //public List<List<BO.Engineer>> GroupEngineersByLevel()
     //{
-    //    //var groupedEngineers = (from e in _dal.Engineer.ReadAll()
-    //    //                        let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == e.IdNum)
-    //    //                        group e by e.EngineerLevel into g
-    //    //                        select new BO.Engineer
-    //    //                        {
-    //    //                            Id = g.First().IdNum,
-    //    //                            Name = g.First().Name,
-    //    //                            Email = g.First().Email,
-    //    //                            Cost = g.First().CostPerHour,
-    //    //                            Level = (BO.EngineerLevel?)g.First().EngineerLevel,
-    //    //                            Task = taskForEngineer != null ? new BO.TaskInEngineer
-    //    //                            {
-    //    //                                Id = taskForEngineer.TaskId,
-    //    //                                NickName = taskForEngineer.Nickname
-    //    //                            } : null
-    //    //                        }).ToList();
+    //    var groupedEngineers= _dal.Engineer.ReadAll().OrderBy(e=>e.EngineerLevel).ToList();
 
-    //    //.GroupBy(e => e.EngineerLevel)
-    //    //.Select(g => g.Select(e => new BO.Engineer
-    //    //{
-    //    //    Id = e.IdNum,
-    //    //    Name = e.Name,
-    //    //    Email = e.Email,
-    //    //    Cost = e.CostPerHour,
-    //    //    Level = (BO.EngineerLevel?)e.EngineerLevel,
-    //    //    // Add other properties as needed
-    //    //}).ToList())
-    //    //.ToList();
-
-    //   // return groupedEngineers;
+    //    return groupedEngineers;
     //}
+
+
+    public List<List<BO.Engineer>> GroupEngineersByLevel()
+    {
+        //var groupedEngineers = (from e in _dal.Engineer.ReadAll()
+        //                        let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == e.IdNum)
+        //                        group e by e.EngineerLevel into g
+        //                        select new BO.Engineer
+        //                        {
+        //                            Id = g.First().IdNum,
+        //                            Name = g.First().Name,
+        //                            Email = g.First().Email,
+        //                            Cost = g.First().CostPerHour,
+        //                            Level = (BO.EngineerLevel?)g.First().EngineerLevel,
+        //                            Task = taskForEngineer != null ? new BO.TaskInEngineer
+        //                            {
+        //                                Id = taskForEngineer.TaskId,
+        //                                NickName = taskForEngineer.Nickname
+        //                            } : null
+        //                        }).ToList();
+        var groupedEngineers = _dal.Engineer.ReadAll()
+        .GroupBy(e => e.EngineerLevel)
+        .Select(g => g.Select(e => new BO.Engineer
+        {
+            Id = e.IdNum,
+            Name = e.Name,
+            Email = e.Email,
+            Cost = e.CostPerHour,
+            Level = (BO.EngineerLevel?)e.EngineerLevel,
+            //Task = taskForEngineer != null ? new BO.TaskInEngineer
+            //{
+            //    Id = taskForEngineer.TaskId,
+            //    NickName = taskForEngineer.Nickname
+            //} : null
+        }).ToList())
+        .ToList();
+
+        return groupedEngineers;
+    }
 }
 
 
