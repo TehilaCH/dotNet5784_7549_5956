@@ -1,6 +1,25 @@
 ﻿using System.Net.NetworkInformation;
 
 namespace BO;
+/// <summary>
+/// task logical entity
+/// </summary>
+/// <param name="Id"></param>Task ID number
+/// <param name="NickName"></param>A short, unique name for a task
+/// <param name="Description"></param> task description
+/// <param name="CreatTaskDate"></param>indicates the time when the task was created by the administrator
+/// <param name="PlannedDateStartWork"></param>a date that is calculated later when creating the schedule,
+/// so that according to the available information, all tasks will be performed until the time the project is finished
+/// <param name="StartDateTask"></param>When an engineer begins actual work on the task
+/// <param name="TimeRequired"></param>The amount of time required to perform the task
+/// <param name="Deadline"></param>Latest possible completion date - the latest possible date on which the completion of the task will not cause the project to fail, so that the entire sequence of tasks that depend on it will be completed before the deadline of the entire project.
+/// <param name="EndDate"></param>When an engineer reports that he has finished working on the task
+/// <param name="Product"></param>A string describing the results or items provided at the end of the task.
+/// <param name="Remarks"></param>
+/// <param name="Description"></param>List of task dependencies
+/// <param name="Status"></param>task status
+/// <param name="Engineer"></param>engineer assigned to the task
+/// /// <param name="TaskLave"></param> task level
 public class Task
 {
     public override string ToString() => Tools.ToStringProperty(this);

@@ -100,20 +100,5 @@ public static class XMLTools
     }
 
 
-    //******
-    //public static void saveDateInFail(string s_data_config_xml, string elemName, DateTime elemValue)
-    //{
-    //    XElement root = LoadListFromXMLElement(s_data_config_xml);
-    //    DateTime? date = root.ToDateTimeNullable(elemName);
-    //    if (date != null) throw new DO.DalAlreadyExistsException($"the DATE is already set to {date}");
-    //    root.Element(elemName)?.SetValue(elemValue);
-    //    SaveListToXMLElement(root, s_data_config_xml);
-
-    //}
-    //public static DateTime? getStartOrEndDateFromFile(string elemName)
-    //{
-    //    XElement root = LoadListFromXMLElement("data_config");
-    //    return (root.ToDateTimeNullable(elemName));
-    //}
     #endregion
 }

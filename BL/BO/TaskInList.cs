@@ -1,4 +1,11 @@
 ﻿namespace BO;
+/// <summary>
+/// task presentation
+/// </summary>
+/// <param name="Id"></param>Task ID number
+/// <param name="NickName"></param>A short, unique name for a task
+/// <param name="Description"></param> task description
+/// <param name="Status"></param> Task Status
 
 public class TaskInList
 {

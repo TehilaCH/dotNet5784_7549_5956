@@ -1,24 +1,2 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ArrayOfEnginieer>
-  <Engineer>
-    <Id>333</Id>
-    <Name>hod</Name>
-    <Email>h@gmail.com</Email>
-    <CostPerHour>4555</CostPerHour>
-    <EngineerLevel>AdvancedBeginner</EngineerLevel>
-  </Engineer>
-  <Engineer>
-    <Id>111</Id>
-    <Name>dan</Name>
-    <Email>dan@gmail.com</Email>
-    <CostPerHour>100</CostPerHour>
-    <EngineerLevel>AdvancedBeginner</EngineerLevel>
-  </Engineer>
-  <Engineer>
-    <Id>222</Id>
-    <Name>tal</Name>
-    <Email>tal@gmail.com</Email>
-    <CostPerHour>1200</CostPerHour>
-    <EngineerLevel>Beginner</EngineerLevel>
-  </Engineer>
-</ArrayOfEnginieer>
+<ArrayOfEnginieer />

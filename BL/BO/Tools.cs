@@ -5,7 +5,12 @@ namespace BO;
 
 public static class Tools
 {
-
+    /// <summary>
+    /// A function that overrides the ToString function and prints objects
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
+    /// <returns></returns>
     public static string ToStringProperty<T> (T obj)
     {
         string str = "";
@@ -31,14 +36,6 @@ public static class Tools
     }
 
 
-    //public static void ToStringProperty<T>(this T t)
-    //{
-    //    string str = "";
-    //    foreach (PropertyInfo item in t.GetType().GetProperties())
-    //        str += "\n" + item.Name + ":" + item.GetValue(t, null);
-    //    Console.WriteLine(str);
-
-    //}
 
 }
 

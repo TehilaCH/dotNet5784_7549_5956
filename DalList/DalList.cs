@@ -14,7 +14,5 @@ sealed internal class DalList : IDal
 
     public ITask Task => new TaskImplementation();
 
-    public void saveDateInFail(string _dataConfigXml, string elemName, DateTime elemValue) { return; }
-
-    public DateTime? getStartDateFromFile(string elemName){return null;}
+    public ISchedule Schedule =>  new ScheduleImplementation();
 }

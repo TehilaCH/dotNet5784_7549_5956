@@ -9,8 +9,15 @@ using System.Linq;
 internal class EngineerImplementation : BlApi.IEngineer
 {
     private DalApi.IDal _dal = Factory.Get;
-    Bl blInstance = new Bl();
-
+  
+    /// <summary>
+    /// If the data is correct - you will make an attempt to request an addition to the data layer,
+    /// otherwise you will throw an exception
+    /// </summary>
+    /// <param name="boEngineer"></param>
+    /// <returns></returns>
+    /// <exception cref="BlInvalidValueException"></exception>
+    /// <exception cref="BlAlreadyExistsException"></exception>
     public int Creat(BO.Engineer boEngineer)
     {
         
@@ -39,7 +46,12 @@ internal class EngineerImplementation : BlApi.IEngineer
 
        
     }
-
+    /// <summary>
+    /// Deleting an engineer on the condition that he is not assigned a task
+    /// </summary>
+    /// <param name="id"></param>
+    /// <exception cref="BlInvalidValueException"></exception>
+    /// <exception cref="BlDoesNotExistException"></exception>
     public void Delete(int id)
     {
         DO.Task? taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == id);
@@ -60,7 +72,13 @@ internal class EngineerImplementation : BlApi.IEngineer
         }
 
     }
-
+    /// <summary>
+    /// Returns an engineer by id if it exists otherwise throws an exception There is an option to do with filtering
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="filter"></param>
+    /// <returns></returns>
+    /// <exception cref="BlDoesNotExistException"></exception>
     public BO.Engineer Read(int id, Func<DO.Engineer, bool>? filter = null)
     {
 
@@ -89,7 +107,11 @@ internal class EngineerImplementation : BlApi.IEngineer
 
         };
     }
-
+    /// <summary>
+    /// Returns a list of engineers and can also be filtered
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
     public IEnumerable<BO.Engineer> ReadAll(Func<DO.Engineer, bool>? filter = null)
     {
         return(from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
@@ -110,15 +132,19 @@ internal class EngineerImplementation : BlApi.IEngineer
 
                }).ToList();
     }
-
+    /// <summary>
+    /// Updates an engineer according to the conditions of the project phase he is in
+    /// </summary>
+    /// <param name="boEngineer"></param>
+    /// <exception cref="BlInvalidValueException"></exception>
+    /// <exception cref="BlDoesNotExistException"></exception>
     public void Update(BO.Engineer boEngineer)
     {
-        //**
-        int levP = 2;
-        //**
-        ProjectStatus projectLevel = blInstance.projectlevel();
-       // if (projectLevel== ProjectStatus.planingStage)
-        if(levP==1)
+        //ProjectStatus projectLevel = _dal.projectlevel();
+        //if (projectLevel== ProjectStatus.planingStage)
+
+        DateTime? date = _dal.Schedule.getStartProjectDate();
+        if (date == null) //planing Stage
         {
             if (boEngineer.Task != null)
                throw new BlInvalidValueException("One or more parameters are incorrect");
@@ -126,7 +152,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         }
 
         DO.Engineer? Engineer = _dal.Engineer.Read(boEngineer.Id);
-        bool islevel = LevelOfEngineer(Engineer.EngineerLevel, boEngineer.Level);
+        bool islevel = LevelOfEngineer(Engineer!.EngineerLevel, boEngineer.Level);
         bool flag= checkEngineerToTask(boEngineer);
 
         if (boEngineer.Cost < 0 || boEngineer.Name == null || IsValidEmail(boEngineer.Email!) == false
@@ -172,7 +198,7 @@ internal class EngineerImplementation : BlApi.IEngineer
                          EngineerIdToTask = doEngineer.IdNum
                      })
                     .FirstOrDefault();
-                _dal.Task.Update(updatedTask);
+                _dal.Task.Update(updatedTask!);
             }
         }
         catch (DalDoesNotExistException ex)
@@ -183,8 +209,14 @@ internal class EngineerImplementation : BlApi.IEngineer
 
     }
 
-   
 
+    /// <summary>
+    /// An halp function that checks whether the update of the engineer level is correct 
+    /// (it is possible to change the engineer level up and not down)
+    /// </summary>
+    /// <param name="lev1"></param>
+    /// <param name="lev2"></param>
+    /// <returns></returns>
     public bool LevelOfEngineer(DO.EngineerLevel? lev1, BO.EngineerLevel? lev2)
     {
         switch(lev1)
@@ -208,11 +240,16 @@ internal class EngineerImplementation : BlApi.IEngineer
                     return false;
                 else return true;
 
-            default: return true; //במקרה זה יכנס המקרה של הרמה הנמוכה ביותר 
-        
+            default: return true; //In this case the case of the lowest level will enter 
+
         }
        
     }
+    /// <summary>
+    /// An halp function for checking the integrity of an email
+    /// </summary>
+    /// <param name="email"></param>
+    /// <returns></returns>
     bool IsValidEmail(string email)
     {
         if (email == null) return false;
@@ -232,6 +269,11 @@ internal class EngineerImplementation : BlApi.IEngineer
             return false;
         }
     }
+    /// <summary>
+    /// An halp function for checking the correctness of assigning a task to an engineer
+    /// </summary>
+    /// <param name="boEngineer"></param>
+    /// <returns></returns>
     bool checkEngineerToTask(BO.Engineer boEngineer) 
     {
         if (boEngineer.Task == null)
@@ -264,7 +306,11 @@ internal class EngineerImplementation : BlApi.IEngineer
         return false;
 
     }
-   public List<BO.Engineer> OrderEngineers () 
+    /// <summary>
+    /// A function that sorts the engineers by name
+    /// </summary>
+    /// <returns></returns>
+    public List<BO.Engineer> OrderEngineers () 
     {
          
         return (from e in _dal.Engineer.ReadAll()
@@ -288,6 +334,10 @@ internal class EngineerImplementation : BlApi.IEngineer
 
         
     }
+    /// <summary>
+    /// A function that groups engineers according to their level of experience
+    /// </summary>
+    /// <returns></returns>
     public Dictionary<BO.EngineerLevel, List<BO.Engineer>> GroupByEngineerLevel()
     {
         var engineersGrouped = _dal.Engineer.ReadAll()
@@ -303,7 +353,7 @@ internal class EngineerImplementation : BlApi.IEngineer
                         Name = doEngineer.Name,
                         Email = doEngineer.Email,
                         Cost = doEngineer.CostPerHour,
-                        Level = (BO.EngineerLevel)doEngineer.EngineerLevel,
+                        Level = (BO.EngineerLevel)doEngineer.EngineerLevel!,
                         Task = taskForEngineer
                     };
                 }).ToList()
@@ -311,7 +361,11 @@ internal class EngineerImplementation : BlApi.IEngineer
 
         return engineersGrouped;
     }
-
+    /// <summary>
+    /// A helper function that checks which task is assigned to the engineer
+    /// </summary>
+    /// <param name="doEngineer"></param>
+    /// <returns></returns>
     private BO.TaskInEngineer? GetTaskForEngineer(DO.Engineer doEngineer)
     {
         var taskForEngineer = _dal.Task.ReadAll()
@@ -332,10 +386,9 @@ internal class EngineerImplementation : BlApi.IEngineer
     }
 
 
-
-
-
-
+    /// <summary>
+    /// A function that deletes all engineers
+    /// </summary>
     public void clear()
     {
         _dal.Engineer.clear();

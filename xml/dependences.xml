@@ -1,28 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfDependence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Dependence>
-    <IdNum>2549</IdNum>
-    <IdPendingTask>2280</IdPendingTask>
-    <IdPreviousTask>2279</IdPreviousTask>
-  </Dependence>
-  <Dependence>
-    <IdNum>2550</IdNum>
-    <IdPendingTask>2281</IdPendingTask>
-    <IdPreviousTask>2279</IdPreviousTask>
-  </Dependence>
-  <Dependence>
-    <IdNum>2551</IdNum>
-    <IdPendingTask>2281</IdPendingTask>
-    <IdPreviousTask>2280</IdPreviousTask>
-  </Dependence>
-  <Dependence>
-    <IdNum>2552</IdNum>
-    <IdPendingTask>2283</IdPendingTask>
-    <IdPreviousTask>2279</IdPreviousTask>
-  </Dependence>
-  <Dependence>
-    <IdNum>2553</IdNum>
-    <IdPendingTask>2283</IdPendingTask>
-    <IdPreviousTask>2280</IdPreviousTask>
-  </Dependence>
-</ArrayOfDependence>
+<ArrayOfDependence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />

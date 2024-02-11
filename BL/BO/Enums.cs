@@ -18,8 +18,3 @@ public enum Status
 }
 
 
-public enum ProjectStatus
-{
-    planingStage,
-    executionStage
-}
