@@ -149,7 +149,7 @@ internal class TaskImplementation : BlApi.ITask
         
          
         if (boTask.Dependencies != null)
-        {    //לסדר למחוק את רשימת התלויות הקיימת ולעדכן מחדש 
+        {    //לסדר למחוק את רשימת התלויות הקיימת ולעדכן מחדש   
             // _dal.Dependence.ReadAll().Where(d=>d.IdPendingTask== boTask.Id).Select(d => _dal.Dependence.Delete(d.IdNum)));
             boTask.Dependencies.Select(d => _dal.Dependence.Create(new DO.Dependence { IdPendingTask = boTask.Id, IdPreviousTask = d.Id }));
         }
