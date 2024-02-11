@@ -6,7 +6,9 @@ public interface IBl
     public IEngineer Engineer { get; }
     public ITask Task { get; }
 
-  //  public DateTime? StartProjectDate { get;}
-   // public DateTime? EndProjectDate { get;}
+    public ProjectStatus projectlevel();
+
+    public void SetStartProjectDate(DateTime date);
+    public DateTime? getStartProjectDate();
 
 }

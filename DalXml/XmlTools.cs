@@ -1,13 +1,13 @@
 ﻿namespace Dal;
 
 using DO;
-using System.Xml;
+
 using System.Xml.Linq;
 using System.Xml.Serialization;
 /// <summary>
 /// help class
 /// </summary>
-static class XMLTools
+public static class XMLTools
 {
     const string s_xml_dir = @"..\xml\";
     static XMLTools()
@@ -98,5 +98,22 @@ static class XMLTools
             throw new DalXMLFileLoadCreateException($"fail to load xml file: {filePath}, {ex.Message}");
         }
     }
+
+
+    //******
+    //public static void saveDateInFail(string s_data_config_xml, string elemName, DateTime elemValue)
+    //{
+    //    XElement root = LoadListFromXMLElement(s_data_config_xml);
+    //    DateTime? date = root.ToDateTimeNullable(elemName);
+    //    if (date != null) throw new DO.DalAlreadyExistsException($"the DATE is already set to {date}");
+    //    root.Element(elemName)?.SetValue(elemValue);
+    //    SaveListToXMLElement(root, s_data_config_xml);
+
+    //}
+    //public static DateTime? getStartOrEndDateFromFile(string elemName)
+    //{
+    //    XElement root = LoadListFromXMLElement("data_config");
+    //    return (root.ToDateTimeNullable(elemName));
+    //}
     #endregion
 }

@@ -22,6 +22,8 @@ public class BlDoesNotExistException : Exception
 public class BlAlreadyExistsException : Exception
 {
     public BlAlreadyExistsException(string? message) : base(message) { }
+    public BlAlreadyExistsException(string message, Exception innerException)
+               : base(message, innerException) { }
 }
 
 /// <summary>

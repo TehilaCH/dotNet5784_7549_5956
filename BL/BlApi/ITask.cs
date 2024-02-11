@@ -1,22 +1,17 @@
 ﻿
 using BO;
+using DalApi;
 
 namespace BlApi;
 
 public interface ITask
 {
-    public IEnumerable<BO.Task> ReadAll();// אפשר על ידי סינון 
-    //IEnumerable<T> ReadAll(Func<T, bool>? filter = null);
+    public IEnumerable<BO.Task> ReadAll(Func<DO.Task, bool>? filter = null);
     public void Update(BO.Task boTask);
     public int Creat(BO.Task boTask);
     public void Delete(int id);
-    public BO.Task Read(int id);
+    public BO.Task Read(int id, Func<DO.Task, bool>? filter = null);
     public void UpdateStartDate(int id, DateTime date);
-
-    //**********
-    public Status stat(DO.Task boTask);//לבדוק אם לכתוב כאן
-    public DateTime? CalculationOfDeadline(DO.Task doTask);
-    public EngineerInTask? EngineerToTask(DO.Task doTask);
-    public List<TaskInList>? ReDependent(DO.Task doTask);
-    public ProjectStatus projectlevel(DO.Task doTask);//לבדוק איפה לשים את המתודות ואלו הרשאות 
+    public void clear();
+  
 }

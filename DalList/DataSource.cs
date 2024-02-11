@@ -22,7 +22,7 @@ static internal class DataSource
     /// <summary>
     /// Lists containing the entities
     /// </summary>
-    
+
     internal static List<DO.Engineer> Engineers { get; } = new();
     internal static List<DO.Task> Tasks { get; } = new();
     internal static List<DO.Dependence> Dependences { get; } = new();
