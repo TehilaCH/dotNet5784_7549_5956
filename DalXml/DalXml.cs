@@ -13,24 +13,19 @@ sealed internal class DalXml : IDal
 
     public ITask Task => new TaskImplementation();
 
-
-
-    public DateTime? StartProjectDate { get =>Instance.StartProjectDate; set => Instance.StartProjectDate=value; }
-    public DateTime? EndProjectDate { get => Instance.EndProjectDate; set => Instance.EndProjectDate= value; }
-
-    public void saveDateInFail (string s_data_config_xml, string elemName, DateTime elemValue)
+    private string _dataConfigXml = "data_config.xml";
+    public void saveDateInFail(string _dataConfigXml, string elemName, DateTime elemValue)
     {
-        XElement root = XMLTools.LoadListFromXMLElement(s_data_config_xml);
+        XElement root = XMLTools.LoadListFromXMLElement(_dataConfigXml);
         DateTime? date = root.ToDateTimeNullable(elemName);
         if (date != null) throw new DO.DalAlreadyExistsException($"the DATE is already set to {date}");
         root.Element(elemName)?.SetValue(elemValue);
-        XMLTools.SaveListToXMLElement(root, s_data_config_xml);
+        XMLTools.SaveListToXMLElement(root, _dataConfigXml);
 
     }
-    
-    public DateTime? getStartOrEndDateFromFile (string elemName)
+    public DateTime? getStartDateFromFile(string elemName)
     {
-        XElement root =XMLTools.LoadListFromXMLElement("data_config");
-        return(root.ToDateTimeNullable(elemName));
+        XElement root = XMLTools.LoadListFromXMLElement(_dataConfigXml);
+        return (root.ToDateTimeNullable(elemName));
     }
 }

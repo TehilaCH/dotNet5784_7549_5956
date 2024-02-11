@@ -1,19 +1,15 @@
-﻿using BO;
-using DalApi;
-using DalTest;
-using DO;
+﻿namespace BlTest;
+using BO;
 
-namespace BlTest;
+
 
 internal class Program
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
     private static readonly Random s_rand = new();
 
-
     static void Main(string[] args)
     {
-
         Console.Write("Would you like to create Initial data? (Y/N)");
         string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
         if (ans == "Y")
@@ -97,7 +93,35 @@ internal class Program
 
                             }
                             break;
+                        case "6":
 
+                            IEnumerable<BO.Engineer> Engineers= s_bl.Engineer.OrderEngineers();
+                            foreach (var engineerR in Engineers)
+                            {
+                                Console.WriteLine(engineerR.ToString());
+
+                            }
+                            break;
+                        case "7":
+                            var engineersGrouped = s_bl.Engineer.GroupByEngineerLevel();
+                            foreach (var engineerLevel in engineersGrouped)
+                            {
+                                Console.WriteLine($"Engineers at level: {engineerLevel.Key}");
+                                foreach (var engineerItem in engineerLevel.Value) 
+                                {
+                                    Console.WriteLine($"ID: {engineerItem.Id}, Name: {engineerItem.Name}, Email: {engineerItem.Email}, Cost: {engineerItem.Cost}, Level: {engineerItem.Level}");
+                                    if (engineerItem.Task != null)
+                                    {
+                                        Console.WriteLine($"Task ID: {engineerItem.Task.Id}, Nickname: {engineerItem.Task.NickName}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("No task assigned.");
+                                    }
+                                }
+                                Console.WriteLine();
+                            }
+                            break;
                         default:
                             Console.WriteLine("Invalid selection");
                             break;
@@ -198,25 +222,47 @@ internal class Program
                                 Console.WriteLine($"{ex.Message}");
                             }
                             break;
-                        //ProjectStartDateUpdate
-                        case "7":
-                            Console.WriteLine("Enter date for Start project: ");
-                            DateTime dateTime = DateTime.Parse(Console.ReadLine()!);
-                            s_bl.Task.ProjectStartDateUpdate(dateTime);
-                            break;
-                        //ProjectEndDateUpdate
-                        case "8":
-                            Console.WriteLine("Enter date for End project: ");
-                            DateTime dateTime1 = DateTime.Parse(Console.ReadLine()!);
-                            s_bl.Task.ProjectEndDateUpdate(dateTime1);
-                            break;
+                        
                         default:
                             Console.WriteLine("Invalid selection");
                             break;
                     }
                     break;
+                case 3:
+                    s_bl.Engineer.clear();
+                    s_bl.Task.clear();
 
+                    Console.Write("Would you like to create Initial data? (Y/N)");
+                    string? ans2 = Console.ReadLine() ?? throw new FormatException("Wrong input");
+                    if (ans2 == "Y")
+                    {
+                        
+                        DalTest.Initialization.Do();
+                    }
+                    break;
+                case 4:
+                    Console.WriteLine("Enter date: ");
+                    string userInput = Console.ReadLine();
 
+                    DateTime? date1 = ReadNullableDateTime(userInput);
+
+                    try
+                    {
+                        if (date1 == null)
+                        {
+                            Console.WriteLine("Data is not correct");
+                        }
+                        else
+                        {
+                            DateTime date2 = date1.Value; 
+                            BlApi.Factory.Get.SetStartProjectDate(date2);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"An error occurred: {ex.Message}");
+                    }
+                    break;
                 default:
                     Console.WriteLine("Wrong input");
                     break;
@@ -232,6 +278,8 @@ internal class Program
         Console.WriteLine("0:exit");
         Console.WriteLine("1:for Check Engineer");
         Console.WriteLine("2:for Check Task");
+        Console.WriteLine("3:for reset/clear data");
+        Console.WriteLine("4:for update Start Project Date: ");
     }
     static void menuEngineer()//sub menu
     {
@@ -242,6 +290,8 @@ internal class Program
         Console.WriteLine("3:Update");
         Console.WriteLine("4:delete");
         Console.WriteLine("5:readAll");
+        Console.WriteLine("6:Order Engineers");
+        Console.WriteLine("7:GroupBy EngineerLevel");
     }
     static void menuTask()//sub menu
     {
@@ -253,9 +303,7 @@ internal class Program
         Console.WriteLine("4:delete");
         Console.WriteLine("5:readAll");
         Console.WriteLine("6:UpdateStartDate");
-        Console.WriteLine("7:Updat date for start project");
-        Console.WriteLine("8:Updat date for End project");
-
+       
     }
 
     static BO.Engineer Engineerinitialization()
@@ -269,8 +317,18 @@ internal class Program
         string? email = ReadNullableString(Console.ReadLine()!);
         Console.Write("Enter cost per hour :");
         double? cost = ReadNullableDouble(Console.ReadLine()!);
-        Console.WriteLine();
-        BO.EngineerLevel EnginerLave = (BO.EngineerLevel)s_rand.Next(0, 5);
+
+        Console.WriteLine("Enter engineer level (Beginner, Advanced, AdvancedBeginner, Intermediate, Expert):");
+        BO.EngineerLevel? EnginerLave;
+        string input2 = Console.ReadLine();
+
+        if (Enum.TryParse(input2, out BO.EngineerLevel result2))
+        {
+            EnginerLave = (BO.EngineerLevel?)result2;
+
+        }
+        else EnginerLave = null;
+        //BO.EngineerLevel EnginerLave = (BO.EngineerLevel)s_rand.Next(0, 5);
         Console.Write("Enter idTask for engineer :");
         int? IdTask1 = ReadNullableInt(Console.ReadLine()!);
         Console.Write("Enter NickName for engineer :");
@@ -295,14 +353,14 @@ internal class Program
 
     static BO.Task TaskUpdate()
     {
-        Console.Write("Enter Id Task to Update");
+        Console.Write("Enter Id Task to Update: ");
         int id1 = int.Parse(Console.ReadLine()!);
         Console.Write("Nickname:");
         string? name1 = ReadNullableString(Console.ReadLine()!);
         Console.Write("Description:");
         string? description1 = ReadNullableString(Console.ReadLine()!);
-        Console.Write("Creat Task Date:");
-        DateTime? CreatTask1 = ReadNullableDateTime(Console.ReadLine()!);
+        BO.Task T=s_bl.Task.Read(id1);
+        DateTime? CreatTask1 = T.CreatTaskDate;   //DateTime.Now;
         Console.Write("Planned Date Start Work:");
         DateTime? PlannedWork1 = ReadNullableDateTime(Console.ReadLine()!);
         Console.Write("Start Date Task:");
@@ -318,8 +376,40 @@ internal class Program
         Console.Write("Remarks:");
         string? Remarks1 = ReadNullableString(Console.ReadLine()!);
         Console.Write("Engineer Id To Task:");
-        BO.EngineerLevel TaskLave1 = (BO.EngineerLevel)s_rand.Next(0, 5);
-        Status stat1 = (Status)s_rand.Next(0, 4);
+        int? Id = ReadNullableInt(Console.ReadLine()!);
+        Console.Write("Enter name for engineer :");
+        string? name = ReadNullableString(Console.ReadLine()!);
+
+        EngineerInTask? engineer = null;
+        if (Id != null || name != null)
+        {
+            engineer = new EngineerInTask { Id = Id, Name = name };
+        }
+        Console.WriteLine("Enter status (Unscheduled, Scheduled, OnTrack, Done): ");
+        Status? stat1;
+        string input = Console.ReadLine();
+
+        if (Enum.TryParse(input, out Status result))
+        {
+            stat1 = result;
+
+        }
+        else stat1 = null;
+
+
+
+        Console.WriteLine("Enter engineer level (Beginner, Advanced, AdvancedBeginner, Intermediate, Expert):");
+        BO.EngineerLevel? TaskLave1;
+        string input2 = Console.ReadLine();
+
+        if (Enum.TryParse(input2, out BO.EngineerLevel result2))
+        {
+            TaskLave1 = (BO.EngineerLevel?)result2;
+
+        }
+        else TaskLave1 = null;
+        List<TaskInList>? dep1 = Dependencies();
+
         BO.Task task1 = new BO.Task()
         {
             Id = id1,
@@ -335,9 +425,9 @@ internal class Program
             Remarks = Remarks1,
             TaskLave = TaskLave1,
             Status = stat1,
+            Engineer = engineer,
+            Dependencies = dep1
 
-            // Dependencies=
-            //Engineer מטיפוס מהנדס למשימה 
         };
         return task1;
     }
@@ -349,8 +439,7 @@ internal class Program
         string? name = ReadNullableString(Console.ReadLine()!);
         Console.Write("Description:");
         string? description = ReadNullableString(Console.ReadLine()!);
-        Console.Write("Creat Task Date:");
-        DateTime? CreatTask = ReadNullableDateTime(Console.ReadLine()!);
+        DateTime? CreatTask = DateTime.Now;
         Console.Write("Planned Date Start Work:");
         DateTime? PlannedWork = ReadNullableDateTime(Console.ReadLine()!);
         Console.Write("Start Date Task:");
@@ -365,10 +454,44 @@ internal class Program
         string? Product = ReadNullableString(Console.ReadLine()!);
         Console.Write("Remarks:");
         string? Remarks = ReadNullableString(Console.ReadLine()!);
-        //Console.Write("Engineer Id To Task:");
-        //int? engineerId = ReadNullableInt(Console.ReadLine());
-        BO.EngineerLevel TaskLave = (BO.EngineerLevel)s_rand.Next(0, 5);
-        Status stat = (Status)s_rand.Next(0, 4);
+        Console.Write("Engineer Id To Task:");
+        int? IdE = ReadNullableInt(Console.ReadLine()!);
+        Console.Write("Enter name for engineer :");
+        string? Ename = ReadNullableString(Console.ReadLine()!);
+
+        EngineerInTask? engineer = null;
+        if (IdE != null || Ename != null)
+        {
+            engineer = new EngineerInTask { Id = IdE, Name = Ename };
+        }
+
+        Console.WriteLine("Enter status (Unscheduled, Scheduled, OnTrack, Done): ");
+        Status? stat;
+        string input = Console.ReadLine();
+
+        if (Enum.TryParse(input, out Status result))
+        {
+            stat = result;
+
+        }
+        else stat = null;
+
+
+       
+        Console.WriteLine("Enter Task level (Beginner, Advanced, AdvancedBeginner, Intermediate, Expert):");
+        BO.EngineerLevel? TaskLave;
+        string input2 = Console.ReadLine();
+
+        if (Enum.TryParse(input2, out BO.EngineerLevel result2))
+        {
+            TaskLave = (BO.EngineerLevel?)result2;
+
+        }
+        else TaskLave = null;
+
+        List<TaskInList>? dep = Dependencies();
+       // BO.EngineerLevel TaskLave = (BO.EngineerLevel)s_rand.Next(0, 5);
+        //Status stat = (Status)s_rand.Next(0, 4);
 
         BO.Task task = new BO.Task()
         {
@@ -383,9 +506,9 @@ internal class Program
             Product = Product,
             Remarks = Remarks,
             TaskLave = TaskLave,
-            Status = stat
-            // Engineer מטיפוס מהנדס למשימה 
-            // Dependencies=
+            Status = stat,
+            Engineer =engineer,
+            Dependencies= dep
         };
         return task;
     }
@@ -419,4 +542,64 @@ internal class Program
         else
             return input;
     }
+
+
+
+
+    public static List<TaskInList>? Dependencies()
+    {
+        List<TaskInList> tasks = new List<TaskInList>();
+
+        Console.WriteLine("Enter tasks dep:");
+        while (true)
+        {
+            Console.Write("Enter task ID: ");
+            string idInput = Console.ReadLine();
+
+            // If input is empty, break out of the loop
+            if (string.IsNullOrWhiteSpace(idInput))
+            {
+                break;
+            }
+
+            int id;
+            if (!int.TryParse(idInput, out id))
+            {
+                Console.WriteLine("Invalid input ");
+               // continue;
+            }
+
+            Console.Write("Enter task description: ");
+            string description = Console.ReadLine();
+
+            Console.Write("Enter task nickname: ");
+            string nickName = Console.ReadLine();
+
+            Console.WriteLine("Enter status (Unscheduled, Scheduled, OnTrack, Done): ");
+            string statusInput = Console.ReadLine();
+
+            Status status;
+            if (!Enum.TryParse(statusInput, out status))
+            {
+                //Console.WriteLine("Invalid input for status. Please enter a valid status.");
+                //continue;
+            }
+
+            TaskInList task = new TaskInList { Id = id, NickName = nickName, Description = description, Status = status };
+            tasks.Add(task);
+        }
+        // If no tasks were added, return null
+        if (tasks.Count == 0)
+        {
+            return null;
+        }
+
+        return tasks;
+    }
+
+
+
+
+
+
 }

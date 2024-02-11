@@ -7,7 +7,7 @@ public interface IDal
     IEngineer Engineer { get; }
     IDependence Dependence { get; }
     ITask Task { get; }
+    public void saveDateInFail(string _dataConfigXml, string elemName, DateTime elemValue);
 
-    DateTime? StartProjectDate { get; set; }
-    DateTime? EndProjectDate { get; set; }
+    public DateTime? getStartDateFromFile(string elemName);
 }

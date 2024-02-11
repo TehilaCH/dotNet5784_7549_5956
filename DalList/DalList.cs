@@ -2,20 +2,19 @@
 namespace Dal;
 using DalApi;
 using DO;
+using System.Reflection.Metadata.Ecma335;
 
 sealed internal class DalList : IDal
 {
-    public static IDal Instance { get;} = new DalList();
+    public static IDal Instance { get; } = new DalList();
     private DalList() { }
     public IEngineer Engineer => new EngineerImplementation();
 
-    public IDependence Dependence =>  new DependenceImplementation();
+    public IDependence Dependence => new DependenceImplementation();
 
-    public ITask Task =>  new TaskImplementation();
+    public ITask Task => new TaskImplementation();
 
-    /*********/
-    public DateTime? StartProjectDate { get => Instance.StartProjectDate; set => Instance.StartProjectDate = value; }
-    public DateTime? EndProjectDate { get => Instance.EndProjectDate; set => Instance.EndProjectDate = value; }
-    
+    public void saveDateInFail(string _dataConfigXml, string elemName, DateTime elemValue) { return; }
 
+    public DateTime? getStartDateFromFile(string elemName){return null;}
 }
