@@ -13,29 +13,35 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 //using BlApi;
 
-namespace PL.Engineer
+namespace PL.Engineer;
+
+/// <summary>
+/// Interaction logic for EngineerListWindow.xaml
+/// </summary>
+
+public partial class EngineerListWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for EngineerListWindow.xaml
-    /// </summary>
-  
-    public partial class EngineerListWindow : Window
+    private static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
+    public EngineerListWindow()
     {
-        private static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
-        public EngineerListWindow()
-        {
-            InitializeComponent();
-            EngineerList = s_bl?.Engineer.ReadAll()!;
-        }
+        InitializeComponent();
+        EngineerList = s_bl?.Engineer.ReadAll()!;
+    }
 
-        public IEnumerable<BO.Engineer> EngineerList
-        {
-            get { return (IEnumerable<BO.Engineer>)GetValue(EngineerListProperty); }
-            set { SetValue(EngineerListProperty, value); }
-        }
+    public IEnumerable<BO.Engineer> EngineerList
+    {
+        get { return (IEnumerable<BO.Engineer>)GetValue(EngineerListProperty); }
+        set { SetValue(EngineerListProperty, value); }
+    }
 
-        public static readonly DependencyProperty EngineerListProperty =
-        DependencyProperty.Register("EngineerList", typeof(IEnumerable<BO.Engineer>), typeof(EngineerListWindow), new PropertyMetadata(null));
+    public static readonly DependencyProperty EngineerListProperty =
+    DependencyProperty.Register("EngineerList", typeof(IEnumerable<BO.Engineer>), typeof(EngineerListWindow), new PropertyMetadata(null));
 
+    public BO.EngineerLevel level { get; set; } = BO.EngineerLevel.All;
+
+    private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+       // EngineerList = (level == BO.EngineerLevel.All) ?
+        //    s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.Level)!;
     }
 }
