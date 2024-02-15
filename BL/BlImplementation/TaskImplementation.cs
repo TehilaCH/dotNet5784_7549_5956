@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 internal class TaskImplementation : BlApi.ITask
 {
-    private DalApi.IDal _dal = Factory.Get;
+    private DalApi.IDal _dal = DalApi.Factory.Get;
    
     /// <summary>
     ///A function that tries to create a task if it meets the correctness tests otherwise throws an exception 
@@ -16,9 +16,7 @@ internal class TaskImplementation : BlApi.ITask
     /// <exception cref="BlInvalidValueException"></exception>
     public int Creat(BO.Task boTask)//=====
     {
-        // ProjectStatus projectLevel = _dal.projectlevel();
-        // if (projectLevel == ProjectStatus.executionStage)
-
+       
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if(date != null) //execution Stage
             throw new BlInvalidValueException("Project is at execution stage, cannot create new task.");
@@ -75,9 +73,6 @@ internal class TaskImplementation : BlApi.ITask
     /// <exception cref="BlDoesNotExistException"></exception>
     public void Delete(int id)
     {
-
-        // ProjectStatus projectLevel = _dal.projectlevel();
-        // if (projectLevel == ProjectStatus.executionStage)
 
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if (date != null) //execution Stage
@@ -198,10 +193,6 @@ internal class TaskImplementation : BlApi.ITask
         if (doTask == null)
             throw new BlDoesNotExistException($"Student with ID={boTask.Id} does Not exist");
 
-        //ProjectStatus projectLevel = _dal.projectlevel();
-        //planing Stage
-       // if (projectLevel == ProjectStatus.planingStage)
-
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if (date == null) //planing Stage
         {
@@ -240,11 +231,6 @@ internal class TaskImplementation : BlApi.ITask
            
 
         }
-
-
-
-       
-      //  if (projectLevel == ProjectStatus.executionStage)
 
         if (date != null) //execution Stage
         {
@@ -484,24 +470,6 @@ internal class TaskImplementation : BlApi.ITask
     }
 
 
-    //public ProjectStatus projectlevel()
-    //{
-    //    if (_dal.StartProjectDate == null)
-    //    {
-    //        return ProjectStatus.planingStage;
-    //    }
-    //    var tasks = _dal.Task.ReadAll();
-    //    bool isAllPlaning = tasks.All(t => t.PlannedDateStartWork != null);
-
-    //    if (_dal.StartProjectDate != null && isAllPlaning == true)
-    //    {
-    //        return ProjectStatus.executionStage;
-    //    }
-    //    return ProjectStatus.middleStage;
-
-    //}
-
-
-
+   
 }
 

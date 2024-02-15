@@ -1,4 +1,5 @@
-﻿using DalApi;
+﻿//using DalApi;
+namespace DalApi;
 using static DalApi.Config;
 using System.Reflection;
 

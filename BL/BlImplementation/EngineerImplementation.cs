@@ -1,6 +1,5 @@
 ﻿namespace BlImplementation;
 using BO;
-using DalApi;
 using DO;
 using System.Collections.Generic;
 using System.Data;
@@ -8,7 +7,7 @@ using System.Linq;
 
 internal class EngineerImplementation : BlApi.IEngineer
 {
-    private DalApi.IDal _dal = Factory.Get;
+    private DalApi.IDal _dal = DalApi.Factory.Get;
   
     /// <summary>
     /// If the data is correct - you will make an attempt to request an addition to the data layer,
@@ -140,9 +139,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <exception cref="BlDoesNotExistException"></exception>
     public void Update(BO.Engineer boEngineer)
     {
-        //ProjectStatus projectLevel = _dal.projectlevel();
-        //if (projectLevel== ProjectStatus.planingStage)
-
+       
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if (date == null) //planing Stage
         {

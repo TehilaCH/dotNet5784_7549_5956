@@ -9,7 +9,7 @@ namespace BlApi
 
         public DateTime? SetEndProjectDate(DateTime date);
         public DateTime? getEndProjectDate();
-       
 
+        public void resetTime();
     }
 }

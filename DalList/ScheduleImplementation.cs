@@ -8,7 +8,7 @@ using static Dal.DataSource;
 
 internal class ScheduleImplementation : ISchedule
 {
-    private readonly string _dataConfigXml = "data-config";
+   private readonly string _dataConfigXml = "data-config";
     public DateTime? getEndProjectDate()//A function that returns a date to a file
     {
    
@@ -28,7 +28,7 @@ internal class ScheduleImplementation : ISchedule
     public DateTime? SetEndProjectDate(DateTime date)//A function that writes a date to a file
     {
        
-        DateTime? date1 = Config.StartProjectDate;
+        DateTime? date1 = Config.EndProjectDate;
         if (date1 != null)
             return null;
         Config.StartProjectDate= date;
@@ -48,6 +48,7 @@ internal class ScheduleImplementation : ISchedule
     }
     public void resetTime()
     {
-        throw new NotImplementedException();
+        Config.StartProjectDate = null;
+        Config.EndProjectDate = null;
     }
 }

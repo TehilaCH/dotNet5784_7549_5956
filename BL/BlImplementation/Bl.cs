@@ -14,19 +14,7 @@ internal class Bl : IBl
 
     public ISchedule Schedule => new ScheduleImplementation();
 
-
-
-
-    //public ProjectStatus projectlevel()
-    //{
-    //    XElement root = XMLTools.LoadListFromXMLElement("data_config.xml");
-    //    DateTime? date = root.ToDateTimeNullable("StartProjectDate");
-    //    if (date == null)
-    //        return ProjectStatus.planingStage;
-    //    else return ProjectStatus.executionStage;
-
-    //}
-
+    //public void InitializeDB() => DalTest.Initialization.Do();
 
 
 }

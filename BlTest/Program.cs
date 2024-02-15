@@ -259,7 +259,7 @@ internal class Program
                         else
                         {
                             DateTime date2 = date1.Value;
-                            Factory.Get.Schedule.SetStartProjectDate(date2);
+                            BlApi.Factory.Get.Schedule.SetStartProjectDate(date2);
                           
                         }
                     }
@@ -284,7 +284,7 @@ internal class Program
                         else
                         {
                             DateTime date2 = date3.Value;
-                            Factory.Get.Schedule.SetEndProjectDate(date2);
+                            BlApi.Factory.Get.Schedule.SetEndProjectDate(date2);
 
                         }
                     }
