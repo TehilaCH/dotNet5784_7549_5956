@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using BlApi;
+//using BlApi;
 
 namespace PL.Engineer
 {
@@ -21,7 +21,7 @@ namespace PL.Engineer
   
     public partial class EngineerListWindow : Window
     {
-        private static readonly IBl s_bl = Factory.Get;
+        private static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
         public EngineerListWindow()
         {
             InitializeComponent();
