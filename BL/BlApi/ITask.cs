@@ -11,7 +11,7 @@ public interface ITask
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public IEnumerable<BO.Task> ReadAll(Func<DO.Task, bool>? filter = null);
+    public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null);
     /// <summary>
     /// Updates an existing task
     /// </summary>
@@ -34,7 +34,7 @@ public interface ITask
     /// <param name="id"></param>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public BO.Task Read(int id, Func<DO.Task, bool>? filter = null);
+    public BO.Task Read(int id);
     /// <summary>
     /// Updates a scheduled task start date
     /// </summary>

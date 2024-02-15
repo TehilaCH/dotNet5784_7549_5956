@@ -41,7 +41,7 @@ public partial class EngineerListWindow : Window
 
     private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-       // EngineerList = (level == BO.EngineerLevel.All) ?
-        //    s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.Level)!;
+        EngineerList = (level == BO.EngineerLevel.All) ?
+            s_bl?.Engineer.ReadAll()! : s_bl?.Engineer.ReadAll(item => item.Level== level)!;
     }
 }

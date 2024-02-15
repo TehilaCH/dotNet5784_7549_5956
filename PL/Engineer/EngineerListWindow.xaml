@@ -23,12 +23,12 @@
             </Grid.ColumnDefinitions>
             <Label Content="Filter Category:" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             <!-- Combo Box for filtering options -->
-            <ComboBox ItemsSource="{Binding Source={StaticResource EngineersCollectionKey}}"
-                      Grid.Column="1" SelectedValue="{Binding Semester, Mode=TwoWay}"
-                      SelectionChanged="comboBox_SelectionChanged"/>
+            <ComboBox  Grid.Column="1" SelectedValue="{Binding level, Mode=TwoWay}"
+                       ItemsSource="{Binding Source={StaticResource EngineersCollectionKey}}"
+                       SelectionChanged="comboBox_SelectionChanged"/>
 
         </Grid>
-        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path= EngineerList}"> 
+        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding EngineerList}"> 
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

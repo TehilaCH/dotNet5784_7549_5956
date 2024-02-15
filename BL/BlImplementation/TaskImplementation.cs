@@ -106,22 +106,16 @@ internal class TaskImplementation : BlApi.ITask
 
     }
     /// <summary>
-    /// A function that returns an object with an option according to filtering
+    /// A function that returns an Task 
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="filter"></param>
     /// <returns></returns>
     /// <exception cref="BlDoesNotExistException"></exception>
-    public BO.Task Read(int id, Func<DO.Task, bool>? filter = null)
+    public BO.Task Read(int id)
     {
         DO.Task? doTask = _dal.Task.Read(id);
         if (doTask == null)
             throw new BlDoesNotExistException($"Student with ID={id} does Not exist");
-
-        //by filter
-        if (filter != null && !filter(doTask))
-            throw new BlDoesNotExistException($"No task found matching the provided criteria");
-
 
         return new BO.Task()
         {
@@ -149,10 +143,36 @@ internal class TaskImplementation : BlApi.ITask
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public IEnumerable<BO.Task> ReadAll(Func<DO.Task, bool>? filter = null)
+    public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null)
     {
+        if(filter != null)
+        {
+            return (from DO.Task doTask in _dal.Task.ReadAll()
+                    let task = new BO.Task
+                    {
+                        Id = doTask.TaskId,
+                        NickName = doTask.Nickname,
+                        Description = doTask.Description,
+                        CreatTaskDate = doTask.CreatTaskDate,
+                        TimeRequired = doTask.TimeRequired,
+                        PlannedDateStartWork = doTask.PlannedDateStartWork,
+                        StartDateTask = doTask.StartDateTask,
+                        Deadline = CalculationOfDeadline(doTask),
+                        EndDate = doTask.EndDate,
+                        Product = doTask.Product,
+                        Remarks = doTask.Remarks,
+                        TaskLave = (BO.EngineerLevel?)doTask.TaskLave,
+                        Status = stat(doTask),
+                        Engineer = EngineerToTask(doTask),
+                        Dependencies = ReDependent(doTask)
+
+
+                    }
+                    where filter(task)
+                    select task).ToList();
+        }
+
         return (from DO.Task doTask in _dal.Task.ReadAll()
-                where filter == null || filter(doTask)//
                 select new BO.Task
                 {
                     Id = doTask.TaskId,
@@ -170,8 +190,6 @@ internal class TaskImplementation : BlApi.ITask
                     Status = stat(doTask),
                     Engineer = EngineerToTask(doTask),
                     Dependencies = ReDependent(doTask)
-
-
 
                 }).ToList();
     }

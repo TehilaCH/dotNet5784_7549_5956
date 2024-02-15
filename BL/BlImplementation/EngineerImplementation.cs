@@ -72,25 +72,21 @@ internal class EngineerImplementation : BlApi.IEngineer
 
     }
     /// <summary>
-    /// Returns an engineer by id if it exists otherwise throws an exception There is an option to do with filtering
+    /// Returns an engineer by id if it exists otherwise throws an exception 
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="filter"></param>
     /// <returns></returns>
     /// <exception cref="BlDoesNotExistException"></exception>
-    public BO.Engineer Read(int id, Func<DO.Engineer, bool>? filter = null)
+    public BO.Engineer Read(int id)
     {
 
         DO.Engineer? doEngineer = _dal.Engineer.Read(id);
         if (doEngineer == null)
             throw new BlDoesNotExistException($"Engineer with ID={id} does Not exist");
 
-        if (filter != null && !filter(doEngineer))
-            throw new BlDoesNotExistException($"No task found matching the provided criteria");
-
-
-        DO.Task? taskForEngineer = _dal.Task.ReadAll()
-            .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
+        //DO.Task? taskForEngineer = _dal.Task.ReadAll()
+        //    .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
+        
         return new BO.Engineer
         {
             Id = doEngineer.IdNum,
@@ -98,12 +94,7 @@ internal class EngineerImplementation : BlApi.IEngineer
             Email = doEngineer.Email,
             Cost = doEngineer.CostPerHour,
             Level = (BO.EngineerLevel?)doEngineer.EngineerLevel,
-            Task = taskForEngineer != null ? new BO.TaskInEngineer
-            {
-                Id = taskForEngineer.TaskId,
-                NickName = taskForEngineer.Nickname
-            } : null
-
+            Task = GetEngineerTask(doEngineer.IdNum)
         };
     }
     /// <summary>
@@ -111,25 +102,50 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public IEnumerable<BO.Engineer> ReadAll(Func<DO.Engineer, bool>? filter = null)
+    public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
+        if(filter != null)
+        {
+            return (from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
+                    let engineer= new BO.Engineer
+                    {
+                        Id = doEngineer.IdNum,
+                        Name = doEngineer.Name,
+                        Email = doEngineer.Email,
+                        Cost = doEngineer.CostPerHour,
+                        Level = (BO.EngineerLevel?)doEngineer.EngineerLevel,
+                        Task = GetEngineerTask(doEngineer.IdNum)
+
+                    }
+                    where filter(engineer)
+                    select engineer).ToList();
+        }
         return(from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
-               let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum)
-               where filter == null || filter(doEngineer)//
-               select new BO.Engineer
+               let engineer = new BO.Engineer
                {
                    Id = doEngineer.IdNum,
                    Name = doEngineer.Name,
                    Email = doEngineer.Email,
                    Cost = doEngineer.CostPerHour,
                    Level = (BO.EngineerLevel?)doEngineer.EngineerLevel,
-                   Task = taskForEngineer != null ? new BO.TaskInEngineer
-                   {
-                       Id = taskForEngineer.TaskId,
-                       NickName = taskForEngineer.Nickname
-                   } : null
+                   Task = GetEngineerTask(doEngineer.IdNum)
 
-               }).ToList();
+               }
+               select engineer).ToList();
+    }
+    /// <summary>
+    /// Halp function calculate Task In Engineer
+    /// </summary>
+    /// <param name="engineerId"></param>
+    /// <returns></returns>
+    private BO.TaskInEngineer? GetEngineerTask(int engineerId)
+    {
+        var taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == engineerId);
+        return taskForEngineer != null ? new BO.TaskInEngineer
+        {
+            Id = taskForEngineer.TaskId,
+            NickName = taskForEngineer.Nickname
+        } : null;
     }
     /// <summary>
     /// Updates an engineer according to the conditions of the project phase he is in

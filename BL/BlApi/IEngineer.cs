@@ -30,14 +30,14 @@ public interface IEngineer
     /// <param name="id"></param>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public BO.Engineer Read(int id, Func<DO.Engineer, bool>? filter = null);
+    public BO.Engineer Read(int id);
 
     /// <summary>
     /// Returns a filterable list
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public IEnumerable<BO.Engineer> ReadAll(Func<DO.Engineer, bool>? filter = null);
+    public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer, bool>? filter = null);
     /// <summary>
     /// A function that assigns engineers by name
     /// </summary>
