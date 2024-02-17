@@ -16,7 +16,8 @@ public interface IBl
 
     public static void ResetDB()
     {
-        DalTest.Initialization.Reset();
+       DalTest.Initialization.Reset();
+        BlApi.Factory.Get.Schedule.resetTime();
         //איפס תארכים בקונפיגורציה 
     }
 }

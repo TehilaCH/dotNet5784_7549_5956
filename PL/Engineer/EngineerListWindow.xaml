@@ -28,14 +28,16 @@
                        SelectionChanged="comboBox_SelectionChanged"/>
 
         </Grid>
-        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding EngineerList}"> 
+        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path= EngineerList}"
+                  MouseDoubleClick="ListViewItem_MouseDoubleClick"> 
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
+        
+        <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100" Click="btnAdd_Click"/>
 
     </Grid>
    

@@ -136,10 +136,11 @@ public static class Initialization
 
     public static void Reset()
     {
+        Do();
         s_dal.Engineer.clear();
         s_dal.Dependence.clear();
         s_dal.Task.clear();
-        
+
     }
 }
 

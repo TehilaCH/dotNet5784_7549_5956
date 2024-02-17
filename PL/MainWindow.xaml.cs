@@ -32,8 +32,6 @@ namespace PL
             if (result == MessageBoxResult.Yes)
             {
                 // Call the initialization method
-
-                // new BL.InitializeDB();
                 BlApi.IBl.InitializeDB();
               
                 
@@ -43,13 +41,11 @@ namespace PL
         private void btnResetDB_Click(object sender, RoutedEventArgs e)
         {
             // Call the reset method
-            BlApi.IBl.ResetDB();
+           
             MessageBoxResult result = MessageBox.Show("Are you sure you want to reset the database?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-
-                BlApi.IBl.InitializeDB();
-                // new BL().ResetDB();
+                BlApi.IBl.ResetDB();
             }
 
         }

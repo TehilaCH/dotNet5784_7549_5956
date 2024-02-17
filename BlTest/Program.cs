@@ -293,6 +293,11 @@ internal class Program
                         Console.WriteLine($"An error occurred: {ex.Message}");
                     }
                     break;
+                case 6:
+
+                    BlApi.Factory.Get.Schedule.resetTime();
+
+                    break;
                 default:
                     Console.WriteLine("Wrong input");
                     break;
@@ -311,6 +316,7 @@ internal class Program
         Console.WriteLine("3:for reset/clear data");
         Console.WriteLine("4:for update Start Project Date: ");
         Console.WriteLine("5:for update End Project Date: ");
+        Console.WriteLine("6:Resetting the start and end dates of the project:");
     }
     static void menuEngineer()//Engineer menu
     {
