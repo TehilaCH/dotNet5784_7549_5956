@@ -16,16 +16,25 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
-        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Filter Category:" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+      
+            <Label Content="Filter Category:" Grid.Column="0" VerticalAlignment="Center"/>
+            
             <!-- Combo Box for filtering options -->
             <ComboBox  Grid.Column="1" SelectedValue="{Binding level, Mode=TwoWay}"
                        ItemsSource="{Binding Source={StaticResource EngineersCollectionKey}}"
-                       SelectionChanged="comboBox_SelectionChanged"/>
+                       SelectionChanged="comboBox_SelectionChanged">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="#FF1272CA" Offset="1"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+            </ComboBox>
 
         </Grid>
         <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path= EngineerList}"

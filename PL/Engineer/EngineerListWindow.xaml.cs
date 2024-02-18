@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -23,13 +24,13 @@ namespace PL.Engineer;
 public partial class EngineerListWindow : Window
 {
     private static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
-    public EngineerListWindow()
+    public EngineerListWindow()//A window displays a list of engineers
     {
         InitializeComponent();
         EngineerList = new ObservableCollection<BO.Engineer>( s_bl?.Engineer.ReadAll()!);
     }
 
-    public ObservableCollection<BO.Engineer> EngineerList
+    public ObservableCollection<BO.Engineer> EngineerList//An object that will contain the list
     {
         get { return (ObservableCollection<BO.Engineer>)GetValue(EngineerListProperty); }
         set { SetValue(EngineerListProperty, value); }
@@ -40,19 +41,19 @@ public partial class EngineerListWindow : Window
 
     public BO.EngineerLevel level { get; set; } = BO.EngineerLevel.All;
 
-    private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)//An event to filter engineers by engineer level
     {
         EngineerList =
             new ObservableCollection<BO.Engineer>((level == BO.EngineerLevel.All) ?  s_bl?.Engineer.ReadAll()! : 
             s_bl?.Engineer.ReadAll(item => item.Level== level)!);
     }
 
-    private void btnAdd_Click(object sender, RoutedEventArgs e)
+    private void btnAdd_Click(object sender, RoutedEventArgs e)//Add click event
     {
         EngineerWindow engineerWindow = new EngineerWindow(addOrUpdateNewItem);
         engineerWindow.ShowDialog();
     }
-    private void addOrUpdateNewItem(int id, bool isUpdate)
+    private void addOrUpdateNewItem(int id, bool isUpdate)//Refreshment
     {
         var engineer = s_bl.Engineer.Read(id);
 
@@ -64,16 +65,16 @@ public partial class EngineerListWindow : Window
     }
 
 
-    private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)//Double click event to update
     {
-        // קח את הפריט הנבחר ברשימה
+        //Get the selected item in the list
         BO.Engineer? SelectedEngineer = (sender as ListView)?.SelectedItem as BO.Engineer;
 
         if (SelectedEngineer != null)
         {
-            // יצירת חלון תצוגת פריט בודד במצב עדכון
-            EngineerWindow engineerWindow = new EngineerWindow(addOrUpdateNewItem, SelectedEngineer.Id); // פרמטר האידישן במצב עדכון
-            engineerWindow.ShowDialog(); // פתיחת החלון במצב דיאלוגי
+            // Create a single item view window in update mode
+            EngineerWindow engineerWindow = new EngineerWindow(addOrUpdateNewItem, SelectedEngineer.Id); // Update mode parameter
+            engineerWindow.ShowDialog(); // Opening the window in dialog mode
         }
     }
 }

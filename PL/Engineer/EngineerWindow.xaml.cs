@@ -37,19 +37,19 @@ public partial class EngineerWindow : Window
         set { SetValue(EngineerProperty, value); }
     }
 
-    public EngineerWindow(Action<int, bool> addOrUpdateNewItem, int Id = 0)
+    public EngineerWindow(Action<int, bool> addOrUpdateNewItem, int Id = 0)//A constructor with a parameter
     {
         InitializeComponent();
         _addOrUpdateNewItem = addOrUpdateNewItem;
         if (Id == 0)
         {
-            Engineer = new BO.Engineer(); 
+            Engineer = new BO.Engineer(); //Creation to add
         }
         else
         {
             try
             {
-                Engineer = s_bl.Engineer.Read(Id);
+                Engineer = s_bl.Engineer.Read(Id);//Call for update
             }
             catch (BlDoesNotExistException ex)
             {
@@ -67,28 +67,28 @@ public partial class EngineerWindow : Window
 
    
 
-    private void btnAddUpdate_Click(object sender, RoutedEventArgs e)
+    private void btnAddUpdate_Click(object sender, RoutedEventArgs e)//Add/Update click event
     {
         try
         {
             var button = sender as Button;
             if (button?.Content is "Add")
             {
-                // הוספת ישות חדשה
+                // Adding a new entity
                 s_bl.Engineer.Creat(Engineer);
                 _addOrUpdateNewItem(Engineer.Id, false);
                 MessageBox.Show("Engineer added successfully!");
             }
             else
             {
-                // עדכון ישות קיימת
+                // Update an existing entity
                 s_bl.Engineer.Update(Engineer);
                 _addOrUpdateNewItem(Engineer.Id, true);
 
                 MessageBox.Show("Engineer updated successfully!");
             }
 
-            // סגירת החלון
+            // Close the window
             this.Close();
         }
         catch (Exception ex)

@@ -15,7 +15,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Project Management.png" />
+    <None Remove="תמונה 4.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Project Management.png" />
+    <Resource Include="תמונה 4.jpg" />
   </ItemGroup>
 
 </Project>

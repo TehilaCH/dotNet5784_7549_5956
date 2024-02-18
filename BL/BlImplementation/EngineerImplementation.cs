@@ -295,7 +295,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         if(Task1 == null )
             return false;
         
-        if (Task1.EngineerIdToTask == 0 && (boEngineer.Task.Id == Task1.TaskId))
+     //   if (Task1.EngineerIdToTask != 0 && (boEngineer.Task.Id == Task1.TaskId))
                 if(Task1.TaskLave != null&& boEngineer.Level!=null)
                 {
                     if (Task1.TaskLave == (DO.EngineerLevel)boEngineer.Level)

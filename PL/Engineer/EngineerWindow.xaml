@@ -5,11 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Engineer"
         mc:Ignorable="d"
-        Title="EngineerWindow" Height="450" Width="800"
+        Title="EngineerWindow" Height="450" Width="400"
         DataContext="{Binding Engineer, RelativeSource={RelativeSource Self}}">
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -20,13 +23,14 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" MinWidth="92"/>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Labels and controls for each property of the entity -->
         <Label Grid.Column="0" Content="Id:" VerticalAlignment="Center" Height="26" Margin="0,0,3,0"/>
         <TextBox Grid.Row="0" Grid.Column="1" 
-        Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
+        Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  
+                 HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120" IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource EditModeConverterKey}}"/>
 
 
         <Label Grid.Row="1" Grid.Column="0" Content="Name:" VerticalAlignment="Top" Height="26" Margin="0,5,3,0" Grid.RowSpan="2"/>
@@ -48,10 +52,20 @@
         <TextBox Grid.Row="4" Grid.Column="1"  Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
 
 
-        <Button Grid.Column="1" Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}"
-        HorizontalAlignment="Left" Height="60" Margin="266,214,0,0" 
-        Grid.Row="5" VerticalAlignment="Top" Width="88" 
-        Click="btnAddUpdate_Click"/>
-       
+
+        <!--<Label Grid.Row="5" Grid.Column="0" Content="Task:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0" FontWeight="Bold"/>
+        <Label Grid.Row="6" Grid.Column="0" Content="Id Task:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0"/>
+        <TextBox Grid.Row="6" Grid.Column="1"  Text="{Binding Task.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
+
+        <Label Grid.Row="7" Grid.Column="0" Content="NickName:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0"/>
+        <TextBox Grid.Row="7" Grid.Column="1"  Text="{Binding Task.NickName, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>-->
+
+
+        <!--Add/Update button-->
+        <Button Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConvertIdToContentKey}}"
+        HorizontalAlignment="Left" Height="36" Margin="0,33,0,0" 
+        Grid.Row="8" VerticalAlignment="Top" Width="72" 
+        Click="btnAddUpdate_Click" RenderTransformOrigin="0.542,2.324"/>
+
     </Grid>
 </Window>

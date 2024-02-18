@@ -7,5 +7,7 @@
     <Application.Resources>
         <local:EngineersCollection x:Key="EngineersCollectionKey" />
         <converters:ConvertIdToContent x:Key="ConvertIdToContentKey"/>
+        <converters:EditModeToBoolConverter x:Key="EditModeConverterKey"/>
+
     </Application.Resources>
 </Application>
