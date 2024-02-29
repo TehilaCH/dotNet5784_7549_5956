@@ -1,0 +1,23 @@
+﻿<Window x:Class="PL.DependentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="DependentWindow" Height="450" Width="800">
+    <Grid>
+        <ListView ItemsSource="{Binding Dependencies}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}"/>
+                    <GridViewColumn Header="NickName" DisplayMemberBinding="{Binding NickName}"/>
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Content="Add Dependency" HorizontalAlignment="Left" Margin="30,334,0,51" Click="btnAddDependency_Click"/>
+    </Grid>
+
+</Window>

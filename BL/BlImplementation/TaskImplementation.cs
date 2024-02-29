@@ -5,8 +5,11 @@ using System.Security.Cryptography;
 
 internal class TaskImplementation : BlApi.ITask
 {
-    private DalApi.IDal _dal = DalApi.Factory.Get;
-   
+    private DalApi.IDal _dal = DalApi.Factory.Get;//**
+
+    private readonly Bl _bl;//**
+    internal TaskImplementation(Bl bl) => _bl = bl;
+
     /// <summary>
     ///A function that tries to create a task if it meets the correctness tests otherwise throws an exception 
     ///You can create a task only in the project planning phase
@@ -98,7 +101,7 @@ internal class TaskImplementation : BlApi.ITask
         {   
             _dal.Task.Delete(id);
         }
-        catch (DalDoesNotExistException ex)//לסדר שהתפוס את החריגה אם יש 
+        catch (DalDoesNotExistException ex)
         {
             throw new BlDoesNotExistException("Task DoesNot exists", ex);
 
@@ -115,7 +118,7 @@ internal class TaskImplementation : BlApi.ITask
     {
         DO.Task? doTask = _dal.Task.Read(id);
         if (doTask == null)
-            throw new BlDoesNotExistException($"Student with ID={id} does Not exist");
+            throw new BlDoesNotExistException($"Task with ID={id} does Not exist");
 
         return new BO.Task()
         {
@@ -207,9 +210,9 @@ internal class TaskImplementation : BlApi.ITask
             throw new BlInvalidValueException("The Task data is invalid");
         }
 
-        DO.Task? doTask = _dal.Task.Read(boTask.Id);
+        DO.Task? doTask = _dal.Task.Read(boTask.Id);//Checks an existing task
         if (doTask == null)
-            throw new BlDoesNotExistException($"Student with ID={boTask.Id} does Not exist");
+            throw new BlDoesNotExistException($"Task with ID={boTask.Id} does Not exist");
 
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if (date == null) //planing Stage
@@ -252,22 +255,19 @@ internal class TaskImplementation : BlApi.ITask
 
         if (date != null) //execution Stage
         {
-            //checks when we have updated the list of dependencies i.e. we have added or deleted dependencies
+            //checks if we have updated the list of dependencies or we have added or deleted dependencies
             List<TaskInList>? d = ReDependent(doTask);
-          
 
             var Matched = (from dep1 in d
-                              from dep2 in boTask.Dependencies!
-                              where dep1.Id != dep2.Id
-                              select dep1).ToList();
+                           where !boTask.Dependencies!.Any(dep2 => dep1.Id == dep2.Id)
+                           select dep1).ToList();
 
-            if (Matched.Count!=0)
+            if (Matched.Count!=0)//There is something missing or found from the original dependent list
             {
                
                 throw new BlInvalidValueException("The Task data is invalid ban updat Dependencies in execution Stage ");
             }
-           
-
+            //Tests of the execution Stage​
             if (doTask.StartDateTask != boTask.StartDateTask || doTask.TimeRequired != boTask.TimeRequired
                 || doTask.PlannedDateStartWork != boTask.PlannedDateStartWork || doTask.CreatTaskDate != boTask.CreatTaskDate
                || doTask.EndDate != boTask.EndDate )
@@ -276,34 +276,45 @@ internal class TaskImplementation : BlApi.ITask
             }
             if (boTask.Engineer != null)//Checking the correctness of assigning an engineer to the task
             {
-                DO.Engineer? engineer = _dal.Engineer.Read((int)boTask.Engineer.Id!)!;
+                DO.Engineer? engineer = _dal.Engineer.Read((int)boTask.Engineer.Id!)!;//Checks if the assigned engineer exists​
                 if (engineer == null)
                     throw new BlInvalidValueException("The Task data is invalid");
-
+               // An engineer is assigned to another task
                 List<DO.Task?> task = (from t in _dal.Task.ReadAll()
                                        where t.EngineerIdToTask == boTask.Engineer.Id
                                        select t).ToList();
 
-                if (task.Count != 0)//!= null
+                if (task.Count != 0)//If the engineer is doing another task
                 {
+                    //Checking if all the tasks he did are finished
                     var Tasks = (from t in task
                                  where t.EndDate == null
                                  select t).ToList();
                     if (Tasks.Count!=0)
                         throw new BlInvalidValueException("The Task data is invalid");
                 }
-
+                //Check if Engineer and task same level
                 if (boTask.TaskLave != (BO.EngineerLevel)engineer.EngineerLevel!)
                     throw new BlInvalidValueException("The Task data is invalid");
 
 
-                var Task = (from t in _dal.Task.ReadAll()
-                            from dependency in boTask.Dependencies!
-                            where t.TaskId == dependency.Id && t.EndDate == null
-                            select t).ToList();
+                //var Task = (from t in _dal.Task.ReadAll()
+                //            from dependency in boTask.Dependencies!
+                //            where t.TaskId == dependency.Id && t.EndDate == null
+                //            select t).ToList();
+                /***/
+                if(boTask.Dependencies.Count!=0)//exists for task dependencies
+                {
+                    //All tasks that the current task depends on have been completed
+                    var Task = (from t in _dal.Task.ReadAll()
+                                where !boTask.Dependencies!.Any(t1 => t.TaskId == t1.Id && t.EndDate == null)
+                                select t).ToList();
 
-                if (Task.Count != 0)//!= null
-                    throw new BlInvalidValueException("The Task data is invalid");
+                    if (Task.Count != 0)//There is a previous task that has not completed
+                        throw new BlInvalidValueException("The Task data is invalid");
+
+                }
+
 
             }
 
@@ -344,7 +355,10 @@ internal class TaskImplementation : BlApi.ITask
     /// <exception cref="BlInvalidValueException"></exception>
     public void UpdateStartDate(int id, DateTime date)
     {
-        
+        DO.Task? task = _dal.Task.Read(id);
+        if (task == null)
+            throw new BlDoesNotExistException($"Student with ID={id} does Not exist");
+
         var dependent = _dal.Dependence.ReadAll();
         var result = (from d in dependent
                       where d.IdPendingTask == id 
@@ -372,15 +386,15 @@ internal class TaskImplementation : BlApi.ITask
         }
 
 
-        DO.Task? task =_dal.Task.Read(id);
+        
         DO.Task doTask = new DO.Task
         {
             TaskId = task.TaskId,
             Nickname = task.Nickname,
             Description = task.Description,
             CreatTaskDate = task.CreatTaskDate,
-            PlannedDateStartWork = date,
-            StartDateTask = task.StartDateTask,
+            PlannedDateStartWork = task.PlannedDateStartWork,
+            StartDateTask = date,
             TimeRequired = task.TimeRequired,
             Deadline = task.Deadline,
             EndDate = task.EndDate,
@@ -389,7 +403,7 @@ internal class TaskImplementation : BlApi.ITask
             TaskLave = (DO.EngineerLevel?)task.TaskLave
 
         };
-        _dal.Task.Update(task);
+        _dal.Task.Update(doTask);
     }
 
     /// <summary>
@@ -487,7 +501,19 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Dependence.clear();
     }
 
-
+    public IEnumerable<TaskInList> readAll()
+    {
    
+        return (from DO.Task doTask in _dal.Task.ReadAll()
+                select new BO.TaskInList
+                {
+                    Id = doTask.TaskId,
+                    NickName = doTask.Nickname,
+                    Description = doTask.Description,
+                    Status = stat(doTask)
+                   
+                }).ToList();
+       
+    }
 }
 

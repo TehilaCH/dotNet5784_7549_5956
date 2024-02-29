@@ -30,7 +30,8 @@
         <Label Grid.Column="0" Content="Id:" VerticalAlignment="Center" Height="26" Margin="0,0,3,0"/>
         <TextBox Grid.Row="0" Grid.Column="1" 
         Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  
-                 HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120" IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource EditModeConverterKey}}"/>
+                 HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"
+                 IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource EditModeConverterKey}}"/>
 
 
         <Label Grid.Row="1" Grid.Column="0" Content="Name:" VerticalAlignment="Top" Height="26" Margin="0,5,3,0" Grid.RowSpan="2"/>
@@ -53,12 +54,20 @@
 
 
 
-        <!--<Label Grid.Row="5" Grid.Column="0" Content="Task:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0" FontWeight="Bold"/>
+        <Label Grid.Row="5" Grid.Column="0" Content="Task:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0" FontWeight="Bold"/>
         <Label Grid.Row="6" Grid.Column="0" Content="Id Task:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0"/>
-        <TextBox Grid.Row="6" Grid.Column="1"  Text="{Binding Task.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>
+        <TextBox Grid.Row="6" Grid.Column="1"  Text="{Binding Task.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+                 HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"
+                 IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"/>
+
+
 
         <Label Grid.Row="7" Grid.Column="0" Content="NickName:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0"/>
-        <TextBox Grid.Row="7" Grid.Column="1"  Text="{Binding Task.NickName, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"/>-->
+        <TextBox Grid.Row="7" Grid.Column="1"  Text="{Binding Task.NickName, Mode=TwoWay, NotifyOnValidationError=true,
+            ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="NaN" Margin="3"  VerticalAlignment="Center" Width="120"
+               IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"/>
+
+
 
 
         <!--Add/Update button-->

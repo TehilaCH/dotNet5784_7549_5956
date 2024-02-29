@@ -1,15 +1,19 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace PL.Converters;
 
-internal class EditModeToBoolConverter : IValueConverter
+class BoolConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         int id = (int)value;
-        return id == 0 ? true : false;
+        return id == 0 ? false : true;
     }
 
 
@@ -17,7 +21,6 @@ internal class EditModeToBoolConverter : IValueConverter
     {
         throw new NotImplementedException();
     }
-
+    
+  
 }
-
-

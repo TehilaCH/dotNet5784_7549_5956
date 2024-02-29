@@ -12,6 +12,15 @@ public interface ITask
     /// <param name="filter"></param>
     /// <returns></returns>
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null);
+
+
+
+    public IEnumerable<BO.TaskInList> readAll();
+
+
+
+
+
     /// <summary>
     /// Updates an existing task
     /// </summary>

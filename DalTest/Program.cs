@@ -18,7 +18,7 @@ internal class Program
     static void Main(string[] args)
     {
         mainMenu();
-        int choice = int.Parse(Console.ReadLine());
+        int choice = int.Parse(Console.ReadLine()!);
         do
         {
             switch (choice)

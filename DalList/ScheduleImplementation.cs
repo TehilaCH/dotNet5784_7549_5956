@@ -11,8 +11,8 @@ internal class ScheduleImplementation : ISchedule
    private readonly string _dataConfigXml = "data-config";
     public DateTime? getEndProjectDate()//A function that returns a date to a file
     {
-   
-        DateTime? date1 = Config.StartProjectDate;
+
+        DateTime? date1 = Config.EndProjectDate;
         return date1;
     }
 

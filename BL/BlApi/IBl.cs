@@ -20,4 +20,12 @@ public interface IBl
         BlApi.Factory.Get.Schedule.resetTime();
         //איפס תארכים בקונפיגורציה 
     }
+
+
+
+    DateTime Clock { get; }
+    void AdvanceDay();
+    void AdvanceHour();
+    void AdvanceYear();
+    void InitializeTime();
 }

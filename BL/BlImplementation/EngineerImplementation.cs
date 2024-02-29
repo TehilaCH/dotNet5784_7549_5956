@@ -25,7 +25,8 @@ internal class EngineerImplementation : BlApi.IEngineer
         {
             throw new BlInvalidValueException("One or more parameters are incorrect");
         }
-        DO.Engineer doEngineer = new DO.Engineer(
+
+            DO.Engineer doEngineer = new DO.Engineer(
             boEngineer.Id,
             boEngineer.Name,
             boEngineer.Email,
@@ -292,10 +293,10 @@ internal class EngineerImplementation : BlApi.IEngineer
         if (boEngineer.Task == null)
             return true;
         DO.Task? Task1 = _dal.Task.Read((int)boEngineer.Task.Id!);
-        if(Task1 == null )
+        if(Task1 == null || Task1.EngineerIdToTask!=0)
             return false;
         
-     //   if (Task1.EngineerIdToTask != 0 && (boEngineer.Task.Id == Task1.TaskId))
+     //   if (Task1.EngineerIdToTask == 0 && (boEngineer.Task.Id == Task1.TaskId))
                 if(Task1.TaskLave != null&& boEngineer.Level!=null)
                 {
                     if (Task1.TaskLave == (DO.EngineerLevel)boEngineer.Level)
@@ -305,7 +306,7 @@ internal class EngineerImplementation : BlApi.IEngineer
                                       select dependency).ToList();
 
                          var tasks = (from t in _dal.Task.ReadAll()
-                                      where dep.Any(d => d.IdPendingTask == t.TaskId) && t.EndDate == null
+                                      where dep.Any(d => d.IdPreviousTask == t.TaskId) && t.EndDate == null
                                       select t).ToList();
                           if (tasks.Count==0)
                           {
@@ -327,7 +328,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     {
          
         return (from e in _dal.Engineer.ReadAll()
-                let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == e.IdNum)
+               // let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == e.IdNum)
                 orderby e.Name
 
                select new BO.Engineer
@@ -337,12 +338,7 @@ internal class EngineerImplementation : BlApi.IEngineer
                    Email = e.Email,
                    Cost = e.CostPerHour,
                    Level = (BO.EngineerLevel?)e.EngineerLevel,
-                   Task = taskForEngineer != null ? new BO.TaskInEngineer
-                   {
-                       Id = taskForEngineer.TaskId,
-                       NickName = taskForEngineer.Nickname
-                   } : null
-
+                   Task = GetEngineerTask(e.IdNum)
                }).ToList();
 
         
@@ -359,7 +355,7 @@ internal class EngineerImplementation : BlApi.IEngineer
                 group => group.Key,
                 group => group.Select(doEngineer =>
                 {
-                    var taskForEngineer = GetTaskForEngineer(doEngineer);
+                    var taskForEngineer = GetEngineerTask(doEngineer.IdNum);
                     return new BO.Engineer
                     {
                         Id = doEngineer.IdNum,
@@ -379,24 +375,24 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// </summary>
     /// <param name="doEngineer"></param>
     /// <returns></returns>
-    private BO.TaskInEngineer? GetTaskForEngineer(DO.Engineer doEngineer)
-    {
-        var taskForEngineer = _dal.Task.ReadAll()
-            .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
+    //private BO.TaskInEngineer? GetTaskForEngineer(DO.Engineer doEngineer)
+    //{
+    //    var taskForEngineer = _dal.Task.ReadAll()
+    //        .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
 
-        if (taskForEngineer != null)
-        {
-            return new BO.TaskInEngineer
-            {
-                Id = taskForEngineer.TaskId,
-                NickName = taskForEngineer.Nickname
-            };
-        }
-        else
-        {
-            return null;
-        }
-    }
+    //    if (taskForEngineer != null)
+    //    {
+    //        return new BO.TaskInEngineer
+    //        {
+    //            Id = taskForEngineer.TaskId,
+    //            NickName = taskForEngineer.Nickname
+    //        };
+    //    }
+    //    else
+    //    {
+    //        return null;
+    //    }
+    //}
 
 
     /// <summary>

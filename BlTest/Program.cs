@@ -170,9 +170,14 @@ internal class Program
                             break;
                         //Update Task exsist
                         case "3":
-                            BO.Task task1 = TaskUpdate();
+                            Console.Write("Enter Id Task to Update: ");
+                            int id1 = int.Parse(Console.ReadLine()!);
                             try
                             {
+                                s_bl.Task.Read(id1);
+                                BO.Task task1 = TaskUpdate(id1);
+                                
+                                
                                 s_bl.Task.Update(task1);
                                 Console.WriteLine(task1.ToString());
                             }
@@ -388,16 +393,14 @@ internal class Program
     /// Function initializes task update data
     /// </summary>
     /// <returns></returns>
-    static BO.Task TaskUpdate()
+    static BO.Task TaskUpdate(int id1)
     {
-        Console.Write("Enter Id Task to Update: ");
-        int id1 = int.Parse(Console.ReadLine()!);
+        BO.Task T = s_bl.Task.Read(id1);
+        DateTime? CreatTask1 = T.CreatTaskDate;   //DateTime.Now;
         Console.Write("Nickname:");
         string? name1 = ReadNullableString(Console.ReadLine()!);
         Console.Write("Description:");
         string? description1 = ReadNullableString(Console.ReadLine()!);
-        BO.Task T=s_bl.Task.Read(id1);
-        DateTime? CreatTask1 = T.CreatTaskDate;   //DateTime.Now;
         Console.Write("Planned Date Start Work:");
         DateTime? PlannedWork1 = ReadNullableDateTime(Console.ReadLine()!);
         Console.Write("Start Date Task:");

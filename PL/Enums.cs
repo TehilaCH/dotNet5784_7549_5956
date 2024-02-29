@@ -11,5 +11,14 @@ internal class EngineersCollection : IEnumerable
 
     public IEnumerator GetEnumerator() => s_enums.GetEnumerator();
 
-    //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+}
+
+
+internal class StatusCollection : IEnumerable
+{ 
+    static readonly IEnumerable<BO.Status> Status_enums =
+       (Enum.GetValues(typeof(BO.Status)) as IEnumerable<BO.Status>)!;
+
+    public IEnumerator GetEnumerator() => Status_enums.GetEnumerator();
+
 }
