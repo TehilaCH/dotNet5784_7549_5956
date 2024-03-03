@@ -14,8 +14,10 @@ public interface ITask
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null);
 
 
+    public IEnumerable<BO.TaskInList> readAll(Func<BO.TaskInList, bool>? filter = null);
 
-    public IEnumerable<BO.TaskInList> readAll();
+
+    //public IEnumerable<BO.TaskInList> readAll();
 
 
 

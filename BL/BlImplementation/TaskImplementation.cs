@@ -2,6 +2,8 @@
 using DO;
 using BO;
 using System.Security.Cryptography;
+using DalApi;
+using System.Threading.Tasks;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -148,7 +150,7 @@ internal class TaskImplementation : BlApi.ITask
     /// <returns></returns>
     public IEnumerable<BO.Task> ReadAll(Func<BO.Task, bool>? filter = null)
     {
-        if(filter != null)
+        if (filter != null)
         {
             return (from DO.Task doTask in _dal.Task.ReadAll()
                     let task = new BO.Task
@@ -297,12 +299,6 @@ internal class TaskImplementation : BlApi.ITask
                 if (boTask.TaskLave != (BO.EngineerLevel)engineer.EngineerLevel!)
                     throw new BlInvalidValueException("The Task data is invalid");
 
-
-                //var Task = (from t in _dal.Task.ReadAll()
-                //            from dependency in boTask.Dependencies!
-                //            where t.TaskId == dependency.Id && t.EndDate == null
-                //            select t).ToList();
-                /***/
                 if(boTask.Dependencies.Count!=0)//exists for task dependencies
                 {
                     //All tasks that the current task depends on have been completed
@@ -479,18 +475,30 @@ internal class TaskImplementation : BlApi.ITask
     {
         var depnd = _dal.Dependence.ReadAll();
 
-        List<TaskInList> taskDependent = depnd
-            .Where(dependency => dependency?.IdPendingTask == doTask.TaskId)
-            .Select(dependency => new TaskInList
-            {
-                Id = (int)dependency!.IdPreviousTask!,
-                NickName = doTask.Nickname,
-                Description = doTask.Description,
-                Status = stat(doTask)
-            })
+        var dependency = depnd
+            .Where(d => d.IdPendingTask == doTask.TaskId)
+            .Select(d => d.IdPreviousTask)
             .ToList();
 
-        return taskDependent;
+        List<BO.TaskInList> taskList = new List<BO.TaskInList>();
+
+        foreach (var dep in dependency)
+        {
+            var task = _dal.Task.Read((int)dep);
+            if (task != null) //If the task is in the data
+            {
+                taskList.Add(new BO.TaskInList
+                {
+                    Id = task.TaskId,
+                    NickName = task.Nickname,
+                    Description = task.Description,
+                    Status = stat(task)
+                });
+            }
+           
+        }
+
+        return taskList;
     }
     /// <summary>
     /// A function that deletes tasks and dependencies
@@ -501,9 +509,23 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Dependence.clear();
     }
 
-    public IEnumerable<TaskInList> readAll()
+    public IEnumerable<TaskInList> readAll(Func<BO.TaskInList, bool>? filter = null)
     {
-   
+        if (filter != null)
+        {
+            return (from DO.Task doTask in _dal.Task.ReadAll()
+                    let task = new BO.TaskInList
+                    {
+                        Id = doTask.TaskId,
+                        NickName = doTask.Nickname,
+                        Description = doTask.Description,
+                        Status = stat(doTask),
+                      
+                    }
+                    where filter(task)
+                    select task).ToList();
+        }
+
         return (from DO.Task doTask in _dal.Task.ReadAll()
                 select new BO.TaskInList
                 {

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DependentWindow" Height="450" Width="800">
+        Title="DependentWindow" Height="500" Width="800"
+        DataContext="{Binding Dep, RelativeSource={RelativeSource Self}}">
     <Grid>
         <ListView ItemsSource="{Binding Dependencies}" >
             <ListView.View>
@@ -17,7 +18,14 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add Dependency" HorizontalAlignment="Left" Margin="30,334,0,51" Click="btnAddDependency_Click"/>
+        <Button Content="Add Dependency" HorizontalAlignment="Left" Margin="287,350,0,86" Click="btnAddDependency_Click" Width="113"/>
+        <Button Content="Delete Dependency" HorizontalAlignment="Left" Margin="287,416,0,24" Click="btnDeleteDependency_Click" Width="113"/>
+
+        <Label Content="Id Pending Task:" HorizontalAlignment="Left" Margin="12,359,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.318,1.754"/>
+        <TextBox HorizontalAlignment="Left" Margin="126,363,0,0" TextWrapping="Wrap" Text="{Binding Dep.IdPendingTask, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+
+        <Label Content="Id Previous Task:" HorizontalAlignment="Left" Margin="10,398,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="126,402,0,0" TextWrapping="Wrap" Text="{Binding Dep.IdPreviousTask, Mode=TwoWay}" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.175,5.32"/>
     </Grid>
 
 </Window>

@@ -31,7 +31,7 @@
             </ComboBox>
 
             </Grid>
-            <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path= TaskList}"
+        <ListView Margin="5" Grid.Row="1" ItemsSource="{Binding Path= TaskList}"
               MouseDoubleClick="ListViewItem_MouseDoubleClick">
                 <ListView.View>
                     <GridView>

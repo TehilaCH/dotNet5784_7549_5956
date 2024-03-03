@@ -38,6 +38,10 @@
         <Button Content="הקדם שעה" HorizontalAlignment="Left" Margin="299,48,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceHourButton_Click"/>
         <Button Content="הקדם בשנה" HorizontalAlignment="Center" Margin="0,48,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceYearButton_Click"/>
 
+       
+        <Label Content="ID:" HorizontalAlignment="Left" Margin="518,111,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="576,115,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Id, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+
 
 
     </Grid>

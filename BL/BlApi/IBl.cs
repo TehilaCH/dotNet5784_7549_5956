@@ -28,4 +28,8 @@ public interface IBl
     void AdvanceHour();
     void AdvanceYear();
     void InitializeTime();
+
+
+    public void depAdd(int prev, int dep);
+    public void Deletedep(int prev, int dep);
 }

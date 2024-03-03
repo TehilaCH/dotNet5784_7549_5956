@@ -26,9 +26,9 @@ public partial class TaskListWindow : Window
     {
         InitializeComponent();
         TaskList = new ObservableCollection<BO.Task>(s_bl?.Task.ReadAll()!);
+        
     }
-   
-  
+
     public ObservableCollection<BO.Task> TaskList//An object that will contain the list
     {
         get { return (ObservableCollection<BO.Task>)GetValue(TaskListProperty); }

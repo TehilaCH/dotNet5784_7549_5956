@@ -20,13 +20,11 @@ public partial class MainWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
 
+    public static int Id { get; set; }
     public MainWindow()
     {
         InitializeComponent();
     }
-
-    
-   
 
     private void btnDirector_Click(object sender, RoutedEventArgs e)
     {
@@ -36,7 +34,7 @@ public partial class MainWindow : Window
 
     private void btnEngineer_Click(object sender, RoutedEventArgs e)
     {
-       // new EngineerMainWindow().show();
+      //  new EngineerMainWindow(Id).Show();
     }
 
     private void InitializeTimeButton_Click(object sender, RoutedEventArgs e)
@@ -59,38 +57,3 @@ public partial class MainWindow : Window
         s_bl.AdvanceYear();
     }
 }
-//private void btnEngineer_Click(object sender, RoutedEventArgs e)
-//{
-//    new Engineer.EngineerListWindow().Show();
-//}
-
-//private void btnInitializeDB_Click(object sender, RoutedEventArgs e)
-//{
-//    MessageBoxResult result = MessageBox.Show("Are you sure you want to initialize the database?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-//    if (result == MessageBoxResult.Yes)
-//    {
-//        // Call the initialization method
-//        BlApi.IBl.ResetDB();
-//        BlApi.IBl.InitializeDB();
-
-
-//    }
-//}
-
-//private void btnResetDB_Click(object sender, RoutedEventArgs e)
-//{
-//    // Call the reset method
-
-//    MessageBoxResult result = MessageBox.Show("Are you sure you want to reset the database?", "Confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
-//    if (result == MessageBoxResult.Yes)
-//    {
-//        BlApi.IBl.ResetDB();
-//    }
-
-//}
-
-//private void btnTask_Click(object sender, RoutedEventArgs e)
-//{
-//    new Task.TaskListWindow().Show();
-
-//}

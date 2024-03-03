@@ -27,6 +27,7 @@
             <Button Content="Initialize " Grid.Row="1"  Width="200" Height="50" Margin="22,43,578,260" Click="btnInitializeDB_Click"/>
             <Button Content="Reset " Grid.Row="1"  Width="200" Height="50" Margin="22,122,578,181" Click="btnResetDB_Click"/>
             <Button Content="Handle Task " Grid.Row="1"  Width="200" Height="50" Margin="22,195,578,108" Click="btnTask_Click"/>
+            <!--<Button Content="chart "  Width="200" Height="50" Margin="22,364,578,20" Click="btnChart_Click"/>-->
 
 
 

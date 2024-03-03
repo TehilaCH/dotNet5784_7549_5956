@@ -42,6 +42,7 @@ public partial class TaskWindow : Window
     {
         InitializeComponent();
         _addOrUpdateNewItem = addOrUpdateNewItem;
+       
         if (Id == 0)
         {
             Task = new BO.Task(); //Creation to add
@@ -52,7 +53,7 @@ public partial class TaskWindow : Window
             {
                 Task = s_bl.Task.Read(Id);//Call for update
                 Task.Engineer = new EngineerInTask();
-
+               
             }
             catch (BlDoesNotExistException ex)
             {
@@ -100,10 +101,11 @@ public partial class TaskWindow : Window
         }
     }
 
+    public List<BO.TaskInList> TaskDependencies { get; set; }
 
     private void btnDependent_Click(object sender, RoutedEventArgs e)
     {
-        DependentWindow dependenciesWindow = new DependentWindow(Task.Dependencies);
+        DependentWindow dependenciesWindow = new DependentWindow(Task);
         dependenciesWindow.ShowDialog();
     }
 }
