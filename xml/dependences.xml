@@ -201,16 +201,6 @@
     <IdPreviousTask>29</IdPreviousTask>
   </Dependence>
   <Dependence>
-    <IdNum>81</IdNum>
-    <IdPendingTask>42</IdPendingTask>
-    <IdPreviousTask>41</IdPreviousTask>
-  </Dependence>
-  <Dependence>
-    <IdNum>82</IdNum>
-    <IdPendingTask>42</IdPendingTask>
-    <IdPreviousTask>43</IdPreviousTask>
-  </Dependence>
-  <Dependence>
     <IdNum>85</IdNum>
     <IdPendingTask>24</IdPendingTask>
     <IdPreviousTask>21</IdPreviousTask>
@@ -239,10 +229,5 @@
     <IdNum>90</IdNum>
     <IdPendingTask>21</IdPendingTask>
     <IdPreviousTask>22</IdPreviousTask>
-  </Dependence>
-  <Dependence>
-    <IdNum>91</IdNum>
-    <IdPendingTask>21</IdPendingTask>
-    <IdPreviousTask>23</IdPreviousTask>
   </Dependence>
 </ArrayOfDependence>

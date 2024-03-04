@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BO;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -55,13 +56,24 @@ public partial class EngineerListWindow : Window
     }
     private void addOrUpdateNewItem(int id, bool isUpdate)//Refreshment
     {
-        var engineer = s_bl.Engineer.Read(id);
-
-        if (isUpdate)
+        try
         {
-            EngineerList = new ObservableCollection<BO.Engineer>(EngineerList.Where(e => e.Id != id));
+            var engineer = s_bl.Engineer.Read(id);
+            if (isUpdate)
+            {
+                EngineerList = new ObservableCollection<BO.Engineer>(EngineerList.Where(e => e.Id != id));
+            }
+            EngineerList.Add(engineer);
         }
-        EngineerList.Add(engineer);
+        catch (BlDoesNotExistException) 
+        {
+            EngineerList = new ObservableCollection<BO.Engineer>(s_bl?.Engineer.ReadAll()!);
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+       
     }
 
 

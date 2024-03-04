@@ -8,24 +8,10 @@
     <EngineerLevel>Beginner</EngineerLevel>
   </Engineer>
   <Engineer>
-    <Id>256275730</Id>
-    <Name>Tehila Chen</Name>
-    <Email>TehilaChen@gmail.com</Email>
-    <CostPerHour>487</CostPerHour>
-    <EngineerLevel>Expert</EngineerLevel>
-  </Engineer>
-  <Engineer>
     <Id>328059424</Id>
     <Name>Ortal Oren</Name>
     <Email>OrtalOren@gmail.com</Email>
     <CostPerHour>460</CostPerHour>
-    <EngineerLevel>Advanced</EngineerLevel>
-  </Engineer>
-  <Engineer>
-    <Id>369151687</Id>
-    <Name>Lea Ashori</Name>
-    <Email>LeaAshori@gmail.com</Email>
-    <CostPerHour>120</CostPerHour>
     <EngineerLevel>Advanced</EngineerLevel>
   </Engineer>
   <Engineer>
@@ -62,5 +48,19 @@
     <Email>y@gmail.com</Email>
     <CostPerHour>1000</CostPerHour>
     <EngineerLevel>Advanced</EngineerLevel>
+  </Engineer>
+  <Engineer>
+    <Id>999</Id>
+    <Name>אברהם</Name>
+    <Email>A@gmail.com</Email>
+    <CostPerHour>564</CostPerHour>
+    <EngineerLevel>Beginner</EngineerLevel>
+  </Engineer>
+  <Engineer>
+    <Id>12</Id>
+    <Name>שירה</Name>
+    <Email>S@gmail.com</Email>
+    <CostPerHour>1222</CostPerHour>
+    <EngineerLevel>Beginner</EngineerLevel>
   </Engineer>
 </ArrayOfEnginieer>

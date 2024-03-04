@@ -51,7 +51,11 @@ public partial class EngineerWindow : Window
             try
             {
                 Engineer = s_bl.Engineer.Read(Id);//Call for update
-                Engineer.Task = new TaskInEngineer();
+                if(Engineer.Task==null)
+                {
+                    Engineer.Task = new TaskInEngineer();
+
+                }
 
             }
             catch (BlDoesNotExistException ex)
@@ -100,5 +104,27 @@ public partial class EngineerWindow : Window
             MessageBox.Show($"An error occurred: {ex.Message}");
         }
     }
-   
+
+
+    private void btnDeleteEngineer_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            s_bl.Engineer.Delete(Engineer.Id);
+            _addOrUpdateNewItem(Engineer.Id, false);
+            MessageBox.Show("Engineer delete successfully!");
+            Close();
+        }
+        catch (BlDoesNotExistException ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("An error occurred: " + ex.Message);
+        }
+
+
+
+    }
 }

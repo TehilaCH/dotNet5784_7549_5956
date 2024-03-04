@@ -19,10 +19,6 @@ public interface ITask
 
     //public IEnumerable<BO.TaskInList> readAll();
 
-
-
-
-
     /// <summary>
     /// Updates an existing task
     /// </summary>

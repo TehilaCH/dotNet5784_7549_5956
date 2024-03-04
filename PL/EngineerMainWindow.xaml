@@ -6,7 +6,40 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="EngineerMainWindow" Height="450" Width="800">
+    <!--DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">-->
     <Grid>
-        
+        <Grid.Background>
+            <ImageBrush ImageSource="/מסך מהנדס.jpeg"/>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="List of recommended tasks" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left" Margin="199,10,0,10"/>
+
+        <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="10">
+            <DataGrid ItemsSource="{Binding SuggestedTaskList}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="NickName" Binding="{Binding NickName}"/>
+                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}"/>
+                </DataGrid.Columns>
+                <DataGrid.RowStyle>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <EventSetter Event="Control.MouseDoubleClick" Handler="DataGridRow_MouseDoubleClick"/>
+                    </Style>
+                </DataGrid.RowStyle>
+            </DataGrid>
+        </StackPanel>
+
+        <Button Content="current task" HorizontalAlignment="Center" Margin="0,10" VerticalAlignment="Top"
+                Click="btncurrentTask_Click" Height="30" Width="82" Grid.Row="2"/>
+        <!--<Button Content="Suggested Task List" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"
+        Click="btnSuggestedTaskList_Click" Grid.Row="11" Height="40" Width="113" Grid.Column="1"/>-->
     </Grid>
+
 </Window>
+

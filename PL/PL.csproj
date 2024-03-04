@@ -16,7 +16,9 @@
 
   <ItemGroup>
     <None Remove="Project Management.png" />
-    <None Remove="תמונה 4.jpg" />
+    <None Remove="מסך מהנדס.jpeg" />
+    <None Remove="מסך מנהל.jpeg" />
+    <None Remove="מסך ראשי.jpeg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +27,9 @@
 
   <ItemGroup>
     <Resource Include="Project Management.png" />
-    <Resource Include="תמונה 4.jpg" />
+    <Resource Include="מסך מהנדס.jpeg" />
+    <Resource Include="מסך מנהל.jpeg" />
+    <Resource Include="מסך ראשי.jpeg" />
   </ItemGroup>
 
 </Project>

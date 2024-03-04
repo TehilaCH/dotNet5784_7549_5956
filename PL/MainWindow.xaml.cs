@@ -1,4 +1,5 @@
 ﻿using BlApi;
+using BO;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
@@ -20,11 +21,32 @@ public partial class MainWindow : Window
 {
     static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
 
-    public static int Id { get; set; }
     public MainWindow()
     {
         InitializeComponent();
+        //CurrentTime = s_bl.Clock;
+        UpdateClock();
     }
+
+    public int IdEngineer
+    {
+        get { return (int)GetValue(DependenciesProperty); }
+        set { SetValue(DependenciesProperty, value); }
+    }
+
+    public static readonly DependencyProperty DependenciesProperty =
+    DependencyProperty.Register("IdEngineer", typeof(int), typeof(MainWindow), new PropertyMetadata(null));
+
+
+
+    public DateTime CurrentTime
+    {
+        get { return (DateTime)GetValue(CurrentTimeProperty); }
+        set { SetValue(CurrentTimeProperty, value); }
+    }
+
+    public static readonly DependencyProperty CurrentTimeProperty =
+    DependencyProperty.Register("CurrentTime", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(null));
 
     private void btnDirector_Click(object sender, RoutedEventArgs e)
     {
@@ -32,28 +54,53 @@ public partial class MainWindow : Window
 
     }
 
+  
     private void btnEngineer_Click(object sender, RoutedEventArgs e)
     {
-      //  new EngineerMainWindow(Id).Show();
+        int id;
+        if (int.TryParse(IdEngineer.ToString(), out id)) // מנסה להמיר את הטקסט למספר שלם
+        {
+            try
+            {
+                s_bl.Engineer.Read(id);
+                new EngineerMainWindow(id).Show();
+            }
+            catch (BlDoesNotExistException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred: " + ex.Message);
+            }
+        }
+        else
+        {
+            MessageBox.Show("Please enter a valid integer for Engineer ID.");
+        }
     }
-
-    private void InitializeTimeButton_Click(object sender, RoutedEventArgs e)
-    {
-        s_bl.InitializeTime();
-    }
-
     private void AdvanceDayButton_Click(object sender, RoutedEventArgs e)
     {
         s_bl.AdvanceDay();
+        UpdateClock();
     }
 
     private void AdvanceHourButton_Click(object sender, RoutedEventArgs e)
     {
         s_bl.AdvanceHour();
+        UpdateClock();
     }
 
     private void AdvanceYearButton_Click(object sender, RoutedEventArgs e)
     {
         s_bl.AdvanceYear();
+        UpdateClock();
     }
+
+    private void UpdateClock()
+    {
+        CurrentTime = s_bl.Clock;
+    }
+
+
 }

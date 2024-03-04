@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="Project Management System" Height="450" Width="800" >
+        Title="Project Management System" Height="450" Width="800"
+        DataContext="{Binding IdEngineer, RelativeSource={RelativeSource Self}}">
     <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="/מסך ראשי.jpeg"/>
+        </Grid.Background>
 
         <!-- Header -->
         <!--<StackPanel  Grid.Row="0" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="259,54,0,0">
@@ -27,21 +31,24 @@
         <Button Content="הקדם שעה" Click="AdvanceHour_Click" Margin="5"/>-->
 
 
-        <Button Content="Director" HorizontalAlignment="Left"  Width="200" Height="50" Margin="116,86,0,0" VerticalAlignment="Top"
+        <Button Content="Director" HorizontalAlignment="Left"  Width="56" Height="47" Margin="250,202,0,0" VerticalAlignment="Top"
                 Click="btnDirector_Click" Grid.Row="2"/>
 
 
-        <Button Content="Engineer" HorizontalAlignment="Left"  Width="200" Height="50" Margin="116,157,0,0" VerticalAlignment="Top"
+        <Button Content="Engineer" HorizontalAlignment="Left"  Width="66" Height="47" Margin="45,207,0,0" VerticalAlignment="Top"
                 Click="btnEngineer_Click" Grid.Row="2"/>
 
-        <Button Content="הקדם יום" HorizontalAlignment="Left" Margin="234,48,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceDayButton_Click"/>
-        <Button Content="הקדם שעה" HorizontalAlignment="Left" Margin="299,48,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceHourButton_Click"/>
-        <Button Content="הקדם בשנה" HorizontalAlignment="Center" Margin="0,48,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceYearButton_Click"/>
+        <TextBox HorizontalAlignment="Left" Margin="0,64,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding CurrentTime, RelativeSource={RelativeSource AncestorType={x:Type local:MainWindow}}}" VerticalAlignment="Top" Width="111" Height="44" />
+        <Button Content="day" HorizontalAlignment="Left" Margin="3,108,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceDayButton_Click" Height="25" Width="30" RenderTransformOrigin="-0.833,0.982"/>
+        <Button Content="hour" HorizontalAlignment="Left" Margin="38,108,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceHourButton_Click" Height="25" Width="32"/>
+        <Button Content="year" HorizontalAlignment="Left" Margin="78,108,0,0" Grid.Row="2" VerticalAlignment="Top" Click="AdvanceYearButton_Click" Height="25" Width="27"/>
 
-       
-        <Label Content="ID:" HorizontalAlignment="Left" Margin="518,111,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="576,115,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Id, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
 
+        <Label Content="ID:" HorizontalAlignment="Left" Margin="21,273,0,0" Grid.Row="2" VerticalAlignment="Top"/>
+
+        <TextBox HorizontalAlignment="Left" Margin="45,277,0,0" Grid.Row="2" TextWrapping="Wrap"
+         Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=IdEngineer, Mode=TwoWay}"
+         VerticalAlignment="Top" Width="120"/>
 
 
     </Grid>

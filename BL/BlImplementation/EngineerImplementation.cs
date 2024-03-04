@@ -161,7 +161,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         if (date == null) //planing Stage
         {
             if (boEngineer.Task != null)
-               throw new BlInvalidValueException("One or more parameters are incorrect");
+               throw new BlInvalidValueException("planing Stage is not allowed to assign an engineer to the task");
 
         }
 

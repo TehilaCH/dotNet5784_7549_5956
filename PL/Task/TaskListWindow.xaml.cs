@@ -1,4 +1,5 @@
-﻿using PL.Engineer;
+﻿using BO;
+using PL.Engineer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -54,13 +55,25 @@ public partial class TaskListWindow : Window
     }
     private void addOrUpdateNewItem(int id, bool isUpdate)//Refreshment
     {
-        var task = s_bl.Task.Read(id);
-
-        if (isUpdate)
+        try
         {
-            TaskList = new ObservableCollection<BO.Task>(TaskList.Where(e => e.Id != id));
+            var task = s_bl.Task.Read(id);
+
+            if (isUpdate)
+            {
+                TaskList = new ObservableCollection<BO.Task>(TaskList.Where(e => e.Id != id));
+            }
+            TaskList.Add(task);
         }
-        TaskList.Add(task);
+        catch (BlDoesNotExistException)
+        {
+            TaskList = new ObservableCollection<BO.Task>(s_bl?.Task.ReadAll()!);
+        }
+        catch(Exception ex)
+        {
+            MessageBox.Show($"An error occurred: {ex.Message}");
+        }
+
     }
 
 

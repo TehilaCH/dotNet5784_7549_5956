@@ -225,20 +225,6 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>37</TaskId>
-    <EngineerIdToTask>0</EngineerIdToTask>
-    <Nickname>Safety upgrade of existing versions:</Nickname>
-    <Description>updating old versions and viewing them in a safe manner.</Description>
-    <Milestone>false</Milestone>
-    <CreatTaskDate>1999-10-11T00:00:00</CreatTaskDate>
-    <PlannedDateStartWork xsi:nil="true" />
-    <StartDateTask xsi:nil="true" />
-    <TimeRequired xsi:nil="true" />
-    <Deadline xsi:nil="true" />
-    <EndDate xsi:nil="true" />
-    <TaskLave xsi:nil="true" />
-  </Task>
-  <Task>
     <TaskId>38</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Automatic build and distribution:</Nickname>
@@ -346,5 +332,32 @@
     <Deadline xsi:nil="true" />
     <EndDate xsi:nil="true" />
     <TaskLave>Advanced</TaskLave>
+  </Task>
+  <Task>
+    <TaskId>46</TaskId>
+    <EngineerIdToTask>386783835</EngineerIdToTask>
+    <Nickname>Task 5</Nickname>
+    <Milestone>false</Milestone>
+    <CreatTaskDate xsi:nil="true" />
+    <PlannedDateStartWork xsi:nil="true" />
+    <StartDateTask xsi:nil="true" />
+    <TimeRequired xsi:nil="true" />
+    <Deadline xsi:nil="true" />
+    <EndDate xsi:nil="true" />
+    <TaskLave>Beginner</TaskLave>
+  </Task>
+  <Task>
+    <TaskId>47</TaskId>
+    <EngineerIdToTask>999</EngineerIdToTask>
+    <Nickname>משימה 9</Nickname>
+    <Description>גכ</Description>
+    <Milestone>false</Milestone>
+    <CreatTaskDate xsi:nil="true" />
+    <PlannedDateStartWork xsi:nil="true" />
+    <StartDateTask xsi:nil="true" />
+    <TimeRequired xsi:nil="true" />
+    <Deadline xsi:nil="true" />
+    <EndDate xsi:nil="true" />
+    <TaskLave>Beginner</TaskLave>
   </Task>
 </ArrayOfTask>

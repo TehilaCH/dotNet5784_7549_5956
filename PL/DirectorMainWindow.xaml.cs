@@ -60,4 +60,14 @@ public partial class DirectorMainWindow : Window
         new Task.TaskListWindow().Show();
 
     }
+
+    private void btnSchedule_Click(object sender, RoutedEventArgs e)
+    {
+        new ScheduleWindow().Show();
+    }
+
+    private void btnChart_Click(object sender, RoutedEventArgs e)
+    {
+
+    }
 }

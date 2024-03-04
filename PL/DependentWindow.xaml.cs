@@ -33,7 +33,7 @@ public partial class DependentWindow : Window
         Dep = new Dependence();
         Dependencies = task.Dependencies;
         IdT = task.Id;
-         DataContext = this;
+        DataContext = this;
     }
 
     public List<BO.TaskInList> Dependencies

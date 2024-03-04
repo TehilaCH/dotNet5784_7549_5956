@@ -94,7 +94,7 @@ internal class TaskImplementation : BlApi.ITask
                                          select d).ToList();
             if (result.Count!=0)
             {
-                throw new BlInvalidValueException($"can't delete this task {id}");
+                throw new BlInvalidValueException($"can't delete this task {id} tasks depend on it");
             }
         }
         
@@ -271,8 +271,9 @@ internal class TaskImplementation : BlApi.ITask
             }
             //Tests of the execution Stage​
             if (doTask.StartDateTask != boTask.StartDateTask || doTask.TimeRequired != boTask.TimeRequired
-                || doTask.PlannedDateStartWork != boTask.PlannedDateStartWork || doTask.CreatTaskDate != boTask.CreatTaskDate
-               || doTask.EndDate != boTask.EndDate )
+                || doTask.PlannedDateStartWork != boTask.PlannedDateStartWork || doTask.CreatTaskDate != boTask.CreatTaskDate)
+
+              // || doTask.EndDate != boTask.EndDate )//כדי שהמהנדס יוכל לעדכן שסיים משימה 
             {
                 throw new BlInvalidValueException("The Task data is invalid");
             }

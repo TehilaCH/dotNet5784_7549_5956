@@ -42,7 +42,6 @@ public partial class TaskWindow : Window
     {
         InitializeComponent();
         _addOrUpdateNewItem = addOrUpdateNewItem;
-       
         if (Id == 0)
         {
             Task = new BO.Task(); //Creation to add
@@ -51,9 +50,13 @@ public partial class TaskWindow : Window
         {
             try
             {
-                Task = s_bl.Task.Read(Id);//Call for update
-                Task.Engineer = new EngineerInTask();
                
+                Task = s_bl.Task.Read(Id);//Call for update
+                if(Task.Engineer==null)
+                {
+                     Task.Engineer = new EngineerInTask();
+                }
+
             }
             catch (BlDoesNotExistException ex)
             {
@@ -107,5 +110,26 @@ public partial class TaskWindow : Window
     {
         DependentWindow dependenciesWindow = new DependentWindow(Task);
         dependenciesWindow.ShowDialog();
+    }
+
+    private void btnDeleteTask_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            s_bl.Task.Delete(Task.Id);
+            _addOrUpdateNewItem(Task.Id, false);
+            MessageBox.Show("Task delete successfully!");
+            Close();
+        }
+        catch (BlDoesNotExistException ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("An error occurred: " + ex.Message);
+        }
+
+
     }
 }
