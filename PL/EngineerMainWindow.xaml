@@ -20,7 +20,7 @@
         <TextBlock Text="List of recommended tasks" FontWeight="Bold" FontSize="16" HorizontalAlignment="Left" Margin="199,10,0,10"/>
 
         <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="10">
-            <DataGrid ItemsSource="{Binding SuggestedTaskList}" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged">
+            <DataGrid ItemsSource="{Binding SuggestedTaskList}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" Binding="{Binding Id}"/>
                     <DataGridTextColumn Header="NickName" Binding="{Binding NickName}"/>
@@ -37,8 +37,25 @@
 
         <Button Content="current task" HorizontalAlignment="Center" Margin="0,10" VerticalAlignment="Top"
                 Click="btncurrentTask_Click" Height="30" Width="82" Grid.Row="2"/>
-        <!--<Button Content="Suggested Task List" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"
-        Click="btnSuggestedTaskList_Click" Grid.Row="11" Height="40" Width="113" Grid.Column="1"/>-->
+
+
+
+        
+        <Button Content="updat" HorizontalAlignment="Left" Margin="611,305,0,0" VerticalAlignment="Top"
+        Click="updatTaskDates_Click" Grid.Row="1" Height="20" Width="42" />
+       
+
+        <Label Content="Task Start date:" HorizontalAlignment="Left" Margin="611,249,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <DatePicker HorizontalAlignment="Left" Margin="696,249,0,0"
+        SelectedDate="{Binding StartDateTask, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+        VerticalAlignment="Top" Width="104" Grid.Row="1"/>
+
+
+        <Label Content="Task End date:" HorizontalAlignment="Left" Margin="611,274,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+        <DatePicker HorizontalAlignment="Left" Margin="696,278,0,0" 
+         SelectedDate="{Binding EndDateTask, Mode=TwoWay,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+          VerticalAlignment="Top" Width="104" Grid.Row="1" Height="25"/>
+
     </Grid>
 
 </Window>

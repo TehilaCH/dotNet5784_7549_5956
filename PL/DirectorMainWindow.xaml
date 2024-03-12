@@ -27,7 +27,7 @@
                 RenderTransformOrigin="-0.165,1.13" Margin="78,83,522,0"/>
             <Button Content="Handle Task" Width="200" Height="50" Margin="78,20,522,0" Click="btnTask_Click"/>
             <Button Content="Schedule" Width="200" Height="50" Margin="78,20,522,0" Click="btnSchedule_Click"/>
-            <Button Content="chart "  Width="200" Height="50" Margin="78,20,522,0" Click="btnChart_Click"/>
+            <Button Content="Gantt chart "  Width="200" Height="50" Margin="78,20,522,0" Click="btnGanttChart_Click"/>
             <StackPanel Orientation="Horizontal" Margin="78,20,522,0">
                 <Button Content="Initialize" Width="84" Height="29" Click="btnInitializeDB_Click" Margin="0,0,20,0"/>
                 <Button Content="Reset" Width="88" Height="28" Click="btnResetDB_Click"/>

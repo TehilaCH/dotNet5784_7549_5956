@@ -66,7 +66,7 @@ public partial class DirectorMainWindow : Window
         new ScheduleWindow().Show();
     }
 
-    private void btnChart_Click(object sender, RoutedEventArgs e)
+    private void btnGanttChart_Click(object sender, RoutedEventArgs e)
     {
 
     }

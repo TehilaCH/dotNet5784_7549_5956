@@ -21,7 +21,7 @@ namespace PL.Task;
 /// </summary>
 public partial class TaskWindow : Window
 {
-   
+
     private static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
 
 
@@ -37,11 +37,25 @@ public partial class TaskWindow : Window
         get { return (BO.Task)GetValue(TaskProperty); }
         set { SetValue(TaskProperty, value); }
     }
+    ////***
+    public int isEngineer
+    {
+        get { return (int)GetValue(isEngineerProperty); }
+        set { SetValue(isEngineerProperty, value); }
+    }
 
-    public TaskWindow(Action<int, bool> addOrUpdateNewItem, int Id = 0)//A constructor with a parameter
+
+    public static readonly DependencyProperty isEngineerProperty = DependencyProperty.Register(
+    nameof(isEngineer),
+     typeof(int),
+     typeof(TaskWindow));
+  
+    public TaskWindow(Action<int, bool> addOrUpdateNewItem, int Id = 0, int isEngineer = 0)//A constructor with a parameter
     {
         InitializeComponent();
         _addOrUpdateNewItem = addOrUpdateNewItem;
+        this.isEngineer= isEngineer;
+
         if (Id == 0)
         {
             Task = new BO.Task(); //Creation to add

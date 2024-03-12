@@ -26,28 +26,31 @@ public partial class TaskListWindow : Window
     public TaskListWindow()//A window displays a list of tasks
     {
         InitializeComponent();
-        TaskList = new ObservableCollection<BO.Task>(s_bl?.Task.ReadAll()!);
-        
+       // TaskList = new ObservableCollection<BO.Task>(s_bl?.Task.ReadAll()!);
+        TaskList = new ObservableCollection<BO.TaskInList>(s_bl?.Task.readAll()!);
+
     }
 
-    public ObservableCollection<BO.Task> TaskList//An object that will contain the list
+    public ObservableCollection<BO.TaskInList> TaskList//An object that will contain the list
     {
-        get { return (ObservableCollection<BO.Task>)GetValue(TaskListProperty); }
+        get { return (ObservableCollection<BO.TaskInList>)GetValue(TaskListProperty); }
         set { SetValue(TaskListProperty, value); }
     }
 
     public static readonly DependencyProperty TaskListProperty =
-    DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.Task>), typeof(TaskListWindow), new PropertyMetadata(null));
+    DependencyProperty.Register("TaskList", typeof(ObservableCollection<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
 
     public BO.EngineerLevel level { get; set; } = BO.EngineerLevel.All;
 
     private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)//An event to filter engineers by engineer level
     {
-            TaskList =
-            new ObservableCollection<BO.Task>((level == BO.EngineerLevel.All) ? s_bl?.Task.ReadAll()! :
-            s_bl?.Task.ReadAll(item => item.TaskLave == level)!);
+        TaskList = new ObservableCollection<BO.TaskInList>((level == BO.EngineerLevel.All) ? s_bl?.Task.readAll()!:
+           s_bl?.Task.readAll().Where(item => s_bl!.Task.Read(item.Id).TaskLave == level)!);
+
+        //TaskList= new ObservableCollection<BO.Task>((level == BO.EngineerLevel.All) ? s_bl?.Task.ReadAll()! :
+        //s_bl?.Task.ReadAll(item => item.TaskLave == level)!);
     }
-    
+
     private void btnAdd_Click(object sender, RoutedEventArgs e)//Add click event
     {
         TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem);
@@ -61,13 +64,15 @@ public partial class TaskListWindow : Window
 
             if (isUpdate)
             {
-                TaskList = new ObservableCollection<BO.Task>(TaskList.Where(e => e.Id != id));
+                TaskList = new ObservableCollection<BO.TaskInList>(TaskList.Where(e => e.Id != id));
             }
-            TaskList.Add(task);
+            TaskList = new ObservableCollection<BO.TaskInList>(s_bl?.Task.readAll()!);
+
+            // TaskList.Add(task);
         }
         catch (BlDoesNotExistException)
         {
-            TaskList = new ObservableCollection<BO.Task>(s_bl?.Task.ReadAll()!);
+            TaskList = new ObservableCollection<BO.TaskInList>(s_bl?.Task.readAll()!);
         }
         catch(Exception ex)
         {
@@ -80,7 +85,7 @@ public partial class TaskListWindow : Window
     private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)//Double click event to update
     {
         //Get the selected item in the list
-        BO.Task? SelectedTask = (sender as ListView)?.SelectedItem as BO.Task;
+        BO.TaskInList? SelectedTask = (sender as ListView)?.SelectedItem as BO.TaskInList;
 
         if (SelectedTask != null)
         {

@@ -1,26 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
-    <TaskId>21</TaskId>
-    <EngineerIdToTask>0</EngineerIdToTask>
-    <Nickname>New Software Development:</Nickname>
-    <Description>Develop a new system for managing tasks in your development team.</Description>
-    <Milestone>false</Milestone>
-    <CreatTaskDate>2009-02-09T00:00:00</CreatTaskDate>
-    <PlannedDateStartWork xsi:nil="true" />
-    <StartDateTask xsi:nil="true" />
-    <TimeRequired xsi:nil="true" />
-    <Deadline xsi:nil="true" />
-    <EndDate xsi:nil="true" />
-    <TaskLave xsi:nil="true" />
-  </Task>
-  <Task>
-    <TaskId>22</TaskId>
+    <TaskId>93</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Automated Tests: </Nickname>
     <Description>Write scripts for automated tests for specific code.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2010-09-09T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2011-06-21T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -29,12 +15,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>23</TaskId>
+    <TaskId>94</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Version Upgrade:</Nickname>
     <Description>Upgrade the current version of the software to a new version and perform quality checks.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2007-12-25T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2001-02-15T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -43,12 +29,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>24</TaskId>
+    <TaskId>95</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Building an API:</Nickname>
     <Description>Open an API to support external services and external usability in your system.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2012-10-29T00:00:00</CreatTaskDate>
+    <CreatTaskDate>1998-02-27T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -57,12 +43,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>25</TaskId>
+    <TaskId>96</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Bug Fixing:</Nickname>
     <Description>Identify and fix known bugs in the source code.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2015-11-16T00:00:00</CreatTaskDate>
+    <CreatTaskDate>1995-10-12T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -71,12 +57,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>26</TaskId>
+    <TaskId>97</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Development of new capabilities:</Nickname>
     <Description>Add new capabilities to the software, such as support for additional languages or advanced capabilities.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2013-01-28T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2019-03-29T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -85,12 +71,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>27</TaskId>
+    <TaskId>98</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Optimization:</Nickname>
     <Description>Update and optimize the code to improve performance.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2021-07-02T00:00:00</CreatTaskDate>
+    <CreatTaskDate>1995-10-29T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -99,12 +85,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>28</TaskId>
+    <TaskId>99</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Information security:</Nickname>
     <Description>perform security checks and security upgrades.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2014-11-15T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2001-10-31T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -113,12 +99,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>29</TaskId>
+    <TaskId>100</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Easy upgrade ways:</Nickname>
     <Description> Provide easy upgrade and update ways for users.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2003-11-12T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2022-02-11T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -127,12 +113,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>30</TaskId>
+    <TaskId>101</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Shared code portfolio management:</Nickname>
     <Description>Add a system for managing versions and code portfolios.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>1999-08-12T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2012-04-19T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -141,12 +127,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>31</TaskId>
+    <TaskId>102</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Integration of external tools:</Nickname>
     <Description>integrate and use external development tools such as Git, Jenkins or Docker.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2001-11-12T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2018-10-12T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -155,12 +141,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>32</TaskId>
+    <TaskId>103</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Modular development:</Nickname>
     <Description> make the software modular to accommodate additional capabilities and modify existing modules.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2003-04-20T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2012-02-07T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -169,12 +155,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>33</TaskId>
+    <TaskId>104</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Documentation:</Nickname>
     <Description>create comprehensive documentation for the source code and various functions.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2000-12-22T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2009-04-17T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -183,12 +169,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>34</TaskId>
+    <TaskId>105</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Multi-platform code development:</Nickname>
     <Description>You will develop software that can run on different platforms such as Windows, macOS and Linux.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2019-05-25T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2021-05-23T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -197,12 +183,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>35</TaskId>
+    <TaskId>106</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Performance fixes:</Nickname>
     <Description>will improve performance and maximize the capabilities of the software.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2019-03-02T00:00:00</CreatTaskDate>
+    <CreatTaskDate>1996-06-06T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -211,12 +197,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>36</TaskId>
+    <TaskId>107</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Establishing a cloud system:</Nickname>
     <Description> move the software or part of it into a cloud environment.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2005-04-18T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2005-10-11T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -225,12 +211,26 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>38</TaskId>
+    <TaskId>108</TaskId>
+    <EngineerIdToTask>0</EngineerIdToTask>
+    <Nickname>Safety upgrade of existing versions:</Nickname>
+    <Description>updating old versions and viewing them in a safe manner.</Description>
+    <Milestone>false</Milestone>
+    <CreatTaskDate>2015-08-27T00:00:00</CreatTaskDate>
+    <PlannedDateStartWork xsi:nil="true" />
+    <StartDateTask xsi:nil="true" />
+    <TimeRequired xsi:nil="true" />
+    <Deadline xsi:nil="true" />
+    <EndDate xsi:nil="true" />
+    <TaskLave xsi:nil="true" />
+  </Task>
+  <Task>
+    <TaskId>109</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Automatic build and distribution:</Nickname>
     <Description>setting up an automatic system for building and distributing new versions.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2014-06-09T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2007-03-20T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -239,12 +239,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>39</TaskId>
+    <TaskId>110</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Integrate advanced development tools:</Nickname>
     <Description>Improve development processes by using new and advanced tools.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2003-08-25T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2009-08-15T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -253,12 +253,12 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>40</TaskId>
+    <TaskId>111</TaskId>
     <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>Emulation and endurance test:</Nickname>
     <Description>test the software's ability to withstand high load and test its response in stress and extreme situations</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate>2007-05-27T00:00:00</CreatTaskDate>
+    <CreatTaskDate>2017-11-20T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
@@ -267,24 +267,10 @@
     <TaskLave xsi:nil="true" />
   </Task>
   <Task>
-    <TaskId>41</TaskId>
-    <EngineerIdToTask>111</EngineerIdToTask>
-    <Nickname>משימה 111</Nickname>
-    <Description>חיח</Description>
-    <Milestone>false</Milestone>
-    <CreatTaskDate xsi:nil="true" />
-    <PlannedDateStartWork xsi:nil="true" />
-    <StartDateTask xsi:nil="true" />
-    <TimeRequired xsi:nil="true" />
-    <Deadline xsi:nil="true" />
-    <EndDate xsi:nil="true" />
-    <TaskLave>Beginner</TaskLave>
-  </Task>
-  <Task>
-    <TaskId>42</TaskId>
-    <EngineerIdToTask>222</EngineerIdToTask>
+    <TaskId>114</TaskId>
+    <EngineerIdToTask>0</EngineerIdToTask>
     <Nickname>משימה 2</Nickname>
-    <Description>גחל</Description>
+    <Description>qa</Description>
     <Milestone>false</Milestone>
     <CreatTaskDate xsi:nil="true" />
     <PlannedDateStartWork xsi:nil="true" />
@@ -292,12 +278,13 @@
     <TimeRequired xsi:nil="true" />
     <Deadline xsi:nil="true" />
     <EndDate xsi:nil="true" />
-    <TaskLave>Beginner</TaskLave>
+    <TaskLave>Advanced</TaskLave>
   </Task>
   <Task>
-    <TaskId>43</TaskId>
-    <EngineerIdToTask>333</EngineerIdToTask>
-    <Nickname>משימה 3</Nickname>
+    <TaskId>115</TaskId>
+    <EngineerIdToTask xsi:nil="true" />
+    <Nickname>משימה 3 </Nickname>
+    <Description>בדיקת תקינות קלט</Description>
     <Milestone>false</Milestone>
     <CreatTaskDate xsi:nil="true" />
     <PlannedDateStartWork xsi:nil="true" />
@@ -305,59 +292,62 @@
     <TimeRequired xsi:nil="true" />
     <Deadline xsi:nil="true" />
     <EndDate xsi:nil="true" />
-    <TaskLave>Beginner</TaskLave>
+    <TaskLave>AdvancedBeginner</TaskLave>
   </Task>
   <Task>
-    <TaskId>44</TaskId>
+    <TaskId>117</TaskId>
+    <EngineerIdToTask>0</EngineerIdToTask>
+    <Nickname>משימה 5</Nickname>
+    <Description>יחי</Description>
+    <Milestone>false</Milestone>
+    <CreatTaskDate xsi:nil="true" />
+    <PlannedDateStartWork xsi:nil="true" />
+    <StartDateTask xsi:nil="true" />
+    <TimeRequired xsi:nil="true" />
+    <Deadline xsi:nil="true" />
+    <EndDate xsi:nil="true" />
+    <TaskLave>Expert</TaskLave>
+  </Task>
+  <Task>
+    <TaskId>116</TaskId>
+    <EngineerIdToTask>222</EngineerIdToTask>
+    <Nickname>משימה 4</Nickname>
+    <Description>ג</Description>
+    <Milestone>false</Milestone>
+    <CreatTaskDate xsi:nil="true" />
+    <PlannedDateStartWork xsi:nil="true" />
+    <StartDateTask xsi:nil="true" />
+    <TimeRequired xsi:nil="true" />
+    <Deadline xsi:nil="true" />
+    <EndDate xsi:nil="true" />
+    <TaskLave>Intermediate</TaskLave>
+  </Task>
+  <Task>
+    <TaskId>113</TaskId>
     <EngineerIdToTask>444</EngineerIdToTask>
-    <Nickname>משימה 4</Nickname>
+    <Nickname>משימה 1 </Nickname>
+    <Description>סריקת נתונים </Description>
     <Milestone>false</Milestone>
     <CreatTaskDate xsi:nil="true" />
     <PlannedDateStartWork xsi:nil="true" />
-    <StartDateTask xsi:nil="true" />
+    <StartDateTask>2001-04-02T00:00:00</StartDateTask>
     <TimeRequired xsi:nil="true" />
     <Deadline xsi:nil="true" />
-    <EndDate xsi:nil="true" />
-    <TaskLave>Advanced</TaskLave>
-  </Task>
-  <Task>
-    <TaskId>45</TaskId>
-    <EngineerIdToTask>328059424</EngineerIdToTask>
-    <Nickname>משימה 4</Nickname>
-    <Milestone>false</Milestone>
-    <CreatTaskDate xsi:nil="true" />
-    <PlannedDateStartWork xsi:nil="true" />
-    <StartDateTask xsi:nil="true" />
-    <TimeRequired xsi:nil="true" />
-    <Deadline xsi:nil="true" />
-    <EndDate xsi:nil="true" />
-    <TaskLave>Advanced</TaskLave>
-  </Task>
-  <Task>
-    <TaskId>46</TaskId>
-    <EngineerIdToTask>386783835</EngineerIdToTask>
-    <Nickname>Task 5</Nickname>
-    <Milestone>false</Milestone>
-    <CreatTaskDate xsi:nil="true" />
-    <PlannedDateStartWork xsi:nil="true" />
-    <StartDateTask xsi:nil="true" />
-    <TimeRequired xsi:nil="true" />
-    <Deadline xsi:nil="true" />
-    <EndDate xsi:nil="true" />
+    <EndDate>2024-11-02T00:00:00</EndDate>
     <TaskLave>Beginner</TaskLave>
   </Task>
   <Task>
-    <TaskId>47</TaskId>
-    <EngineerIdToTask>999</EngineerIdToTask>
-    <Nickname>משימה 9</Nickname>
-    <Description>גכ</Description>
+    <TaskId>92</TaskId>
+    <EngineerIdToTask>444</EngineerIdToTask>
+    <Nickname>New Software Development:</Nickname>
+    <Description>Develop a new system for managing tasks in your development team.</Description>
     <Milestone>false</Milestone>
-    <CreatTaskDate xsi:nil="true" />
+    <CreatTaskDate>2003-05-20T00:00:00</CreatTaskDate>
     <PlannedDateStartWork xsi:nil="true" />
     <StartDateTask xsi:nil="true" />
     <TimeRequired xsi:nil="true" />
     <Deadline xsi:nil="true" />
-    <EndDate xsi:nil="true" />
+    <EndDate>0001-01-01T00:00:00</EndDate>
     <TaskLave>Beginner</TaskLave>
   </Task>
 </ArrayOfTask>

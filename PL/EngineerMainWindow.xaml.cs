@@ -34,8 +34,13 @@ public partial class EngineerMainWindow : Window
         // Set the DataContext
         DataContext = this;
         BO.Engineer engineer = s_bl.Engineer.Read(idE);
-        idTask = engineer.Task.Id;
 
+        if(engineer.Task != null)
+        {
+            idTask = engineer.Task.Id;
+
+        }
+        else { idTask = null; }
 
     }
     public int? idTask {get; set;}
@@ -46,7 +51,7 @@ public partial class EngineerMainWindow : Window
     }
 
     public static readonly DependencyProperty DependenciesProperty =
-    DependencyProperty.Register("SuggestedTaskList", typeof(ObservableCollection<BO.Task>), typeof(DependentWindow), new PropertyMetadata(null));
+    DependencyProperty.Register("SuggestedTaskList", typeof(ObservableCollection<BO.Task>), typeof(EngineerMainWindow), new PropertyMetadata(null));
 
    
     private void addOrUpdateNewItem(int id, bool isUpdate)//Refreshment
@@ -59,19 +64,6 @@ public partial class EngineerMainWindow : Window
         }
         SuggestedTaskList.Add(task);
     }
-
-    //private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)//Double click event to update
-    //{
-    //    //Get the selected item in the list
-    //    BO.Task? SelectedTask = (sender as ListView)?.SelectedItem as BO.Task;
-
-    //    if (SelectedTask != null)
-    //    {
-    //        // Create a single item view window in update mode
-    //        TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem, SelectedTask.Id); // Update mode parameter
-    //        taskWindow.ShowDialog(); // Opening the window in dialog mode
-    //    }
-    //}
 
     private void DataGridRow_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
@@ -91,7 +83,7 @@ public partial class EngineerMainWindow : Window
     {
         if (idTask != null)
         {
-            TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem, (int)idTask);
+            TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem, (int)idTask ,1);
             taskWindow.ShowDialog();
         }
         else
@@ -100,9 +92,48 @@ public partial class EngineerMainWindow : Window
         }
 
     }
-
-    private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    public DateTime? StartDateTask
     {
+        get { return (DateTime)GetValue(StartDateTaskProperty); }
+        set { SetValue(StartDateTaskProperty, value); }
+    }
+
+    public static readonly DependencyProperty StartDateTaskProperty =
+    DependencyProperty.Register("StartDateTask", typeof(DateTime), typeof(EngineerMainWindow), new PropertyMetadata(null));
+
+
+    public DateTime? EndDateTask
+    {
+        get { return (DateTime)GetValue(EndDateTaskProperty); }
+        set { SetValue(EndDateTaskProperty, value); }
+    }
+    public static readonly DependencyProperty EndDateTaskProperty =
+    DependencyProperty.Register("EndDateTask", typeof(DateTime), typeof(EngineerMainWindow), new PropertyMetadata(null));
+
+
+
+    private void updatTaskDates_Click(object sender, RoutedEventArgs e)
+    {
+        try 
+        {
+            if (idTask != null)
+            {
+                s_bl.Task.UpdateStartAndEndDate(StartDateTask,EndDateTask,(int)idTask);
+                MessageBox.Show("Date updated successfully!");
+            }
+            else
+            {
+              MessageBox.Show("Unable to update dates There is no current task");
+            }
+        }
+        catch (BlDoesNotExistException ex)
+        {
+          MessageBox.Show("The engineer has no current task");
+        }
+        catch (Exception ex)
+        {
+          MessageBox.Show("An error occurred: " + ex.Message);
+        }
 
     }
 }

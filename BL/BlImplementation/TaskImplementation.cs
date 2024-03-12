@@ -4,6 +4,8 @@ using BO;
 using System.Security.Cryptography;
 using DalApi;
 using System.Threading.Tasks;
+using BlApi;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -19,7 +21,7 @@ internal class TaskImplementation : BlApi.ITask
     /// <param name="boTask"></param>
     /// <returns></returns>
     /// <exception cref="BlInvalidValueException"></exception>
-    public int Creat(BO.Task boTask)//=====
+    public int Creat(BO.Task boTask)
     {
        
         DateTime? date = _dal.Schedule.getStartProjectDate();
@@ -37,7 +39,7 @@ internal class TaskImplementation : BlApi.ITask
         {
             Nickname = boTask.NickName,
             Description = boTask.Description,
-            CreatTaskDate = boTask.CreatTaskDate,
+            CreatTaskDate = _bl.Clock, 
             PlannedDateStartWork = boTask.PlannedDateStartWork,
             StartDateTask = boTask.StartDateTask,
             TimeRequired = boTask.TimeRequired,
@@ -219,8 +221,10 @@ internal class TaskImplementation : BlApi.ITask
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if (date == null) //planing Stage
         {
-            
-            if (boTask.PlannedDateStartWork != null || boTask.Engineer != null 
+            if (boTask.Engineer.Id != null)
+                throw new BlInvalidValueException("Task assignments are not possible in the planning stage");
+
+            if (boTask.PlannedDateStartWork != null 
              || boTask.StartDateTask != null || boTask.Deadline != null || boTask.EndDate != null)
             {
                 throw new BlInvalidValueException("The Task data is invalid");
@@ -279,6 +283,15 @@ internal class TaskImplementation : BlApi.ITask
             }
             if (boTask.Engineer != null)//Checking the correctness of assigning an engineer to the task
             {
+                if(doTask.EngineerIdToTask != 0 && doTask.EngineerIdToTask != null)//מוקצה למשימה כבר מהנדס 
+                {
+                    if(doTask.EngineerIdToTask != boTask.Engineer.Id)
+                    {
+                        throw new BlInvalidValueException("The Task data is invalid");
+                    }
+                    
+                }
+                 
                 DO.Engineer? engineer = _dal.Engineer.Read((int)boTask.Engineer.Id!)!;//Checks if the assigned engineer exists​
                 if (engineer == null)
                     throw new BlInvalidValueException("The Task data is invalid");
@@ -308,7 +321,7 @@ internal class TaskImplementation : BlApi.ITask
                                 select t).ToList();
 
                     if (Task.Count != 0)//There is a previous task that has not completed
-                        throw new BlInvalidValueException("The Task data is invalid");
+                        throw new BlInvalidValueException("It is not possible to assign an existing previous task that has not been completed");
 
                 }
 
@@ -397,7 +410,8 @@ internal class TaskImplementation : BlApi.ITask
             EndDate = task.EndDate,
             Product = task.Product,
             Remarks = task.Remarks,
-            TaskLave = (DO.EngineerLevel?)task.TaskLave
+            TaskLave = (DO.EngineerLevel?)task.TaskLave,
+            EngineerIdToTask = task.EngineerIdToTask ?? null
 
         };
         _dal.Task.Update(doTask);
@@ -538,5 +552,67 @@ internal class TaskImplementation : BlApi.ITask
                 }).ToList();
        
     }
+    public void UpdateStartAndEndDate(DateTime? dateS, DateTime? dateE, int idT)
+    {
+        DO.Task task =_dal.Task.Read(idT);
+        if (task == null)
+            throw new BlDoesNotExistException($"Task with ID={idT} does Not exist");
+
+        if (dateS !=null && dateS != DateTime.MinValue)
+        {
+            if (task.StartDateTask == null)
+            {
+                DO.Task doTask = new DO.Task
+                {
+                    TaskId = task.TaskId,
+                    Nickname = task.Nickname,
+                    Description = task.Description,
+                    CreatTaskDate = task.CreatTaskDate,
+                    PlannedDateStartWork = task.PlannedDateStartWork,
+                    StartDateTask = dateS,
+                    TimeRequired = task.TimeRequired,
+                    Deadline = task.Deadline,
+                    EndDate = task.EndDate,
+                    Product = task.Product,
+                    Remarks = task.Remarks,
+                    TaskLave = (DO.EngineerLevel?)task.TaskLave,
+                    EngineerIdToTask = task.EngineerIdToTask 
+                };
+                _dal.Task.Update(doTask);
+            }
+            else
+                throw new BlDoesNotExistException($"Task with ID={idT} Start Date ");
+        }
+       
+        if (dateE != null || dateE != DateTime.MinValue)
+        {
+            if (task.EndDate == null)
+            {
+                DO.Task doTask = new DO.Task
+                {
+                    TaskId = task.TaskId,
+                    Nickname = task.Nickname,
+                    Description = task.Description,
+                    CreatTaskDate = task.CreatTaskDate,
+                    PlannedDateStartWork = task.PlannedDateStartWork,
+                    StartDateTask = task.StartDateTask,
+                    TimeRequired = task.TimeRequired,
+                    Deadline = task.Deadline,
+                    EndDate = dateE,
+                    Product = task.Product,
+                    Remarks = task.Remarks,
+                    TaskLave = (DO.EngineerLevel?)task.TaskLave,
+                    EngineerIdToTask = task.EngineerIdToTask 
+                };
+                _dal.Task.Update(doTask);
+            }
+            else
+                throw new BlDoesNotExistException($"Task with ID={idT} finish Date ");
+        }
+
+    }
+
+
+
 }
 

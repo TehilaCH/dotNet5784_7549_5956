@@ -4,6 +4,7 @@ using DO;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security.Cryptography;
 
 internal class EngineerImplementation : BlApi.IEngineer
 {
@@ -85,9 +86,6 @@ internal class EngineerImplementation : BlApi.IEngineer
         if (doEngineer == null)
             throw new BlDoesNotExistException($"Engineer with ID={id} does Not exist");
 
-        //DO.Task? taskForEngineer = _dal.Task.ReadAll()
-        //    .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
-        
         return new BO.Engineer
         {
             Id = doEngineer.IdNum,
@@ -141,12 +139,16 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <returns></returns>
     private BO.TaskInEngineer? GetEngineerTask(int engineerId)
     {
-        var taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == engineerId);
-        return taskForEngineer != null ? new BO.TaskInEngineer
-        {
-            Id = taskForEngineer.TaskId,
-            NickName = taskForEngineer.Nickname
-        } : null;
+        var taskForEngineer = _dal.Task.ReadAll()
+            .Where(task => task.EngineerIdToTask == engineerId && (task.EndDate == null || task.EndDate == DateTime.MinValue))
+            .Select(task => new BO.TaskInEngineer
+            {
+                Id = task.TaskId,
+                NickName = task.Nickname
+            })
+            .FirstOrDefault();
+
+        return taskForEngineer;
     }
     /// <summary>
     /// Updates an engineer according to the conditions of the project phase he is in
@@ -160,7 +162,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if (date == null) //planing Stage
         {
-            if (boEngineer.Task != null)
+            if (boEngineer.Task.Id != null)
                throw new BlInvalidValueException("planing Stage is not allowed to assign an engineer to the task");
 
         }
@@ -188,7 +190,7 @@ internal class EngineerImplementation : BlApi.IEngineer
         {
             _dal.Engineer.Update(doEngineer);
 
-            if (boEngineer.Task != null)
+            if (boEngineer.Task.Id != null)
             {
                 var taskIdToUpdate = boEngineer.Task.Id;
 
@@ -290,21 +292,37 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <returns></returns>
     bool checkEngineerToTask(BO.Engineer boEngineer) 
     {
-        if (boEngineer.Task == null)
+        if (boEngineer.Task.Id == null)
             return true;
-        DO.Task? Task1 = _dal.Task.Read((int)boEngineer.Task.Id!);
-        if(Task1 == null || Task1.EngineerIdToTask!=0)
+        DO.Task? Task1 = _dal.Task.Read((int)boEngineer.Task.Id!);//Checking if the task exist
+        if (Task1 == null || Task1.EngineerIdToTask!=0)//Checks if it has been assigned to another engineer
             return false;
-        
-     //   if (Task1.EngineerIdToTask == 0 && (boEngineer.Task.Id == Task1.TaskId))
-                if(Task1.TaskLave != null&& boEngineer.Level!=null)
+        ///----------------------------------
+       
+        // An engineer is assigned to another task
+        List<DO.Task?> task = (from t in _dal.Task.ReadAll()
+                               where t.EngineerIdToTask == boEngineer.Id
+                               select t).ToList();
+
+        if (task.Count != 0)//If the engineer is doing another task
+        {
+            //Checking if all the tasks he did are finished
+            var Tasks = (from t in task
+                         where t.EndDate == null
+                         select t).ToList();
+            if (Tasks.Count != 0)
+                throw new BlInvalidValueException("The Task data is invalid");
+        }
+        //------------------------------------
+        if (Task1.TaskLave != null&& boEngineer.Level!=null)
                 {
                     if (Task1.TaskLave == (DO.EngineerLevel)boEngineer.Level)
-                    { 
+                    {    //Checking If the assignment task has previous tasks
                          List<DO.Dependence>? dep = (from dependency in _dal.Dependence.ReadAll()
                                       where dependency.IdPendingTask == boEngineer.Task.Id
                                       select dependency).ToList();
 
+                         //Checking If a previous task has not been completed
                          var tasks = (from t in _dal.Task.ReadAll()
                                       where dep.Any(d => d.IdPreviousTask == t.TaskId) && t.EndDate == null
                                       select t).ToList();

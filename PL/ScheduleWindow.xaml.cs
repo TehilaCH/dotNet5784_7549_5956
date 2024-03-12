@@ -27,27 +27,18 @@ namespace PL
         public ScheduleWindow()
         {
             InitializeComponent();
-        }
+            if (s_bl.Schedule.getStartProjectDate() != null)
+            {
+                StartDateProject = (DateTime)s_bl.Schedule.getStartProjectDate()!;
+            }
 
-        private void btnEngineers_Click(object sender, RoutedEventArgs e)
-        {
-            new EngineerListWindow().ShowDialog();
+            if (s_bl.Schedule.getEndProjectDate() != null)
+            {
+                EndDateProject = (DateTime)s_bl.Schedule.getEndProjectDate()!;
+            }
 
-            //EngineerListWindow engineerListWindow = new EngineerListWindow();
-            //engineerListWindow.ShowDialog();
-        }
 
-        private void btnDependent_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
-
-        private void btnTasks_Click(object sender, RoutedEventArgs e)
-        {
-            new TaskListWindow().ShowDialog();
-
-            //TaskListWindow taskListWindow = new TaskListWindow();
-            //taskListWindow.ShowDialog();
         }
 
         public int ID
@@ -88,49 +79,21 @@ namespace PL
         public static readonly DependencyProperty EndDateProjectProjectProperty =
         DependencyProperty.Register("EndDateProject", typeof(DateTime), typeof(ScheduleWindow), new PropertyMetadata(null));
 
-        private void btnDeleteTask_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                s_bl.Task.Delete(ID);
-            }
-            catch (BlDoesNotExistException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message);
-            }
-        }
-
-        private void btnDeleteEngineer_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                s_bl.Engineer.Delete(ID);
-            }
-            catch (BlDoesNotExistException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message);
-            }
-
-        }
+      
 
         private void btnProjectStartDate_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DateTime? d = s_bl.Schedule.SetStartProjectDate(StartDateProject);
-                if (d == null)
+                if (s_bl.Schedule.getStartProjectDate() != null)
                 {
                     MessageBox.Show("A project start date already exists");
+
+                    StartDateProject = (DateTime)s_bl.Schedule.getStartProjectDate()!;
+                    return; 
                 }
-                
+                s_bl.Schedule.SetStartProjectDate((DateTime)StartDateProject!);
+                MessageBox.Show("Project start date updated successfully");
             }
             catch (Exception ex)
             {
@@ -142,12 +105,13 @@ namespace PL
         {
             try
             {
-                DateTime? d = s_bl.Schedule.SetEndProjectDate(EndDateProject);
-                if (d == null)
+                if(s_bl.Schedule.getEndProjectDate() != null)
                 {
                     MessageBox.Show("A project end date already exists");
+                    return;
                 }
-
+                s_bl.Schedule.SetEndProjectDate((DateTime)EndDateProject!);
+                MessageBox.Show("Project End date updated successfully");
             }
             catch (Exception ex)
             {
@@ -160,7 +124,7 @@ namespace PL
             try
             {
                 s_bl.Task.UpdateStartDate(ID, Date);
-
+                MessageBox.Show($"updated date for Task {ID} successfully");
             }
             catch (BlDoesNotExistException ex)
             {

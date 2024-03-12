@@ -52,5 +52,8 @@ public interface ITask
     /// Deletes all tasks and dependencies
     /// </summary>
     public void clear();
-  
+
+    public void UpdateStartAndEndDate(DateTime? dateS, DateTime? dateE, int idT);
+
+
 }
