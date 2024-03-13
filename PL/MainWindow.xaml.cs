@@ -103,4 +103,24 @@ public partial class MainWindow : Window
     }
 
 
+    private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char c in e.Text)
+        {
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true; // מונע את הקלט אם לא מספרי
+                return;
+            }
+        }
+    }
+
+    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Space)
+        {
+            e.Handled = true; // מונע את הקלט אם המקש הוא רווח
+        }
+    }
+
 }

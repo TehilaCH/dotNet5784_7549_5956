@@ -2,6 +2,7 @@
 using PL.Engineer;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,19 +39,19 @@ public partial class TaskWindow : Window
         set { SetValue(TaskProperty, value); }
     }
     ////***
-    public int isEngineer
+    public bool isEngineer
     {
-        get { return (int)GetValue(isEngineerProperty); }
+        get { return (bool)GetValue(isEngineerProperty); }
         set { SetValue(isEngineerProperty, value); }
     }
 
 
     public static readonly DependencyProperty isEngineerProperty = DependencyProperty.Register(
     nameof(isEngineer),
-     typeof(int),
+     typeof(bool),
      typeof(TaskWindow));
   
-    public TaskWindow(Action<int, bool> addOrUpdateNewItem, int Id = 0, int isEngineer = 0)//A constructor with a parameter
+    public TaskWindow(Action<int, bool> addOrUpdateNewItem, int Id = 0, bool isEngineer = true)//A constructor with a parameter
     {
         InitializeComponent();
         _addOrUpdateNewItem = addOrUpdateNewItem;
@@ -146,4 +147,27 @@ public partial class TaskWindow : Window
 
 
     }
+
+    
+
+    private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char c in e.Text)
+        {
+            if (!char.IsDigit(c))
+            {
+                e.Handled = true; // מונע את הקלט אם לא מספרי
+                return;
+            }
+        }
+    }
+
+    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Space)
+        {
+            e.Handled = true; // מונע את הקלט אם המקש הוא רווח
+        }
+    }
+
 }

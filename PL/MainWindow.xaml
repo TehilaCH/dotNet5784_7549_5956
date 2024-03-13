@@ -12,25 +12,13 @@
             <ImageBrush ImageSource="/מסך ראשי.jpeg"/>
         </Grid.Background>
 
-        <!-- Header -->
-        <!--<StackPanel  Grid.Row="0" Height="80" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="259,54,0,0">
-            <TextBlock Text=" Management System" FontSize="30" FontWeight="Bold" Foreground="Black" RenderTransformOrigin="0.258,1.113"/>
-        </StackPanel>-->
-
         <!-- Content -->
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-
-        <!--<TextBlock HorizontalAlignment="Left" Margin="249,27,0,0" Grid.Row="2" TextWrapping="Wrap" Text="{Binding Clock, Mode=OneWay}" VerticalAlignment="Top"/>-->
-
-        <!--<Button Content="הקדם יום" Click="AdvanceDay_Click" />
-        <Button Content="הקדם שעה" Click="AdvanceHour_Click" Margin="5"/>-->
-
-
+        
         <Button Content="Director" HorizontalAlignment="Left"  Width="56" Height="47" Margin="250,202,0,0" VerticalAlignment="Top"
                 Click="btnDirector_Click" Grid.Row="2"/>
 
@@ -45,10 +33,24 @@
 
 
         <Label Content="ID:" HorizontalAlignment="Left" Margin="21,273,0,0" Grid.Row="2" VerticalAlignment="Top"/>
-
         <TextBox HorizontalAlignment="Left" Margin="45,277,0,0" Grid.Row="2" TextWrapping="Wrap"
+         Text="{Binding Path=IdEngineer, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, 
+                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringToIntConverterKey}}"
+         VerticalAlignment="Top" Width="120"
+         PreviewTextInput="TextBox_PreviewTextInput"
+         PreviewKeyDown="TextBox_PreviewKeyDown"/>
+
+
+        <!--<TextBox HorizontalAlignment="Left" Margin="45,277,0,0" Grid.Row="2" TextWrapping="Wrap"
+         Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, 
+                Path=IdEngineer, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+         VerticalAlignment="Top" Width="120"
+         PreviewTextInput="TextBox_PreviewTextInput"
+         PreviewKeyDown="TextBox_PreviewKeyDown"/>-->
+        
+        <!--<TextBox HorizontalAlignment="Left" Margin="45,277,0,0" Grid.Row="2" TextWrapping="Wrap"
          Text="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:MainWindow}}, Path=IdEngineer, Mode=TwoWay}"
-         VerticalAlignment="Top" Width="120"/>
+         VerticalAlignment="Top" Width="120"/>-->
 
 
     </Grid>

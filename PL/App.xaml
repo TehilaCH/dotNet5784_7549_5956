@@ -11,6 +11,7 @@
         <converters:EditModeToBoolConverter x:Key="EditModeConverterKey"/>
         <converters:BoolConverter x:Key="BoolConverterKey"/>
         <converters:ConvertTimeSpan x:Key="ConvertTimeSpanKey"/>
-        
+        <converters:StringToIntConverter x:Key="StringToIntConverterKey"/>
+
     </Application.Resources>
 </Application>

@@ -90,7 +90,7 @@ internal class Bl : IBl
                 case BO.EngineerLevel.Beginner:
                     tasksWithoutEngineer = (from t in Task.ReadAll()
                                             where t.Engineer == null &&
-                                            t.TaskLave == BO.EngineerLevel.Beginner &&
+                                               t.TaskLave == BO.EngineerLevel.Beginner &&
                                             t.Dependencies.All(dependency => dependency.Status == BO.Status.Done)
                                             select t).ToList();
                     break;

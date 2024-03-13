@@ -127,4 +127,16 @@ public partial class EngineerWindow : Window
 
 
     }
+
+    private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char c in e.Text)
+        {
+            if (!char.IsDigit(c) && c != '.')
+            {
+                e.Handled = true; // אילוצי
+                return;
+            }
+        }
+    }
 }

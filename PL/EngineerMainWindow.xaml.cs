@@ -83,7 +83,7 @@ public partial class EngineerMainWindow : Window
     {
         if (idTask != null)
         {
-            TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem, (int)idTask ,1);
+            TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem, (int)idTask ,false);
             taskWindow.ShowDialog();
         }
         else
@@ -128,7 +128,9 @@ public partial class EngineerMainWindow : Window
         }
         catch (BlDoesNotExistException ex)
         {
-          MessageBox.Show("The engineer has no current task");
+            MessageBox.Show(ex.Message);
+            StartDateTask = DateTime.MinValue;
+            EndDateTask= DateTime.MinValue;
         }
         catch (Exception ex)
         {

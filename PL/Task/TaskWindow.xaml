@@ -54,13 +54,13 @@
                  HorizontalAlignment="Left" Height="18" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"/>
 
         <Label Grid.Row="3" Grid.Column="0" Content="Task level:" VerticalAlignment="Top" Height="26" Margin="0,5,3,0" />
-        <ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="3,0,0,0" 
+        <ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="3,0,0,0" 
         ItemsSource="{Binding Source={StaticResource EngineersCollectionKey}}" 
         SelectedValue="{Binding TaskLave, Mode=TwoWay, NotifyOnValidationError=true, 
         ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Status:" VerticalAlignment="Top" Height="26" Margin="0,5,3,0" />
-        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Height="22" Margin="3,0,0,0" 
+        <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="3,0,0,0" 
          ItemsSource="{Binding Source={StaticResource StatusCollectionKey}}" 
          SelectedValue="{Binding Status, Mode=TwoWay, NotifyOnValidationError=true, 
          ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120" IsEnabled="False"/>
@@ -78,30 +78,35 @@
         <DatePicker Grid.Row="7" Grid.Column="1" SelectedDate="{Binding CreatTaskDate, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
                     HorizontalAlignment="Left" Height="24" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"  IsEnabled="False"/>
 
-        <Label Grid.Row="8" Grid.Column="0" Content="planned Date Start Work :" VerticalAlignment="Center" Height="26" Margin="0,0,3,0"/>
+        <Label Grid.Row="8" Grid.Column="0" Content="planned Date Start Work :" VerticalAlignment="Top" Height="26" Margin="0,5,3,0"/>
         <DatePicker Grid.Row="8" Grid.Column="1" SelectedDate="{Binding PlannedDateStartWork, Mode=TwoWay, NotifyOnValidationError=true, 
-            ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="24" Margin="3,10,0,0"  VerticalAlignment="Top" Width="120"
+            ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Height="24" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"
                      IsEnabled="False"/>
 
         <Label Grid.Row="9" Grid.Column="0" Content="Start Date Task :" VerticalAlignment="Top" Height="26" Margin="0,5,3,0"/>
         <DatePicker Grid.Row="9" Grid.Column="1" SelectedDate="{Binding StartDateTask, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
                     HorizontalAlignment="Left" Height="24" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120" IsEnabled="False"/>
-        <!--IsEnabled="{Binding isEngineer, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"/>-->
 
-        <Label Grid.Row="10" Grid.Column="0" Content="Deadline :" VerticalAlignment="Center" Height="26" Margin="0,0,3,0"/>
+        <Label Grid.Row="10" Grid.Column="0" Content="Deadline :" VerticalAlignment="Top" Height="26" Margin="0,5,3,0"/>
         <DatePicker Grid.Row="10" Grid.Column="1" SelectedDate="{Binding Deadline, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  
-                    HorizontalAlignment="Left" Height="24" Margin="3,10,0,0"  VerticalAlignment="Top" Width="120"
+                    HorizontalAlignment="Left" Height="24" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"
                      IsEnabled="False"/>
 
-        <Label Grid.Row="11" Grid.Column="0" Content="End Date :" VerticalAlignment="Center" Height="26" Margin="0,0,3,0"/>
+        <Label Grid.Row="11" Grid.Column="0" Content="End Date :" VerticalAlignment="Top" Height="26" Margin="0,5,3,0"/>
         <DatePicker Grid.Row="11" Grid.Column="1" SelectedDate="{Binding EndDate, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
-                    HorizontalAlignment="Left" Height="24" Margin="3,10,0,0"  VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <!--IsEnabled="{Binding isEngineer, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"/>-->
-        
-        <!--<Label Grid.Row="12" Grid.Column="0" Content="Time Required :" VerticalAlignment="Top" Height="26" Margin="0,5,3,0"/>
-        <TextBox Grid.Row="12" Grid.Column="1" Text = "{Binding TimeRequired, Mode=OneTime, Converter={StaticResource ConvertTimeSpanKey}}"
-                 HorizontalAlignment="Left" Height="24" Margin="3,10,0,0" VerticalAlignment="Top" Width="120"/>-->
-                 
+                    HorizontalAlignment="Left" Height="24" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120" IsEnabled="False"/>
+       
+        <Label Grid.Row="12" Grid.Column="0" Content="Time Required :" VerticalAlignment="Top" Height="26" Margin="0,5,3,0"/>
+        <TextBox Grid.Row="12" Grid.Column="1" 
+         Text="{Binding TimeRequired, Mode=TwoWay,Converter={StaticResource StringToIntConverterKey}}"
+         MaxLength="2"
+         HorizontalAlignment="Left" Height="18" Margin="3,0,0,0" VerticalAlignment="Center" Width="120"
+         PreviewTextInput="TextBox_PreviewTextInput"
+         PreviewKeyDown="TextBox_PreviewKeyDown"/>
+
+
+        <!--<TextBox Grid.Row="12" Grid.Column="1" Text = "{Binding TimeRequired, Mode=TwoWay}"
+         HorizontalAlignment="Left" Height="18" Margin="3,0,0,0" VerticalAlignment="Center" Width="120"/>-->
         
         <Label Grid.Row="13" Grid.Column="0" Content="Engineer:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0" FontWeight="Bold"/>
         <Label Grid.Row="14" Grid.Column="0" Content="Id Engineer:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0"/>

@@ -315,14 +315,15 @@ internal class TaskImplementation : BlApi.ITask
 
                 if(boTask.Dependencies.Count!=0)//exists for task dependencies
                 {
-                    //All tasks that the current task depends on have been completed
-                    var Task = (from t in _dal.Task.ReadAll()
-                                where !boTask.Dependencies!.Any(t1 => t.TaskId == t1.Id && t.EndDate == null)
-                                select t).ToList();
+                    var incompleteTasks = (from t in boTask.Dependencies
+                                           where t.Status != Status.Done
+                                           select t).ToList();
 
-                    if (Task.Count != 0)//There is a previous task that has not completed
+                    if (incompleteTasks.Any())
                         throw new BlInvalidValueException("It is not possible to assign an existing previous task that has not been completed");
 
+                    
+                     
                 }
 
 
@@ -403,8 +404,8 @@ internal class TaskImplementation : BlApi.ITask
             Nickname = task.Nickname,
             Description = task.Description,
             CreatTaskDate = task.CreatTaskDate,
-            PlannedDateStartWork = task.PlannedDateStartWork,
-            StartDateTask = date,
+            PlannedDateStartWork = date,
+            StartDateTask = task.StartDateTask,
             TimeRequired = task.TimeRequired,
             Deadline = task.Deadline,
             EndDate = task.EndDate,
@@ -560,7 +561,7 @@ internal class TaskImplementation : BlApi.ITask
 
         if (dateS !=null && dateS != DateTime.MinValue)
         {
-            if (task.StartDateTask == null)
+            if (task.StartDateTask == null|| task.StartDateTask==DateTime.MinValue)
             {
                 DO.Task doTask = new DO.Task
                 {
@@ -581,12 +582,13 @@ internal class TaskImplementation : BlApi.ITask
                 _dal.Task.Update(doTask);
             }
             else
-                throw new BlDoesNotExistException($"Task with ID={idT} Start Date ");
+                throw new BlDoesNotExistException($"Task with ID={idT} has a start Date ");
+
         }
        
-        if (dateE != null || dateE != DateTime.MinValue)
+        if (dateE != null && dateE != DateTime.MinValue)
         {
-            if (task.EndDate == null)
+            if (task.EndDate == null || task.EndDate == DateTime.MinValue)
             {
                 DO.Task doTask = new DO.Task
                 {
@@ -607,7 +609,7 @@ internal class TaskImplementation : BlApi.ITask
                 _dal.Task.Update(doTask);
             }
             else
-                throw new BlDoesNotExistException($"Task with ID={idT} finish Date ");
+                throw new BlDoesNotExistException($"Task with ID={idT} has a finish Date ");
         }
 
     }
