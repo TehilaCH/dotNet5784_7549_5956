@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="ScheduleWindow" Height="450" Width="800"
          DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
-
+  
     <Grid>
 
         <Button Content="Update date" HorizontalAlignment="Left" Margin="563,126,0,0" VerticalAlignment="Top"
