@@ -26,14 +26,15 @@ internal class DependenceImplementation : IDependence
     {
         foreach (var dependence in DataSource.Dependences)
         {
-            if (dependence.IdNum == id)
+            if (dependence.IdNum == id)//Checks if a dependency exists
             {
-                DataSource.Dependences.Remove(dependence);
+                DataSource.Dependences.Remove(dependence);//Deletes the dependency
                 return;
             }
         }
-        throw new DalDoesNotExistException($"Dependence with ID={id} does not exists");
-        
+        throw new DalDoesNotExistException($"Dependence with ID={id} does not exists");//Throws an exception
+                                                                                       //if the dependency does not exist
+
     }
     /// <summary>
     /// search Dependence and return if ut found else return null
@@ -65,13 +66,13 @@ internal class DependenceImplementation : IDependence
 
     public IEnumerable<Dependence> ReadAll(Func<Dependence, bool>? filter = null) 
     {
-        if (filter != null)
+        if (filter != null) //If there is filtering
         {
             return from item in DataSource.Dependences
                    where filter(item)
                    select item;
         }
-        return from item in DataSource.Dependences
+        return from item in DataSource.Dependences //If there is no filtering
                select item;
     }
     /// <summary>
@@ -84,16 +85,17 @@ internal class DependenceImplementation : IDependence
     {
         foreach (var task in DataSource.Dependences)
         {
-            if (task.IdNum == item.IdNum)
+            if (task.IdNum == item.IdNum)//Checks if the dependency exists
             {
-                DataSource.Dependences.Remove(task);
-                DataSource.Dependences.Add(item);
+                DataSource.Dependences.Remove(task);//Deletes the old entity
+                DataSource.Dependences.Add(item);//Added updated entity
                 return;
             }
         }
 
-        throw new DalDoesNotExistException($"Dependence with ID={item.IdNum} does not exists");
-        
+        throw new DalDoesNotExistException($"Dependence with ID={item.IdNum} does not exists");//Throws an exception
+                                                                                               //if the dependency does not exist
+
     }
     /// <summary>
     /// clear the list of Dependences

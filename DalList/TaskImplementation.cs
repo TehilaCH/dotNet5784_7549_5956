@@ -15,9 +15,9 @@ internal class TaskImplementation : ITask
 /// <returns></returns>
     public int Create(Task item)
     {
-        int newTaskId = DataSource.Config.NextTaskId;
-        Task temp=item with { TaskId=newTaskId };
-        DataSource.Tasks.Add(temp); 
+        int newTaskId = DataSource.Config.NextTaskId;//creates automatic ID
+        Task temp=item with { TaskId=newTaskId };//Copying an entity with the id automatic
+        DataSource.Tasks.Add(temp); //Adds the task to the list
         return newTaskId;
     }
     /// <summary>
@@ -30,14 +30,15 @@ internal class TaskImplementation : ITask
 
         foreach (var task in DataSource.Tasks)
         {
-            if (task.TaskId == id)
+            if (task.TaskId == id)//Checks if the task exists
             {
-                DataSource.Tasks.Remove(task);
+                DataSource.Tasks.Remove(task);//Deletes the task
                 return;
             }
         }
-        throw new DalDoesNotExistException($"Task with ID={id} does not exists");
-       
+        throw new DalDoesNotExistException($"Task with ID={id} does not exists");//Throws an exception if a
+                                                                                 //task does not exist
+
     }
     /// <summary>
     /// Returns the object if it exists otherwise returns null
@@ -68,13 +69,13 @@ internal class TaskImplementation : ITask
     /// <returns></returns>
     public IEnumerable<Task> ReadAll(Func<Task, bool>? filter = null) 
     {
-        if (filter != null)
+        if (filter != null)//If there is filtering
         {
             return from item in DataSource.Tasks
                    where filter(item)
                    select item;
         }
-        return from item in DataSource.Tasks
+        return from item in DataSource.Tasks//If there is no filtering
                select item;
     }
 
@@ -89,16 +90,18 @@ internal class TaskImplementation : ITask
     {
         foreach (var task in DataSource.Tasks)
         {
-            if (task.TaskId == item.TaskId)
+            if (task.TaskId == item.TaskId)//Checks if the task exists
             {
-                DataSource.Tasks.Remove(task);
-                DataSource.Tasks.Add(item);
+                DataSource.Tasks.Remove(task);//Deletes an old task
+                DataSource.Tasks.Add(item);//Adds an updated task
                 return;
             }
         }
 
-        throw new DalDoesNotExistException($"Task with ID={item.TaskId} does not exists");
-        
+        throw new DalDoesNotExistException($"Task with ID={item.TaskId} does not exists");//Throws an exception if a
+                                                                                          //task does not exist
+
+
     }
     /// <summary>
     /// clear the list of Tasks

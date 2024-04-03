@@ -21,12 +21,12 @@ internal class EngineerImplementation : IEngineer
 
         foreach (var engineer in DataSource.Engineers) //check if item exists and throws an exception if it exists
         {
-            if (engineer.IdNum == item.IdNum)
+            if (engineer.IdNum == item.IdNum)//Checks if the engineer is exist throws an exception
             {
                 throw new DalAlreadyExistsException($"Engineer with ID={item.IdNum} already exists");
             }
         }
-        DataSource.Engineers.Add(item);
+        DataSource.Engineers.Add(item);//Adds an engineer to the list
 
         return item.IdNum;
     }
@@ -40,13 +40,15 @@ internal class EngineerImplementation : IEngineer
     {
         foreach (var engineer in DataSource.Engineers)
         {
-            if(engineer.IdNum == id)
+            if(engineer.IdNum == id)//Checks if a Engineer exists
             {
-                DataSource.Engineers.Remove(engineer);
+                DataSource.Engineers.Remove(engineer);//Deletes the Engineer
                 return;
             }
         }
-            throw new DalDoesNotExistException($"Engineer with ID={id} does not exists");
+            throw new DalDoesNotExistException($"Engineer with ID={id} does not exists");//Throws an exception
+                                                                                         //if the Engineer does not exist
+
     }
     /// <summary>
     /// Returns the object if it exists otherwise returns null
@@ -76,13 +78,13 @@ internal class EngineerImplementation : IEngineer
     /// <returns></returns>
     public IEnumerable<Engineer> ReadAll(Func<Engineer, bool>? filter = null) //stage 2
     {
-        if (filter != null)
+        if (filter != null)//If there is filtering
         {
             return from item in DataSource.Engineers
                    where filter(item)
                    select item;
         }
-        return from item in DataSource.Engineers
+        return from item in DataSource.Engineers //If there is no filtering
                select item;
     }
     /// <summary>
@@ -95,10 +97,10 @@ internal class EngineerImplementation : IEngineer
     {
         foreach(var engineer in DataSource .Engineers)
         {
-            if(engineer.IdNum==item.IdNum)
+            if(engineer.IdNum==item.IdNum)//Checks if exists
             {
-                DataSource.Engineers.Remove(engineer);
-                DataSource.Engineers.Add(item);
+                DataSource.Engineers.Remove(engineer);//Delete old engineer 
+                DataSource.Engineers.Add(item);//Adds an updated engineer
                 return;
             }
         }

@@ -24,13 +24,13 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="DalXMLFileLoadCreateException"></exception>
     public int Create(Engineer item)
     {
-        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);
-        if (engineerElem.Elements("Engineer").Any(e => e.ToIntNullable("Id") == item.IdNum))
+        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);//Moves the file to the object
+        if (engineerElem.Elements("Engineer").Any(e => e.ToIntNullable("Id") == item.IdNum))//Checking if something like this exists
         {
             throw new DalXMLFileLoadCreateException($"An Engineer with IdNum {item.IdNum} already exists.");
         }
 
-        XElement itemElement = new XElement("Engineer",
+        XElement itemElement = new XElement("Engineer",  //Creates an engineer
             new XElement("Id", item.IdNum),
             new XElement("Name", item.Name),
             new XElement("Email", item.Email),
@@ -38,8 +38,8 @@ internal class EngineerImplementation : IEngineer
             new XElement("EngineerLevel", item.EngineerLevel)
         );
 
-        engineerElem.Add(itemElement);
-        XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);
+        engineerElem.Add(itemElement);//adding
+        XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);//Save changes
         return item.IdNum;
     }
     /// <summary>
@@ -49,13 +49,13 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="InvalidOperationException"></exception>
     public void Delete(int id)
     {
-        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);
-        XElement engineerToRemove = engineerElem.Elements("Engineer").FirstOrDefault(e => e.ToIntNullable("Id") == id);
+        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);//Passes data to an object
+        XElement engineerToRemove = engineerElem.Elements("Engineer").FirstOrDefault(e => e.ToIntNullable("Id") == id)!;//Checks if the engineer is present
 
-        if (engineerToRemove != null)
+        if (engineerToRemove != null)//if exists
         {
-            engineerToRemove.Remove();
-            XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);
+            engineerToRemove.Remove();//Deletes the engineer
+            XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);//Save changes
         }
         else
         {
@@ -69,8 +69,8 @@ internal class EngineerImplementation : IEngineer
     /// <returns></returns>
     public Engineer? Read(Func<Engineer, bool> filter)
     {
-        return XMLTools.LoadListFromXMLElement(s_engineers_xml).Elements().Select(s => getEngineer(s)).FirstOrDefault(filter);
-      
+        return XMLTools.LoadListFromXMLElement(s_engineers_xml).Elements().Select(s => getEngineer(s)).FirstOrDefault(filter);//Returns if the filter is met
+
     }
     /// <summary>
     ///  Returns the object from the fail XML if exists otherwise returns null
@@ -80,9 +80,9 @@ internal class EngineerImplementation : IEngineer
     public Engineer? Read(int id)
     {
        
-        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);
-        XElement? engineerElement = engineerElem.Elements("Engineer").FirstOrDefault(st => (int?)st.Element("Id") == id);
-        return engineerElement is null ? null : getEngineer(engineerElement);
+        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);//Passes data to an object
+        XElement? engineerElement = engineerElem.Elements("Engineer").FirstOrDefault(st => (int?)st.Element("Id") == id);//Checks if the engineer is available
+        return engineerElement is null ? null : getEngineer(engineerElement);//If present returns the object otherwise null
     }
     /// <summary>
     /// Making a copy of the existing list of all objects of type E Returning the copy
@@ -92,9 +92,9 @@ internal class EngineerImplementation : IEngineer
     public IEnumerable<Engineer?> ReadAll(Func<Engineer, bool>? filter = null)
     {
         if (filter == null)
-            return XMLTools.LoadListFromXMLElement(s_engineers_xml).Elements().Select(s => getEngineer(s));
+            return XMLTools.LoadListFromXMLElement(s_engineers_xml).Elements().Select(s => getEngineer(s));//Returns a copy of a list of engineers who perform the filtering
         else
-            return XMLTools.LoadListFromXMLElement(s_engineers_xml).Elements().Select(s => getEngineer(s)).Where(filter);
+            return XMLTools.LoadListFromXMLElement(s_engineers_xml).Elements().Select(s => getEngineer(s)).Where(filter);//Returns a copy of a list of engineers
 
     }
     /// <summary>
@@ -105,20 +105,20 @@ internal class EngineerImplementation : IEngineer
     /// <exception cref="DalXMLFileLoadCreateException"></exception>
     public void Update(Engineer item)
     {
-        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);
-        XElement engineerToUpdate = engineerElem.Elements("Engineer").FirstOrDefault(e => e.ToIntNullable("Id") == item.IdNum);
-        if (engineerToUpdate != null)
+        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);//Passes data to an object
+        XElement engineerToUpdate = engineerElem.Elements("Engineer").FirstOrDefault(e => e.ToIntNullable("Id") == item.IdNum)!;//Checks if the engineer is present
+        if (engineerToUpdate != null)//if exists
         {
-            engineerToUpdate.Remove();
-            XElement itemElement = new XElement("Engineer",
+            engineerToUpdate.Remove();//delete engineer
+            XElement itemElement = new XElement("Engineer",//Creates an engineer
             new XElement("Id", item.IdNum),
             new XElement("Name", item.Name),
             new XElement("Email", item.Email),
             new XElement("CostPerHour", item.CostPerHour),
             new XElement("EngineerLevel", item.EngineerLevel)
         );
-            engineerElem.Add(itemElement);
-            XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);
+            engineerElem.Add(itemElement);//Updating a new engineer
+            XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);//Save changes
         }
 
         else
@@ -131,9 +131,9 @@ internal class EngineerImplementation : IEngineer
     /// </summary>
     public void clear() 
     {
-        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);
-        engineerElem.RemoveAll();
-        XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);
+        XElement engineerElem = XMLTools.LoadListFromXMLElement(s_engineers_xml);//Passes data to an object
+        engineerElem.RemoveAll();//Deletes data
+        XMLTools.SaveListToXMLElement(engineerElem, s_engineers_xml);//Save changes
 
     }
     /// <summary>
@@ -142,7 +142,7 @@ internal class EngineerImplementation : IEngineer
     /// <param name="s"></param>
     /// <returns></returns>
     /// <exception cref="FormatException"></exception>
-    static Engineer getEngineer (XElement s)
+    static Engineer getEngineer (XElement s)//Creates an engineer object and return
     {
         return new Engineer()
         {

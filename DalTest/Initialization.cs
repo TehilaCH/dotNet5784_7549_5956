@@ -17,18 +17,18 @@ public static class Initialization
     {
         Random random = new Random();
 
-        for (int i = 0; i < 40; i++)
+        for (int i = 0; i < 40; i++)//Initialization of 40 dependencies
         {
             int idPendingTask = i; 
-            int idPreviousTask = random.Next(0, i);  
+            int idPreviousTask = random.Next(0, i);//The task depends on its Previous task
 
-            Dependence dependence = new Dependence
+            Dependence dependence = new Dependence//creating a entity
             {
                 IdPendingTask = idPendingTask,
                 IdPreviousTask = idPreviousTask
             };
 
-            s_dal?.Dependence.Create(dependence);
+            s_dal?.Dependence.Create(dependence);//creating a dependency
 
 
         }
@@ -49,13 +49,13 @@ public static class Initialization
             int id;
             do
                 id = s_rand.Next(200000000, 400000000);//id random
-            while (s_dal!.Engineer.Read(id)!=null);
+            while (s_dal!.Engineer.Read(id)!=null);//If such an id exists, create a new id
             string fullName = engineerName;
             string name = engineerName.Replace(" ", "");//Reduces spaces in the string
             string email = $"{name}@gmail.com";//create email
             double cost = s_rand.Next(100, 500);//random cost
             EngineerLevel EngineerLevel = (EngineerLevel)s_rand.Next(0, 5);
-            Engineer Engineeri = new Engineer(     //initialization feilds
+            Engineer Engineeri = new Engineer(     //creat and initialization feilds
             Name: fullName,
             IdNum: id,
             Email: email,
@@ -65,7 +65,7 @@ public static class Initialization
             );
 
 
-            s_dal.Engineer.Create(Engineeri);
+            s_dal.Engineer.Create(Engineeri);//creates an engineer
 
         }
 
@@ -96,12 +96,13 @@ public static class Initialization
         foreach (var t in nameTask)
         {
 
-            DateTime start = new DateTime(1995, 1, 1);
+            DateTime start = new DateTime(1995, 1, 1);//start date
             int range = (DateTime.Today - start).Days;
             DateTime creatTask = start.AddDays(s_rand.Next(range));//Task creation date
             string nickname = t;
-            string description = DescriptionTask[i];
-            Task taski = new Task()
+            string description = DescriptionTask[i];//Description from the array of descriptions
+            EngineerLevel level = (EngineerLevel)s_rand.Next(0, 5);
+            Task taski = new Task()//Create a task
             {
                 Nickname = nickname,
                 CreatTaskDate = creatTask,
@@ -114,18 +115,18 @@ public static class Initialization
                 EndDate = null,
                 Product = null,
                 Remarks = null,
-                TaskLave = null
+                TaskLave = level
 
             };
 
-            s_dal?.Task.Create(taski);
+            s_dal?.Task.Create(taski);//Sending to a create function
             i++;
 
         }
 
     }
    
-    public static void Do()
+    public static void Do()//Initializing all data
     {
          s_dal = Factory.Get; 
         creatTasks();
@@ -134,9 +135,11 @@ public static class Initialization
 
     }
 
-    public static void Reset()
+    public static void Reset()//Deletes all data
     {
-        Do();
+        //Do();
+        /**/
+        s_dal = Factory.Get;
         s_dal.Engineer.clear();
         s_dal.Dependence.clear();
         s_dal.Task.clear();

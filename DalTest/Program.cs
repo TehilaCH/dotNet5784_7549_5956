@@ -23,7 +23,7 @@ internal class Program
         {
             switch (choice)
             {
-                case 1:
+                case 1://Engineer
                     menu();
                     var choice1 = Console.ReadLine();
                     switch (choice1)
@@ -35,11 +35,11 @@ internal class Program
                             Console.WriteLine("Enter engineer details:");
                             Console.Write("Id: ");
                             int id1 = int.Parse(Console.ReadLine()!);
-                            Engineer engineer1 = initialEngineer(id1);
+                            Engineer engineer1 = initialEngineer(id1);//sender of an initializing function
                             try
                             {
-                                int idE = s_dal.Engineer.Create(engineer1);
-                                Console.WriteLine($"ID ={idE}");
+                                int idE = s_dal.Engineer.Create(engineer1);//creates an engineer
+                                Console.WriteLine($"ID ={idE}");//Prints the id returned from the function
                             }
                             catch (Exception ex)//Exception if there is such an id
                             {
@@ -50,18 +50,18 @@ internal class Program
                         //read-return Engineer if found 
                         case "2":
                             Console.Write("Enter id: ");
-                            int idR = int.Parse(Console.ReadLine()!);
+                            int idR = int.Parse(Console.ReadLine()!);//get id from the user
                             Engineer? engineerRead = s_dal.Engineer.Read(idR);
-                            if(engineerRead==null)
-                                Console.WriteLine($"{idR} not found");
+                            if(engineerRead==null)//Checks if it doesn't exist
+                                Console.WriteLine($"{idR} not found");//Prints a message that does not exist
                             Console.WriteLine(engineerRead);
                             break;
                             //update Engineer 
                         case "3":
                             Console.Write("Enter Id: ");
-                            int id3 = int.Parse(Console.ReadLine()!);
-                            Engineer temp = s_dal.Engineer.Read(id3)!;
-                            if (temp == null)
+                            int id3 = int.Parse(Console.ReadLine()!);//get an id from the user
+                            Engineer temp = s_dal.Engineer.Read(id3)!;//Check if exsist
+                            if (temp == null)//if not exsist
                             {
                                 Console.WriteLine("not found this id to update");
                                 break;
@@ -70,8 +70,8 @@ internal class Program
                             Engineer engineer3 = initialEngineer(id3);
                             try
                             {
-                                s_dal.Engineer.Update(engineer3);
-                                Console.WriteLine(engineer3);
+                                s_dal.Engineer.Update(engineer3);//calls the update function
+                                Console.WriteLine(engineer3);// Prints the updated engineer
                             }
                             catch (Exception ex)//Exception if not found
                             {
@@ -129,11 +129,11 @@ internal class Program
                             break;
                         //create Dependence
                         case "1":
-                            Dependence dependence1 = initialDependenc();
+                            Dependence dependence1 = initialDependenc();//calls the initialization function
                             try 
                             {
-                                int idD = s_dal.Dependence.Create(dependence1);
-                                Console.WriteLine($"ID ={idD}");
+                                int idD = s_dal.Dependence.Create(dependence1);//Creates a dependency
+                                Console.WriteLine($"ID ={idD}");//Prints the Id of the created dependency
                             }
                             catch (Exception ex)//Exception if exists
                             {
@@ -144,9 +144,9 @@ internal class Program
                         case "2":
                             Console.Write("Enter id: ");
                             int id2 = int.Parse(Console.ReadLine()!);
-                            Dependence? dependence2 = s_dal.Dependence.Read(id2);
-                            if(dependence2==null)
-                                Console.WriteLine($"{id2} not found");
+                            Dependence? dependence2 = s_dal.Dependence.Read(id2);//Checks if a dependency exists
+                            if (dependence2==null)//if not exsist
+                                Console.WriteLine($"{id2} not found");//print a message that does not exist
                             Console.WriteLine(dependence2);
                             break;
                             //updates a dependency if exsist
@@ -154,10 +154,10 @@ internal class Program
                             Console.WriteLine("Enter Dependence details:");
                             Console.Write("Id: ");
                             int id= int.Parse(Console.ReadLine()!);
-                            Dependence temp =s_dal.Dependence.Read(id)!;
-                            if (temp == null)//will not update if entered 0
+                            Dependence temp =s_dal.Dependence.Read(id)!;//Checks if a dependency exists
+                            if (temp == null)//if not exsist
                             {
-                                Console.WriteLine("not found this id to update");
+                                Console.WriteLine("not found this id to update");//print a message that does not exist
                                 break;
                             }
                             Console.Write("Id Pending Task: ");
@@ -167,8 +167,8 @@ internal class Program
                             Dependence dependence3 = new Dependence() { IdNum = id, IdPendingTask = IdPendingTask, IdPreviousTask = idPreviousT };
                             try
                             { 
-                                s_dal.Dependence.Update(dependence3);
-                                Console.WriteLine(dependence3);
+                                s_dal.Dependence.Update(dependence3);//Updates the dependency
+                                Console.WriteLine(dependence3);//Prints the dependencies you updated
                             }
                             catch (Exception ex)
                             {
@@ -180,7 +180,7 @@ internal class Program
                             Console.Write("Id: ");
                             int id4 = int.Parse(Console.ReadLine()!);
                             try
-                            { s_dal.Dependence.Delete(id4); }
+                            { s_dal.Dependence.Delete(id4); }//calls the delete function
                             catch (Exception ex)//Exception if not exsist
                             {
                                 Console.WriteLine($"{ex.Message}");
@@ -190,7 +190,8 @@ internal class Program
                         case "5":
                             IEnumerable<Dependence> CopyDependences = new List<Dependence>();
                             CopyDependences = s_dal.Dependence.ReadAll()!;
-                            foreach (var dependence in CopyDependences)
+                            foreach (var dependence in CopyDependences)//Goes through and prints the dependency
+                                                                       //list
                             {
                                 Console.WriteLine(dependence);
 
@@ -213,7 +214,7 @@ internal class Program
                     }
                     break;
 
-                case 3:
+                case 3://Task
                     menu();
                     var choice3 = Console.ReadLine();
                     switch(choice3)
@@ -238,8 +239,8 @@ internal class Program
                             Console.Write("Enter id: ");
                             int id=int.Parse(Console.ReadLine()!);
                             DO.Task? task2= s_dal.Task.Read(id);
-                            if (task2 == null)
-                               Console.WriteLine($"{id} not found");
+                            if (task2 == null)//if not exsist
+                                Console.WriteLine($"{id} not found");//Prints a message that does not exist
                             Console.WriteLine(task2);
                             break;
                         //Update Task exsist
@@ -268,7 +269,7 @@ internal class Program
                         case "4":
                             Console.Write("ID: ");
                             int id4 = int.Parse(Console.ReadLine()!);
-                            try { s_dal.Task.Delete(id4); }
+                            try { s_dal.Task.Delete(id4); }//Trying to delete
                             catch (Exception ex)//Exception if task not found
                             {
                                 Console.WriteLine($"{ex.Message}");
@@ -278,7 +279,7 @@ internal class Program
                         case "5":
                             IEnumerable<DO.Task> copyTasks = new List<DO.Task>();
                             copyTasks = s_dal.Task.ReadAll()!;
-                            foreach (var task in copyTasks)
+                            foreach (var task in copyTasks)//Prints the assignments
                             {
                                 Console.WriteLine(task);
 
@@ -449,6 +450,6 @@ internal class Program
             TaskLave= TaskLave
         };
       
-        return task1;
+        return task1; 
     }
 }

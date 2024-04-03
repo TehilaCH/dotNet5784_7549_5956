@@ -22,12 +22,12 @@ internal class EngineerImplementation : BlApi.IEngineer
     {
         
         if (boEngineer.Id < 1  || boEngineer.Cost < 0 || boEngineer.Name == null 
-            || IsValidEmail(boEngineer.Email!)==false || boEngineer.Task!=null)
+            || IsValidEmail(boEngineer.Email!)==false || boEngineer.Task!=null)//Integrity checks
         {
             throw new BlInvalidValueException("One or more parameters are incorrect");
         }
 
-            DO.Engineer doEngineer = new DO.Engineer(
+            DO.Engineer doEngineer = new DO.Engineer(//Creates an object
             boEngineer.Id,
             boEngineer.Name,
             boEngineer.Email,
@@ -36,8 +36,8 @@ internal class EngineerImplementation : BlApi.IEngineer
 
         try
         {
-            int idEngineer = _dal.Engineer.Create(doEngineer);
-            return idEngineer;
+            int idEngineer = _dal.Engineer.Create(doEngineer);//trying to create
+            return idEngineer;//Returns the created id
         }
         catch (DO.DalAlreadyExistsException ex)
         {
@@ -55,16 +55,17 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <exception cref="BlDoesNotExistException"></exception>
     public void Delete(int id)
     {
-        DO.Task? taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == id);
+        DO.Task? taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == id);//Checks if the engineer is assigned
+                                                                                                            //to the task
 
-        if (taskForEngineer != null)
+        if (taskForEngineer != null)//If assigned throws an exception
         { 
             throw new BlInvalidValueException("Cannot delete - engineer assigned to task");
         }
 
         try
         {
-            _dal.Engineer.Delete(id);
+            _dal.Engineer.Delete(id);//Trying to delete an engineer
         }
         catch (DalDoesNotExistException ex)
         {
@@ -82,8 +83,8 @@ internal class EngineerImplementation : BlApi.IEngineer
     public BO.Engineer Read(int id)
     {
 
-        DO.Engineer? doEngineer = _dal.Engineer.Read(id);
-        if (doEngineer == null)
+        DO.Engineer? doEngineer = _dal.Engineer.Read(id);//calls a function from the data
+        if (doEngineer == null) //If no engineer exists
             throw new BlDoesNotExistException($"Engineer with ID={id} does Not exist");
 
         return new BO.Engineer
@@ -93,7 +94,8 @@ internal class EngineerImplementation : BlApi.IEngineer
             Email = doEngineer.Email,
             Cost = doEngineer.CostPerHour,
             Level = (BO.EngineerLevel?)doEngineer.EngineerLevel,
-            Task = GetEngineerTask(doEngineer.IdNum)
+            Task = GetEngineerTask(doEngineer.IdNum)//A function that returns the task the engineer
+                                                    //is assigned to
         };
     }
     /// <summary>
@@ -103,7 +105,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// <returns></returns>
     public IEnumerable<BO.Engineer> ReadAll(Func<BO.Engineer, bool>? filter = null)
     {
-        if(filter != null)
+        if(filter != null)//with a filter
         {
             return (from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
                     let engineer= new BO.Engineer
@@ -113,10 +115,11 @@ internal class EngineerImplementation : BlApi.IEngineer
                         Email = doEngineer.Email,
                         Cost = doEngineer.CostPerHour,
                         Level = (BO.EngineerLevel?)doEngineer.EngineerLevel,
-                        Task = GetEngineerTask(doEngineer.IdNum)
+                        Task = GetEngineerTask(doEngineer.IdNum)//A function that returns the task the engineer
+                                                                //is assigned to
 
                     }
-                    where filter(engineer)
+                    where filter(engineer)//Checking if the filtering is completed
                     select engineer).ToList();
         }
         return(from DO.Engineer doEngineer in _dal.Engineer.ReadAll()
@@ -127,7 +130,9 @@ internal class EngineerImplementation : BlApi.IEngineer
                    Email = doEngineer.Email,
                    Cost = doEngineer.CostPerHour,
                    Level = (BO.EngineerLevel?)doEngineer.EngineerLevel,
-                   Task = GetEngineerTask(doEngineer.IdNum)
+                   Task = GetEngineerTask(doEngineer.IdNum)//A function that returns the task the engineer
+                                                           //is assigned to
+
 
                }
                select engineer).ToList();
@@ -140,8 +145,9 @@ internal class EngineerImplementation : BlApi.IEngineer
     private BO.TaskInEngineer? GetEngineerTask(int engineerId)
     {
         var taskForEngineer = _dal.Task.ReadAll()
-            .Where(task => task.EngineerIdToTask == engineerId && (task.EndDate == null || task.EndDate == DateTime.MinValue))
-            .Select(task => new BO.TaskInEngineer
+            .Where(task => task.EngineerIdToTask == engineerId && (task.EndDate == null || task.EndDate == DateTime.MinValue))//If there is a task that the
+                                                                                                                              //engineer is assigned to and its end date is empty
+            .Select(task => new BO.TaskInEngineer//Creates an object of a task assigned to an engineer
             {
                 Id = task.TaskId,
                 NickName = task.Nickname
@@ -162,17 +168,17 @@ internal class EngineerImplementation : BlApi.IEngineer
         DateTime? date = _dal.Schedule.getStartProjectDate();
         if (date == null) //planing Stage
         {
-            if (boEngineer.Task.Id != null)
-               throw new BlInvalidValueException("planing Stage is not allowed to assign an engineer to the task");
+            if (boEngineer.Task.Id != null)//Checking if an engineer is assigned to the task
+                throw new BlInvalidValueException("planing Stage is not allowed to assign an engineer to the task");
 
         }
 
         DO.Engineer? Engineer = _dal.Engineer.Read(boEngineer.Id);
-        bool islevel = LevelOfEngineer(Engineer!.EngineerLevel, boEngineer.Level);
-        bool flag= checkEngineerToTask(boEngineer);
+        bool islevel = LevelOfEngineer(Engineer!.EngineerLevel, boEngineer.Level);//Engineer level update check
+        bool flag= checkEngineerToTask(boEngineer);//Checking the assignment of an engineer to a task
 
         if (boEngineer.Cost < 0 || boEngineer.Name == null || IsValidEmail(boEngineer.Email!) == false
-            || islevel == false || flag == false)
+            || islevel == false || flag == false)//Integrity checks
         {
             throw new BlInvalidValueException("One or more parameters are incorrect");
         }
@@ -188,11 +194,11 @@ internal class EngineerImplementation : BlApi.IEngineer
         };
         try 
         {
-            _dal.Engineer.Update(doEngineer);
+            _dal.Engineer.Update(doEngineer);//Trying to update
 
-            if (boEngineer.Task.Id != null)
+            if (boEngineer.Task.Id != null)//If you assign a task to an engineer
             {
-                var taskIdToUpdate = boEngineer.Task.Id;
+                var taskIdToUpdate = boEngineer.Task.Id;//id of assigned task
 
                 var updatedTask =
                     (from t in _dal.Task.ReadAll()
@@ -214,7 +220,7 @@ internal class EngineerImplementation : BlApi.IEngineer
                          EngineerIdToTask = doEngineer.IdNum
                      })
                     .FirstOrDefault();
-                _dal.Task.Update(updatedTask!);
+                _dal.Task.Update(updatedTask!);//Updates the task assigned to the engineer
             }
         }
         catch (DalDoesNotExistException ex)

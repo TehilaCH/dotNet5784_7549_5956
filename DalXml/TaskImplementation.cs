@@ -4,6 +4,7 @@ namespace Dal;
 using DalApi;
 using DO;
 using System.Data.Common;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 /// <summary>
 /// class implements the CRUD functions for the Task entity
@@ -18,11 +19,11 @@ internal class TaskImplementation : ITask
     /// <returns></returns>
     public int Create(Task item)
     {
-        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
+        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);//Transfers the data to the list
         int nextId = Config.NextTaskId;
-        Task task = item with {TaskId = nextId };
-        tasks.Add(task);
-        XMLTools.SaveListToXMLSerializer(tasks, s_tasks_xml);
+        Task task = item with {TaskId = nextId };//Copies the object except the id
+        tasks.Add(task);//Adds to the list
+        XMLTools.SaveListToXMLSerializer(tasks, s_tasks_xml);//Saves changes to the file
         return nextId;
     }
     /// <summary>
@@ -32,13 +33,13 @@ internal class TaskImplementation : ITask
     /// <exception cref="DalXMLFileLoadCreateException"></exception>
     public void Delete(int id)
     {
-        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
+        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);// Transfers data to a list
         foreach (var t in tasks)
         {
-            if (t.TaskId == id)
+            if (t.TaskId == id)//Checks if it exists
             {
-                tasks.Remove(t);
-                XMLTools.SaveListToXMLSerializer(tasks, s_tasks_xml);
+                tasks.Remove(t);//Deletes if a task exists
+                XMLTools.SaveListToXMLSerializer(tasks, s_tasks_xml);//save in file
                 return;
             }
         }
@@ -53,8 +54,8 @@ internal class TaskImplementation : ITask
     /// <returns></returns>
     public Task? Read(Func<Task, bool> filter)
     {
-        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
-        return tasks.FirstOrDefault(filter);
+        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);//Transfers data to a list
+        return tasks.FirstOrDefault(filter);//Returns if exsist and maintains the filter otherwise null
     }
     /// <summary>
     /// Returns the object from the fail XML if it exists otherwise returns null
@@ -66,7 +67,7 @@ internal class TaskImplementation : ITask
         List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
         foreach (var t in tasks)
         {
-            if (t.TaskId == id)
+            if (t.TaskId == id)//Returns if exists otherwise null
             {
                 return t;
             }
@@ -81,14 +82,14 @@ internal class TaskImplementation : ITask
     /// <returns></returns>
     public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
-        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
-        if (filter != null)
+        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);//Transfers the data to the list
+        if (filter != null)//With a filter returns the maintainer
         {
             return from item in tasks
                    where filter(item)
                    select item;
         }
-        return from item in tasks
+        return from item in tasks//No filter returns a copy of a list
                select item;
        
     }
@@ -100,11 +101,11 @@ internal class TaskImplementation : ITask
     /// <exception cref="DalXMLFileLoadCreateException"></exception>
     public void Update(Task item)
     {
-        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
-        if(tasks.RemoveAll(it=> it.TaskId==item.TaskId)==0)
+        List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);//Transfers data to a list
+        if (tasks.RemoveAll(it=> it.TaskId==item.TaskId)==0)//deleted if exsist
             throw new DalXMLFileLoadCreateException($"Task with ID={item.TaskId} does not exsist");
-        tasks.Add(item);
-        XMLTools.SaveListToXMLSerializer(tasks,s_tasks_xml);
+        tasks.Add(item);//deleted if exsist
+        XMLTools.SaveListToXMLSerializer(tasks,s_tasks_xml);//Saves the list to a file
     }
     /// <summary>
     /// clear the XML fail
@@ -112,8 +113,8 @@ internal class TaskImplementation : ITask
     public void clear()
     {
         List<Task> tasks = XMLTools.LoadListFromXMLSerializer<Task>(s_tasks_xml);
-        tasks.Clear();
-        XMLTools.SaveListToXMLSerializer(tasks, s_tasks_xml);
+        tasks.Clear();//Deletes data
+        XMLTools.SaveListToXMLSerializer(tasks, s_tasks_xml);//Saves an empty list
     }
 }
 
