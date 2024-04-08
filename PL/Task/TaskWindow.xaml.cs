@@ -50,7 +50,7 @@ public partial class TaskWindow : Window
     nameof(isEngineer),
      typeof(bool),
      typeof(TaskWindow));
-  
+    
     public TaskWindow(Action<int, bool> addOrUpdateNewItem, int Id = 0, bool isEngineer = true)//A constructor with a parameter
     {
         InitializeComponent();
@@ -60,6 +60,7 @@ public partial class TaskWindow : Window
         if (Id == 0)
         {
             Task = new BO.Task(); //Creation to add
+            
         }
         else
         {
@@ -71,7 +72,7 @@ public partial class TaskWindow : Window
                 {
                      Task.Engineer = new EngineerInTask();
                 }
-
+              
             }
             catch (BlDoesNotExistException ex)
             {

@@ -10,6 +10,7 @@ namespace BlApi
         public DateTime? SetEndProjectDate(DateTime date);
         public DateTime? getEndProjectDate();
 
-        public void resetTime();
+        public void resetTime();//Reset project dates
+        public void resetRunNumber();//Reset running numbers
     }
 }

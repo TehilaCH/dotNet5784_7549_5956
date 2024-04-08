@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="DependentWindow" Height="500" Width="800"
+        Title="DependentWindow" Height="630" Width="800"
         DataContext="{Binding Dep, RelativeSource={RelativeSource Self}}">
     <Grid>
         <ListView ItemsSource="{Binding Dependencies}" >
@@ -18,14 +18,23 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add Dependency" HorizontalAlignment="Left" Margin="287,350,0,86" Click="btnAddDependency_Click" Width="113"/>
-        <Button Content="Delete Dependency" HorizontalAlignment="Left" Margin="287,416,0,24" Click="btnDeleteDependency_Click" Width="113"/>
+        <Button Content="Add Dependency" HorizontalAlignment="Left" Margin="662,454,0,0" VerticalAlignment="Top" Click="btnAddDependency_Click" Width="110" Height="28"/>
+        <Button Content="Delete Dependency" HorizontalAlignment="Left" Margin="662,501,0,55" Click="btnDeleteDependency_Click" Width="114" Height="28"/>
 
-        <Label Content="Id Pending Task:" HorizontalAlignment="Left" Margin="12,359,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.318,1.754"/>
-        <TextBox HorizontalAlignment="Left" Margin="126,363,0,0" TextWrapping="Wrap" Text="{Binding Dep.IdPendingTask, Mode=TwoWay}" VerticalAlignment="Top" Width="120"/>
+        <!--<Label Content="Id Pending Task:" HorizontalAlignment="Left" Margin="12,442,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.318,1.754"/>
+        <TextBox HorizontalAlignment="Left" Margin="126,448,0,0" TextWrapping="Wrap" Text="{Binding Dep.IdPendingTask, Mode=TwoWay}" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.533,-0.332"/>-->
 
-        <Label Content="Id Previous Task:" HorizontalAlignment="Left" Margin="10,398,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="126,402,0,0" TextWrapping="Wrap" Text="{Binding Dep.IdPreviousTask, Mode=TwoWay}" VerticalAlignment="Top" Width="120" RenderTransformOrigin="0.175,5.32"/>
+        <Label Content="Id Previous Task:" HorizontalAlignment="Left" Margin="11,473,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="126,473,0,0" TextWrapping="Wrap"
+         Text="{Binding Dep.IdPreviousTask ,UpdateSourceTrigger=PropertyChanged,
+        NotifyOnValidationError=true, ValidatesOnExceptions=true,
+        TargetNullValue=''}" VerticalAlignment="Top"
+         Width="120" RenderTransformOrigin="0.175,5.32"
+         PreviewTextInput="TextBox_PreviewTextInput"
+         PreviewKeyDown="TextBox_PreviewKeyDown"/>
+
+
+
     </Grid>
 
 </Window>

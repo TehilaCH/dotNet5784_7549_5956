@@ -10,27 +10,27 @@ public interface IBl
 
     public ISchedule Schedule { get; }
 
-    //public void InitializeDB();
-    public static void InitializeDB() => DalTest.Initialization.Do();
+    public static void InitializeDB() => DalTest.Initialization.Do();//Initializes database
 
 
-    public static void ResetDB()
+    public static void ResetDB()//Data deletion
     {
         DalTest.Initialization.Reset();
-        BlApi.Factory.Get.Schedule.resetTime();
-        //איפס תארכים בקונפיגורציה 
+        BlApi.Factory.Get.Schedule.resetTime();//Reset project dates(start and end)
+        BlApi.Factory.Get.Schedule.resetRunNumber();//Reset running numbers to start at 1
+
     }
 
 
 
     DateTime Clock { get; }
-    void AdvanceDay();
-    void AdvanceHour();
-    void AdvanceYear();
-    void InitializeTime();
+    void AdvanceDay();//Increases days by 1
+    void AdvanceHour();//Increases hours by 1
+    void AdvanceYear();///Increases years by 1
+    void InitializeTime();//current date
 
 
-    public void depAdd(int prev, int dep);
-    public void Deletedep(int prev, int dep);
-    public List<BO.Task> listTaskForEngineer(int idE);
+    public void depAdd(int prev, int dep);//Adds a dependency
+    public void Deletedep(int prev, int dep);//delet a dependency
+    public List<BO.Task> listTaskForEngineer(int idE);//Returns recommended tasks to the engineer
 }

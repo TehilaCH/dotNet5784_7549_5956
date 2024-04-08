@@ -20,5 +20,6 @@ internal class ScheduleImplementation : BlApi.ISchedule
     
     public void resetTime()=> _dal.Schedule.resetTime();
 
+    public void resetRunNumber()=> _dal.Schedule.resetRunNumber();
     //----
 }

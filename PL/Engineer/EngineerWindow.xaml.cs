@@ -51,7 +51,7 @@ public partial class EngineerWindow : Window
             try
             {
                 Engineer = s_bl.Engineer.Read(Id);//Call for update
-                if(Engineer.Task==null)
+                if(Engineer.Task==null)//If no task is assigned to an engineer
                 {
                     Engineer.Task = new TaskInEngineer();
 
@@ -79,7 +79,7 @@ public partial class EngineerWindow : Window
         try
         {
             var button = sender as Button;
-            if (button?.Content is "Add")
+            if (button?.Content is "Add")//if button content is add
             {
                 // Adding a new entity
                 s_bl.Engineer.Creat(Engineer);
@@ -110,7 +110,7 @@ public partial class EngineerWindow : Window
     {
         try
         {
-            s_bl.Engineer.Delete(Engineer.Id);
+            s_bl.Engineer.Delete(Engineer.Id);//Delete Engineer
             _addOrUpdateNewItem(Engineer.Id, false);
             MessageBox.Show("Engineer delete successfully!");
             Close();
@@ -137,6 +137,14 @@ public partial class EngineerWindow : Window
                 e.Handled = true; // אילוצי
                 return;
             }
+        }
+    }
+
+    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Space)
+        {
+            e.Handled = true; // מונע את הקלט אם המקש הוא רווח
         }
     }
 }

@@ -74,7 +74,7 @@ public partial class EngineerMainWindow : Window
             BO.Task selectedTask = selectedRow.Item as BO.Task;
 
             // Create a single item view window in update mode
-            TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem, selectedTask.Id); // Update mode parameter
+            TaskWindow taskWindow = new TaskWindow(addOrUpdateNewItem, selectedTask.Id,false); // Update mode parameter
             taskWindow.ShowDialog(); // Opening the window in dialog mode
         }
     }

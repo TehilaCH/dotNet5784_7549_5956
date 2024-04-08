@@ -27,7 +27,7 @@ public partial class EngineerListWindow : Window
     private static readonly BlApi.IBl s_bl = BlApi.Factory.Get;
     public EngineerListWindow()//A window displays a list of engineers
     {
-        InitializeComponent();
+        InitializeComponent();// Initialize a window
         EngineerList = new ObservableCollection<BO.Engineer>( s_bl?.Engineer.ReadAll()!);
     }
 
@@ -52,7 +52,7 @@ public partial class EngineerListWindow : Window
     private void btnAdd_Click(object sender, RoutedEventArgs e)//Add click event
     {
         EngineerWindow engineerWindow = new EngineerWindow(addOrUpdateNewItem);
-        engineerWindow.ShowDialog();
+        engineerWindow.ShowDialog();//Opening a single entity window with close mode
     }
     private void addOrUpdateNewItem(int id, bool isUpdate)//Refreshment
     {

@@ -53,6 +53,13 @@ public interface ITask
     /// </summary>
     public void clear();
 
+
+    /// <summary>
+    /// //Updates the end and start date of a task
+    /// </summary>
+    /// <param name="dateS"></param>
+    /// <param name="dateE"></param>
+    /// <param name="idT"></param>
     public void UpdateStartAndEndDate(DateTime? dateS, DateTime? dateE, int idT);
 
 

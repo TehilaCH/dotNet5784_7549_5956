@@ -24,8 +24,8 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        //CurrentTime = s_bl.Clock;
         UpdateClock();
+        //CurrentTime = s_bl.Clock;
     }
 
     public int IdEngineer
@@ -50,7 +50,7 @@ public partial class MainWindow : Window
 
     private void btnDirector_Click(object sender, RoutedEventArgs e)
     {
-        new DirectorMainWindow().Show();
+        new DirectorMainWindow().Show();//A manager window Director
 
     }
 
@@ -58,12 +58,12 @@ public partial class MainWindow : Window
     private void btnEngineer_Click(object sender, RoutedEventArgs e)
     {
         int id;
-        if (int.TryParse(IdEngineer.ToString(), out id)) // מנסה להמיר את הטקסט למספר שלם
+        if (int.TryParse(IdEngineer.ToString(), out id)) // Trying to convert the text to an integer
         {
             try
             {
-                s_bl.Engineer.Read(id);
-                new EngineerMainWindow(id).Show();
+                s_bl.Engineer.Read(id);//Checks if it exists
+                new EngineerMainWindow(id).Show();//An engineer's main screen opens
             }
             catch (BlDoesNotExistException ex)
             {
@@ -81,23 +81,23 @@ public partial class MainWindow : Window
     }
     private void AdvanceDayButton_Click(object sender, RoutedEventArgs e)
     {
-        s_bl.AdvanceDay();
+        s_bl.AdvanceDay();//Increases the days by 1 
         UpdateClock();
     }
 
     private void AdvanceHourButton_Click(object sender, RoutedEventArgs e)
     {
-        s_bl.AdvanceHour();
+        s_bl.AdvanceHour();//Increases the times by 1
         UpdateClock();
     }
 
     private void AdvanceYearButton_Click(object sender, RoutedEventArgs e)
     {
-        s_bl.AdvanceYear();
+        s_bl.AdvanceYear();//Increases the years by 1
         UpdateClock();
     }
 
-    private void UpdateClock()
+    private void UpdateClock()//updating the clock
     {
         CurrentTime = s_bl.Clock;
     }
@@ -109,7 +109,7 @@ public partial class MainWindow : Window
         {
             if (!char.IsDigit(c))
             {
-                e.Handled = true; // מונע את הקלט אם לא מספרי
+                e.Handled = true; // Suppresses the input if not numeric
                 return;
             }
         }
@@ -119,7 +119,7 @@ public partial class MainWindow : Window
     {
         if (e.Key == Key.Space)
         {
-            e.Handled = true; // מונע את הקלט אם המקש הוא רווח
+            e.Handled = true; // prevents the input if the key is a space
         }
     }
 

@@ -17,10 +17,10 @@ public static class Initialization
     {
         Random random = new Random();
 
-        for (int i = 0; i < 40; i++)//Initialization of 40 dependencies
+        for (int i = 1; i < 20; i++)//A final task depends on everyone before it
         {
-            int idPendingTask = i; 
-            int idPreviousTask = random.Next(0, i);//The task depends on its Previous task
+            int idPendingTask = 20;
+            int idPreviousTask = i;//The task depends on its Previous task
 
             Dependence dependence = new Dependence//creating a entity
             {
@@ -32,6 +32,52 @@ public static class Initialization
 
 
         }
+        for (int i = 1; i < 11; i++)//Task 11 depends on 10 tasks before it
+        {
+            int idPendingTask =11;
+            int idPreviousTask = i;//The task depends on its Previous task
+
+            Dependence dependence = new Dependence//creating a entity
+            {
+                IdPendingTask = idPendingTask,
+                IdPreviousTask = idPreviousTask
+            };
+
+            s_dal?.Dependence.Create(dependence);//creating a dependency
+
+
+        }
+        for (int i = 1; i <9; i++)//Task 9 depends on the previous 8
+        {
+            int idPendingTask = 9;
+            int idPreviousTask = i;//The task depends on its Previous task
+
+            Dependence dependence = new Dependence//creating a entity
+            {
+                IdPendingTask = idPendingTask,
+                IdPreviousTask = idPreviousTask
+            };
+
+            s_dal?.Dependence.Create(dependence);//creating a dependency
+
+
+        }
+        for (int i = 1; i < 4; i++)//Task 4 depends on the previous 3
+        {
+            int idPendingTask = 4;
+            int idPreviousTask = i;//The task depends on its Previous task
+
+            Dependence dependence = new Dependence//creating a entity
+            {
+                IdPendingTask = idPendingTask,
+                IdPreviousTask = idPreviousTask
+            };
+
+            s_dal?.Dependence.Create(dependence);//creating a dependency
+
+
+        }
+
     }
     /// <summary>
     /// Creating 5 engineers and putting them on the list
@@ -102,6 +148,7 @@ public static class Initialization
             string nickname = t;
             string description = DescriptionTask[i];//Description from the array of descriptions
             EngineerLevel level = (EngineerLevel)s_rand.Next(0, 5);
+            TimeSpan TimeRequired = TimeSpan.FromDays(s_rand.Next(1,100));
             Task taski = new Task()//Create a task
             {
                 Nickname = nickname,
@@ -110,7 +157,7 @@ public static class Initialization
                 Milestone = false,
                 PlannedDateStartWork = null,
                 StartDateTask = null,
-                TimeRequired = null,
+                TimeRequired = TimeRequired,
                 Deadline = null,
                 EndDate = null,
                 Product = null,

@@ -45,7 +45,7 @@ public partial class DependentWindow : Window
     public static readonly DependencyProperty DependenciesProperty =
     DependencyProperty.Register("Dependencies", typeof(List<BO.TaskInList>), typeof(DependentWindow), new PropertyMetadata(null));
 
-    public DO.Dependence Dep
+    public DO.Dependence? Dep
     {
         get { return (DO.Dependence)GetValue(DepProperty); }
         set { SetValue(DepProperty, value); }
@@ -59,7 +59,8 @@ public partial class DependentWindow : Window
     {
         try
         {
-            s_bl.depAdd((int)Dep.IdPreviousTask!, (int)Dep.IdPendingTask!);
+            /*  s_bl.depAdd((int)Dep.IdPreviousTask!, (int)Dep.IdPendingTask!);*///Send to the
+            s_bl.depAdd((int)Dep.IdPreviousTask!, IdT);                               //add-dependency function
             var taskNew = s_bl.Task.Read(IdT);
             Dependencies = taskNew.Dependencies;
             DataContext = this;
@@ -82,7 +83,8 @@ public partial class DependentWindow : Window
     {
         try
         {
-            s_bl.Deletedep((int)Dep.IdPreviousTask!, (int)Dep.IdPendingTask!);
+            /* s_bl.Deletedep((int)Dep.IdPreviousTask!, (int)Dep.IdPendingTask!);*///Send to the dependency
+            s_bl.Deletedep((int)Dep.IdPreviousTask!, IdT);            //deletion function
             var taskNew = s_bl.Task.Read(IdT);
             Dependencies = taskNew.Dependencies;
             DataContext = this;
@@ -96,6 +98,26 @@ public partial class DependentWindow : Window
         {
 
             MessageBox.Show("An error occurred: " + ex.Message);
+        }
+    }
+
+    private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        foreach (char c in e.Text)
+        {
+            if (!char.IsDigit(c) && c != '.')
+            {
+                e.Handled = true; // אילוצי
+                return;
+            }
+        }
+    }
+
+    private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Space)
+        {
+            e.Handled = true; // מונע את הקלט אם המקש הוא רווח
         }
     }
 }

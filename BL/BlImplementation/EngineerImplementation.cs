@@ -174,11 +174,32 @@ internal class EngineerImplementation : BlApi.IEngineer
         }
 
         DO.Engineer? Engineer = _dal.Engineer.Read(boEngineer.Id);
-        bool islevel = LevelOfEngineer(Engineer!.EngineerLevel, boEngineer.Level);//Engineer level update check
-        bool flag= checkEngineerToTask(boEngineer);//Checking the assignment of an engineer to a task
+        if (Engineer == null)
+            throw new BlDoesNotExistException("Engineer DoesNot exists");
 
-        if (boEngineer.Cost < 0 || boEngineer.Name == null || IsValidEmail(boEngineer.Email!) == false
-            || islevel == false || flag == false)//Integrity checks
+        bool islevel = LevelOfEngineer(Engineer.EngineerLevel, boEngineer.Level);//Engineer level update check
+        try
+        {
+            checkEngineerToTask(boEngineer);//Checking the assignment of an engineer to a task
+        }
+        catch(BlInvalidValueException ex)
+        {
+            throw new BlInvalidValueException($"{ex.Message}");
+        }
+
+        //bool flag= checkEngineerToTask(boEngineer);//Checking the assignment of an engineer to a task
+
+        //if (flag == false)
+        //{
+        //    throw new BlInvalidValueException("Assignment not possible");
+        //}
+        if (islevel == false)
+        {
+            throw new BlInvalidValueException("It is not possible to update an engineer level to a lower level");
+        }
+        
+        if (boEngineer.Cost < 0 || boEngineer.Name == null || IsValidEmail(boEngineer.Email!) == false)
+           // || islevel == false || flag == false)//Integrity checks
         {
             throw new BlInvalidValueException("One or more parameters are incorrect");
         }
@@ -272,7 +293,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// </summary>
     /// <param name="email"></param>
     /// <returns></returns>
-    bool IsValidEmail(string email)
+    bool IsValidEmail(string email)//checking the integrity of an email
     {
         if (email == null) return false;
         var trimmedEmail = email.Trim();
@@ -296,15 +317,15 @@ internal class EngineerImplementation : BlApi.IEngineer
     /// </summary>
     /// <param name="boEngineer"></param>
     /// <returns></returns>
-    bool checkEngineerToTask(BO.Engineer boEngineer) 
+    bool checkEngineerToTask(BO.Engineer boEngineer) //Checking if the assigned is good
     {
         if (boEngineer.Task.Id == null)
             return true;
         DO.Task? Task1 = _dal.Task.Read((int)boEngineer.Task.Id!);//Checking if the task exist
         if (Task1 == null || Task1.EngineerIdToTask!=0)//Checks if it has been assigned to another engineer
-            return false;
-        ///----------------------------------
-       
+            throw new BlInvalidValueException("A task to assign does not exist or an engineer is already assigned to it");
+             //return false;
+      
         // An engineer is assigned to another task
         List<DO.Task?> task = (from t in _dal.Task.ReadAll()
                                where t.EngineerIdToTask == boEngineer.Id
@@ -316,32 +337,45 @@ internal class EngineerImplementation : BlApi.IEngineer
             var Tasks = (from t in task
                          where t.EndDate == null
                          select t).ToList();
-            if (Tasks.Count != 0)
-                throw new BlInvalidValueException("The Task data is invalid");
+            if (Tasks.Count != 0)//There is a task he is assigned to
+                throw new BlInvalidValueException("An engineer is assigned to a task");
+                //return false;
+
+
+            //throw new BlInvalidValueException("The Task data is invalid");
         }
-        //------------------------------------
+       
         if (Task1.TaskLave != null&& boEngineer.Level!=null)
+        {
+            bool is_good = LevelOfEngineer(Task1.TaskLave,boEngineer.Level);
+            //if (Task1.TaskLave == (DO.EngineerLevel)boEngineer.Level)
+
+            if (is_good==true)
+            {    //Checking If the assignment task has previous tasks
+                List<DO.Dependence>? dep = (from dependency in _dal.Dependence.ReadAll()
+                                            where dependency.IdPendingTask == boEngineer.Task.Id
+                                            select dependency).ToList();
+               
+                if (dep.Count == 0)
+                    return true;
+                //Checking If a previous task has not finish
+                var tasks = (from t in _dal.Task.ReadAll()
+                             where dep.Any(d => d.IdPreviousTask == t.TaskId) && t.EndDate == null
+                             select t).ToList();
+                if (tasks.Count != 0)
                 {
-                    if (Task1.TaskLave == (DO.EngineerLevel)boEngineer.Level)
-                    {    //Checking If the assignment task has previous tasks
-                         List<DO.Dependence>? dep = (from dependency in _dal.Dependence.ReadAll()
-                                      where dependency.IdPendingTask == boEngineer.Task.Id
-                                      select dependency).ToList();
-
-                         //Checking If a previous task has not been completed
-                         var tasks = (from t in _dal.Task.ReadAll()
-                                      where dep.Any(d => d.IdPreviousTask == t.TaskId) && t.EndDate == null
-                                      select t).ToList();
-                          if (tasks.Count==0)
-                          {
-                              return true;
-                          }
-
-                    }
-                    
+                    throw new BlInvalidValueException("previous task has not finish");
                 }
-            
-        return false;
+                if (tasks.Count == 0)
+                {
+                    return true;
+                }
+
+            }
+
+        }
+        throw new BlInvalidValueException("Assignment not possible");    
+        //return false;
 
     }
     /// <summary>
@@ -352,9 +386,7 @@ internal class EngineerImplementation : BlApi.IEngineer
     {
          
         return (from e in _dal.Engineer.ReadAll()
-               // let taskForEngineer = _dal.Task.ReadAll().FirstOrDefault(task => task?.EngineerIdToTask == e.IdNum)
                 orderby e.Name
-
                select new BO.Engineer
                {
                    Id = e.IdNum,
@@ -394,31 +426,7 @@ internal class EngineerImplementation : BlApi.IEngineer
 
         return engineersGrouped;
     }
-    /// <summary>
-    /// A helper function that checks which task is assigned to the engineer
-    /// </summary>
-    /// <param name="doEngineer"></param>
-    /// <returns></returns>
-    //private BO.TaskInEngineer? GetTaskForEngineer(DO.Engineer doEngineer)
-    //{
-    //    var taskForEngineer = _dal.Task.ReadAll()
-    //        .FirstOrDefault(task => task?.EngineerIdToTask == doEngineer.IdNum);
-
-    //    if (taskForEngineer != null)
-    //    {
-    //        return new BO.TaskInEngineer
-    //        {
-    //            Id = taskForEngineer.TaskId,
-    //            NickName = taskForEngineer.Nickname
-    //        };
-    //    }
-    //    else
-    //    {
-    //        return null;
-    //    }
-    //}
-
-
+   
     /// <summary>
     /// A function that deletes all engineers
     /// </summary>

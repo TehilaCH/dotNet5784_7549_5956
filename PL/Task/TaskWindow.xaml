@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Task"
         mc:Ignorable="d"
-        Title="TaskWindow" Height="630" Width="800"
+        Title="TaskWindow" Height="630" Width="600"
         DataContext="{Binding Task, RelativeSource={RelativeSource Mode=Self}}">
 
     <!--DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">-->
@@ -46,7 +46,8 @@
        
         <Label Grid.Row="1" Grid.Column="0" Content="NickName:" VerticalAlignment="Top" Height="26" Margin="0,5,3,0" />
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding NickName, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  
-                 HorizontalAlignment="Left" Height="18" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"/>
+                 HorizontalAlignment="Left" Height="18" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"
+                  IsEnabled="{Binding isEngineer, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TaskWindow}}}"/>
 
 
         <Label Grid.Row="2" Grid.Column="0" Content="Description:" VerticalAlignment="Top" Height="26" Margin="0,5,3,0" />
@@ -57,7 +58,8 @@
         <ComboBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="3,0,0,0" 
         ItemsSource="{Binding Source={StaticResource EngineersCollectionKey}}" 
         SelectedValue="{Binding TaskLave, Mode=TwoWay, NotifyOnValidationError=true, 
-        ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+        ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"
+        IsEnabled="{Binding isEngineer, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TaskWindow}}}"/>
 
         <Label Grid.Row="4" Grid.Column="0" Content="Status:" VerticalAlignment="Top" Height="26" Margin="0,5,3,0" />
         <ComboBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="3,0,0,0" 
@@ -98,9 +100,10 @@
        
         <Label Grid.Row="12" Grid.Column="0" Content="Time Required :" VerticalAlignment="Top" Height="26" Margin="0,5,3,0"/>
         <TextBox Grid.Row="12" Grid.Column="1" 
-         Text="{Binding TimeRequired, Mode=TwoWay,Converter={StaticResource StringToIntConverterKey}}"
+         Text="{Binding TimeRequired, Mode=TwoWay,Converter={StaticResource ConvertTimeSpanKey}}"
          MaxLength="2"
          HorizontalAlignment="Left" Height="18" Margin="3,0,0,0" VerticalAlignment="Center" Width="120"
+                  IsEnabled="{Binding isEngineer, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TaskWindow}}}"
          PreviewTextInput="TextBox_PreviewTextInput"
          PreviewKeyDown="TextBox_PreviewKeyDown"/>
 
@@ -110,9 +113,21 @@
         
         <Label Grid.Row="13" Grid.Column="0" Content="Engineer:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0" FontWeight="Bold"/>
         <Label Grid.Row="14" Grid.Column="0" Content="Id Engineer:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0"/>
-        <TextBox Grid.Row="14" Grid.Column="1"  Text="{Binding Engineer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
+        <!--<TextBox Grid.Row="14" Grid.Column="1"  Text="{Binding Engineer.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
                  HorizontalAlignment="Left" Height="18" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"
-                IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"/>
+                IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"/>-->
+
+        <TextBox Grid.Row="14" Grid.Column="1"  Text="{Binding Engineer.Id, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,
+        NotifyOnValidationError=true, ValidatesOnExceptions=true,
+        TargetNullValue=''}" 
+        HorizontalAlignment="Left" Height="18" Margin="3,0,0,0"  VerticalAlignment="Center" Width="120"
+        IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"
+        PreviewTextInput="TextBox_PreviewTextInput"
+        PreviewKeyDown="TextBox_PreviewKeyDown"/>
+
+
+        
+
 
         <Label Grid.Row="15" Grid.Column="0" Content="Name:" VerticalAlignment="Top" Height="26" Margin="0,4,3,0"/>
         <TextBox Grid.Row="15" Grid.Column="1"  Text="{Binding Engineer.Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
@@ -125,11 +140,14 @@
          Grid.Row="16" VerticalAlignment="Top" Width="72" 
          Click="btnAddUpdate_Click" RenderTransformOrigin="0.542,2.324" Margin="2,10,0,0"/>
 
-        
+
         <Button Grid.Column="1" Content="Dependent" HorizontalAlignment="Left" Margin="20,6,0,0"
-                Grid.Row="16" VerticalAlignment="Top" Height="34" Width="85" Click="btnDependent_Click"/>
+                Grid.Row="16" VerticalAlignment="Top" Height="34" Width="85" Click="btnDependent_Click"
+                 IsEnabled="{Binding isEngineer, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TaskWindow}}}"/>
+        
         <Button Content="Delete" HorizontalAlignment="Left" Margin="3,54,0,0" Grid.Row="16" VerticalAlignment="Top" 
-                RenderTransformOrigin="0,0.628" Width="71" Click="btnDeleteTask_Click" Height="20"/>
+                RenderTransformOrigin="0,0.628" Width="71" Click="btnDeleteTask_Click" Height="20"
+                    IsEnabled="{Binding isEngineer, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:TaskWindow}}}"/>
         <!--IsEnabled="{Binding isEngineer, Mode=OneTime, Converter={StaticResource BoolConverterKey}}"/>-->
 
     </Grid>

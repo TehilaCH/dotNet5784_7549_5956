@@ -25,9 +25,9 @@ public partial class DirectorMainWindow : Window
     }
 
 
-    private void btnEngineer_Click(object sender, RoutedEventArgs e)
+    private void btnEngineer_Click(object sender, RoutedEventArgs e)//A click event to handle an engineer
     {
-        new Engineer.EngineerListWindow().Show();
+        new Engineer.EngineerListWindow().Show();// The engineer list screen is open
     }
 
     private void btnInitializeDB_Click(object sender, RoutedEventArgs e)
@@ -57,13 +57,13 @@ public partial class DirectorMainWindow : Window
 
     private void btnTask_Click(object sender, RoutedEventArgs e)
     {
-        new Task.TaskListWindow().Show();
+        new Task.TaskListWindow().Show();//Opening a task window
 
     }
 
     private void btnSchedule_Click(object sender, RoutedEventArgs e)
     {
-        new ScheduleWindow().Show();
+        new ScheduleWindow().Show();//A schedule window opens
     }
 
     private void btnGanttChart_Click(object sender, RoutedEventArgs e)

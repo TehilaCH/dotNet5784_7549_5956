@@ -15,68 +15,88 @@ internal class Bl : IBl
 
     public BlApi.IEngineer Engineer =>  new EngineerImplementation();
 
-   // public ITask Task => new TaskImplementation();
-    public BlApi.ITask Task => new TaskImplementation(this);//*** 
-
+    public BlApi.ITask Task => new TaskImplementation(this);
 
     public BlApi.ISchedule Schedule => new ScheduleImplementation();
 
-    //public void InitializeDB() => DalTest.Initialization.Do();
-
-
-    private static DateTime s_Clock = DateTime.Now.Date;
+    private static DateTime s_Clock = DateTime.Now.Date;//current Date
     public DateTime Clock { get { return s_Clock; } private set { s_Clock = value; } }
 
-    public void AdvanceDay()
+    public void AdvanceDay()//Increases days by 1
     {
         s_Clock = s_Clock.AddDays(1);
     }
 
-    public void AdvanceHour()
+    public void AdvanceHour()//Increases hours by 1
     {
         s_Clock = s_Clock.AddHours(1);
     }
 
-    public void AdvanceYear()
+    public void AdvanceYear()//Increases years by 1
     {
         s_Clock = s_Clock.AddYears(1);
     }
-    public void InitializeTime()
+    public void InitializeTime()//current Date
     {
         s_Clock = DateTime.Now;
     }
 
-
-    public void depAdd(int prev, int dep)
+    public void depAdd(int prev, int dep)//Add dependencies
     {
+        if(prev== dep)
+        {
+            throw new BlInvalidValueException("It is impossible to make a task dependent on itself ");
+        }
         DateTime? date = Schedule.getStartProjectDate();
-        if (date != null)
+        if (date != null)//Execution stage
         {
             throw new BlInvalidValueException("The Task data is invalid ban updat Dependencies in execution Stage ");
+        }
+       var is_exsist= (from d in _dal.Dependence.ReadAll()
+                        where d.IdPendingTask == dep && d.IdPreviousTask==prev
+                        select d).FirstOrDefault(); 
+        if (is_exsist != null)
+        {
+
+            throw new BlInvalidValueException("The dependency exists");
         }
         Dependence dependence = new Dependence() { IdPendingTask = dep, IdPreviousTask = prev };
-        _dal.Dependence.Create(dependence);
+        _dal.Dependence.Create(dependence);//Creates a dependency
     }
 
-    public void Deletedep(int prev, int dep)
+    public void Deletedep(int prev, int dep)//Deletes dependencies
     {
         DateTime? date = Schedule.getStartProjectDate();
-        if (date != null)
+        if (date != null)///Execution stage
         {
             throw new BlInvalidValueException("The Task data is invalid ban updat Dependencies in execution Stage ");
         }
+        //Returns the id of the dependency
         var firstDep = (from d in _dal.Dependence.ReadAll()
                         where d.IdPendingTask == dep && d.IdPreviousTask == prev
                         select d.IdNum).FirstOrDefault();
 
 
-
-        if (firstDep != null)
+        try 
         {
-            _dal.Dependence.Delete(firstDep);
+            if (firstDep != null)
+            {
+                _dal.Dependence.Delete(firstDep);//Trying to delete
+            }
         }
+        catch(DalDoesNotExistException ex)
+        {
+            throw new BlDoesNotExistException($"{ex}");
+        }
+        
     }
-
+    /// <summary>
+    /// List of recommended tasks for an engineer
+    /// </summary>
+    /// <param name="idE"></param>
+    /// <returns></returns>
+    /// <exception cref="BlDoesNotExistException"></exception>
+    /// 
     public List<BO.Task> listTaskForEngineer(int idE)
     {
         try
@@ -89,9 +109,9 @@ internal class Bl : IBl
             {
                 case BO.EngineerLevel.Beginner:
                     tasksWithoutEngineer = (from t in Task.ReadAll()
-                                            where t.Engineer == null &&
-                                               t.TaskLave == BO.EngineerLevel.Beginner &&
-                                            t.Dependencies.All(dependency => dependency.Status == BO.Status.Done)
+                                            where t.Engineer == null && //No engineer is assigned to the task
+                                               t.TaskLave == BO.EngineerLevel.Beginner && //at his level or lower than him
+                                            t.Dependencies.All(dependency => dependency.Status == BO.Status.Done)//All his previous task are finish
                                             select t).ToList();
                     break;
 
@@ -121,7 +141,7 @@ internal class Bl : IBl
                     break;
 
                 case BO.EngineerLevel.Expert:
-                    // כאן המהנדס מתאים לכל משימות
+                    //Can do all the levels because he is an expert
                     tasksWithoutEngineer = (from t in Task.ReadAll()
                                             where t.Engineer == null &&
                                                   t.Dependencies.All(dependency => dependency.Status == BO.Status.Done)
